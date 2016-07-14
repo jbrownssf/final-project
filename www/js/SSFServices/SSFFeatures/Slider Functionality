@@ -1,0 +1,61 @@
+/*  Slider Functionality
+DESCRIPTION:
+    Depending on the position of the slider, it will display different text for the user to see.
+
+//  css side of it all
+.slider {
+  height: 100% !important;
+}
+
+//  controller side of this functionality
+$scope.sliderChoice = function(newValue) {
+    //console.log(newValue);
+    if(newValue == $scope.sliderValue.input) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+$scope.low = false;
+$scope.med = true;
+$scope.high = false;
+
+$scope.onChangeTest = function() {
+    var temp = $scope.sliderValue.input;
+    $scope.low = false;
+    $scope.med = false;
+    $scope.high = false;
+    if(temp == 0) {
+        $scope.low = true;
+    }
+    else if(temp == 1) {
+        $scope.med = true;
+    }
+    else if(temp == 2) {
+        $scope.high = true;
+    }
+};
+
+
+//  html side of this functionality
+<ion-content>
+    <div>
+        <div class="padding text-center">
+            <label type="text" ng-show="low">{{'FORMS.SAVINGS.SLIDER.0' | translate}}</label>
+            <label type="text" ng-show="med">{{'FORMS.SAVINGS.SLIDER.1' | translate}}</label>
+            <label type="text" ng-show="high">{{'FORMS.SAVINGS.SLIDER.2' | translate}}</label>
+        </div>
+        <div class="item range range-balanced">
+            <label type="text">{{'FORMS.SAVINGS.RADIOS.LOW' | translate }}</label>
+            <input type="range" min="0" max="2" step="1" name="slider" ng-model="sliderValue.input" ng-change="onChangeTest()">
+            <label type="text">{{'FORMS.SAVINGS.RADIOS.HIGH' | translate }}</label>
+        </div>
+        <div class="padding-horizontal">
+        <button type="sumbit" class="button letter-spacing square-button button-block button-energized">
+            {{'FORMS.SUBMIT' | translate }}
+        </button>
+        </div>
+    </div>
+</ion-content>
+*/

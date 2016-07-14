@@ -1,0 +1,36 @@
+/* Navigation Page
+
+**NOTE**: This is only set up for side menu layout currently.
+
+Used for easy navigation throughout the app during developement.
+Add the following '.state('app.navigation...)' to the app.js where the states are declared.
+Also remember to add a way to get to that state, possibly with this on your
+landing page:
+    <button ui-sref="app.navigation">
+        {{"Navigation Page"}}
+    </button>
+
+
+.state('app.navigation', {
+    url: '/navigation',
+    views: {
+      'menuContent': {
+        template:
+        '<ion-view hide-nav-bar="false">' +
+          '<ion-content class="padding">' +
+            '<button class="button button-block button-calm" ng-repeat="nav in navLinks" ui-sref="{{nav}}">{{nav}}</button>' +
+          '</ion-content>' +
+        '</ion-view>',
+        controller: function($state, $scope) {
+          var stateArray = $state.get();
+          $scope.navLinks = [];
+          for(var i in stateArray) {
+            if(stateArray[i].name !== '' && stateArray[i].name !== 'app') {
+              $scope.navLinks.push(stateArray[i].name);
+            }
+          }
+        },
+      }
+    }
+})
+*/

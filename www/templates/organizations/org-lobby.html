@@ -1,0 +1,46 @@
+<ion-view view-title="{{title}}">
+    <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
+    <ion-nav-buttons></ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-plus-round button-clear" ng-click="newSchedule()">
+            
+        </button>
+    </ion-nav-buttons>
+    <ion-content>
+        <ion-list can-swipe="listCanSwipe">
+            <div class="padding text-center subheader">
+                Published
+            </div>
+
+            <ion-item ng-repeat="schedule in schedules track by $index" ng-click="gotoSched(schedule)" ng-show="schedule.state === 'published'">
+                {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
+                <ion-option-button class="button-assertive" ng-click="delete(schedule)">
+                    Delete
+                </ion-option-button>
+                <ion-option-button class="button-dark ssf-button-inverted" ng-click="clone(schedule)">
+                    Clone
+                </ion-option-button>
+                <ion-option-button class="button-positive ssf-button" ng-click="publish(schedule)">
+                    {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}
+                </ion-option-button>
+            </ion-item>
+
+            <div class="padding text-center subheader">
+                Drafts
+            </div>
+
+            <ion-item ng-repeat="schedule in schedules track by $index" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'">
+                {{schedule.createDate | date: 'EEEE, MMMM d, y'}}
+                <ion-option-button class="button-assertive" ng-click="delete(schedule)">
+                    Delete
+                </ion-option-button>
+                <ion-option-button class="button-dark ssf-button-inverted" ng-click="clone(schedule)">
+                    Clone
+                </ion-option-button>
+                <ion-option-button class="button-positive ssf-button" ng-click="publish(schedule)">
+                    {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

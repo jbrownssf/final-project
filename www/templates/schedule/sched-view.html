@@ -1,0 +1,35 @@
+<ion-view view-title="{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}">
+    <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
+    <!--<ion-nav-buttons></ion-nav-buttons>-->
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-edit button-clear" ng-click="edit()">
+            
+        </button>
+    </ion-nav-buttons> 
+    <ion-content>
+        <div class="list">
+            <div class="item">
+                {{schedule.note}}
+            </div>
+            <div class="card" ng-repeat="section in schedule.schedule track by $index">
+                <div class="item item-divider">
+                    {{section[0]}}
+                </div>
+                <div class="item row" ng-repeat="spot in section[1] track by $index">
+                    <div class="col col-25">
+                        {{spot[0]}}
+                    </div>
+                    <div class="col">
+                        {{parse(spot[1]) | date: "h:mm a"}}
+                    </div>
+                    <div class="col col-33">
+                        {{who(spot[3]).firstName}} {{who(spot[3]).lastName}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<button class="item button button-block button-calm ssf-button" ui-sref="navigation">-->
+        <!--    Debugging Navigation-->
+        <!--</button>-->
+    </ion-content>
+</ion-view>

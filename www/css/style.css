@@ -1,0 +1,34 @@
+/* Empty. Add your own CSS if you like */
+
+/* ionics padding */
+.has-errors {
+  border: 1px solid red !important;
+}
+.button {
+  padding: 0 12px !important;
+  text-align: center !important;
+}
+.input-icon {
+  box-shadow: none !important;
+  top: 3px !important;
+  vertical-align: bottom !important;
+}
+.subheader {
+    font-size: 20px !important;
+    text-align: center !important;
+}
+
+
+/*these '.ssf-' classes are for the SSFCssServices*/
+.ssf-button {
+    font-weight: bold !important;
+}
+.ssf-button-inverted {
+    font-weight: bold !important;
+}
+.ssf-bar-header {
+    color: #808285 !important;
+}
+.ssf-tabs {
+    font-weight: bold !important;
+}

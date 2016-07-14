@@ -1,0 +1,17 @@
+<ion-view view-title="Home" hide-nav-bar="false">
+    <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
+    <ion-nav-buttons></ion-nav-buttons> 
+    <ion-content>
+        <div class="padding list animate-ripple">
+            <button class="item button button-block button-calm ssf-button" ng-click="login()">
+                Login
+            </button>
+            <button class="item button button-block button-calm ssf-button" ng-click="register()">
+                Register
+            </button>
+            <button class="item button button-block button-calm ssf-button" ui-sref="navigation">
+                Debugging Navigation
+            </button>
+        </div>
+    </ion-content>
+</ion-view>

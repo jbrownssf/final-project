@@ -1,0 +1,36 @@
+/*  MENU CHECK MARKS
+The '***' is used to mark the line of code needed, remove when using the code.
+The html part of the code uses a function reference to show or hide the checkmark.
+The '***' line of code is what gets added after the text display to show the checkmark.
+'Progress' has to be incremented as the user completes certain milestones.
+The value in 'showCheck(1)' is the milestone reference that must be completed to show the checkmark.
+Remember to: add 'class="item-icon-right" to the <ion-item></ion-item> like shown below.
+
+
+//start js code
+$scope.showCheck = function(itemNumber) {
+    if($window.localStorage["progress"] > itemNumber) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
+//start html code
+<ion-list>
+    <div class="item item-divider">{{"SIDE_MENU.DIVIDER_1.HEADER" | translate}}</div>
+    <ion-item ng-click="instantBudget()" class="item-icon-right">
+        {{'SIDE_MENU.DIVIDER_1.1' | translate}}
+***     <ion-icon class="icon ion-checkmark balanced" ng-show="showCheck(0)"></ion-icon>
+    </ion-item>
+    <ion-item ng-click="customBudget()" class="item-icon-right">
+        {{'SIDE_MENU.DIVIDER_1.2' | translate}}
+***     <ion-icon class="icon ion-checkmark balanced" ng-show="showCheck(1)"></ion-icon>
+    </ion-item>
+    <ion-item ng-click="savingsPlan()" class="item-icon-right">
+        {{'SIDE_MENU.DIVIDER_1.3' | translate}}
+***     <ion-icon class="icon ion-checkmark balanced" ng-show="showCheck(2)"></ion-icon>
+    </ion-item>
+</ion-list>
+*/
