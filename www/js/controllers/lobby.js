@@ -20,13 +20,6 @@ angular.module('starter.controllers')
                     }, function(err) {
 
                     });
-                $rootScope.stopSpinner = true;
-                OrganizationsRest.open()
-                    .then(function(res) {
-                        $scope.openOrganizations = res.data;
-                    }, function(err) {
-
-                    });
             });
 
             $scope.logout = function() {
@@ -35,7 +28,6 @@ angular.module('starter.controllers')
 
             $scope.lobbySelect = {};
             $scope.lobbySelect.data = [];
-            $rootScope.stopSpinner = true;
 
             function makeCall() {
                 MembersRest.getCurrentOrgs($window.localStorage.token, $window.localStorage.userId)
@@ -70,10 +62,10 @@ angular.module('starter.controllers')
                                     return SSFAlertsService.showAlert('Error', res.data.error.message);
                                 if (res.status !== 200)
                                     return SSFAlertsService.showAlert('Error', 'There was a problem requesting to join this selected company.');
-                                $ionicHistory.nextViewOptions({
-                                    disableBack: true
-                                });
-                                $state.go('lobby');
+                                // $ionicHistory.nextViewOptions({
+                                //     disableBack: true
+                                // });
+                                // $state.go('lobby');
                             }, function(err) {
                                 SSFAlertsService('Error', 'Some unknown error occured. Please try again later.');
                             });

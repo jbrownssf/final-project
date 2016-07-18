@@ -55,31 +55,6 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     controller: 'LobbyCtrl'
   })
   
-  //schedule
-  // .state('sched-view', {
-  //   cache: false,
-  //   url: '/sched-view',
-  //   templateUrl: 'templates/schedule/sched-view.html',
-  //   controller: 'SchedViewCtrl',
-  //   resolve: {
-  //     schedule: ['SchedulesService', 'SSFAlertsService',
-  //         function(SchedulesService, SSFAlertsService) {
-  //       return SchedulesService.singleSched();
-  //     }],
-  //     members: ['SSFUsersREST', function(SSFUsersREST) {
-  //       return SSFUsersREST.getByCompany()
-  //       .then(function(res) {
-  //         if(res.status === 200) {
-  //           return res.data;
-  //         } else {
-  //           console.log('error');
-  //         }
-  //         return [];
-  //       });
-  //     }],
-  //   }
-  // })
-  
   //organization
   .state('org', {
     // abstract: true,
@@ -96,6 +71,8 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     templateUrl: 'templates/organizations/org-lobby.html',
     controller: 'OrgLobbyCtrl',
   })
+  
+  //schedules
   .state('org.detail.sched-view', {
     // abstract: true,
     url: '/schedId',
@@ -124,8 +101,6 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
       }],
     }
   })
-  
-  
   .state('org.detail.sched-create', {
     url: '/sched-create',
     cache: false,
@@ -148,38 +123,6 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     //   }]
     // }
   })
-  // .state('sched-view', {
-  //   cache: false,
-  //   url: '/sched-view',
-  //   templateUrl: 'templates/schedule/sched-view.html',
-  //   controller: 'SchedViewCtrl',
-  //   resolve: {
-  //     schedule: ['SchedulesService', 'SSFAlertsService',
-  //         function(SchedulesService, SSFAlertsService) {
-  //       return SchedulesService.singleSched();
-  //     }],
-  //     members: ['SSFUsersREST', function(SSFUsersREST) {
-  //       return SSFUsersREST.getByCompany()
-  //       .then(function(res) {
-  //         if(res.status === 200) {
-  //           return res.data;
-  //         } else {
-  //           console.log('error');
-  //         }
-  //         return [];
-  //       });
-  //     }],
-  //   }
-  // })
-  
-  
-  
-  .state('req-memship', {
-    url: '/req-memship',
-    templateUrl: 'templates/organizations/req-memship.html',
-    controller: 'ReqMemshipCtrl'
-  })
-  
   
   .state('navigation', {
     url: '/navigation',

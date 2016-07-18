@@ -1,13 +1,22 @@
 angular.module('starter.controllers')
   .controller('OrgLobbyCtrl', ['$scope', '$window', '$stateParams', 'SchedulesREST',
     'SSFAlertsService', 'SchedulesService', '$state', '$ionicListDelegate',
-    '$rootScope', '$ionicActionSheet',
+    '$rootScope', '$ionicActionSheet', 'OrganizationsRest',
     function($scope, $window, $stateParams, SchedulesREST, SSFAlertsService,
-      SchedulesService, $state, $ionicListDelegate, $rootScope, $ionicActionSheet) {
+      SchedulesService, $state, $ionicListDelegate, $rootScope, $ionicActionSheet,
+      OrganizationsRest) {
 
+      $scope.openOrganizations = [];
       $scope.$on('$ionicView.enter', function() {
         $rootScope.stopSpinner = true;
         makeRequest();
+        $rootScope.stopSpinner = true;
+        OrganizationsRest.open()
+          .then(function(res) {
+            $scope.openOrganizations = res.data;
+          }, function(err) {
+
+          });
       });
 
       $scope.schedules = [];
@@ -85,6 +94,50 @@ angular.module('starter.controllers')
         $ionicListDelegate.closeOptionButtons();
       };
 
+      function selectOrg(err, org) {
+        if (err) return;
+        SSFAlertsService.showConfirm('Are You Sure?', 'You have selected to join "' + org.name + '". Would you like to continue with sending the request?')
+          .then(function(res) {
+            if (!res) return;
+            OrganizationsRest.request($window.localStorage.token, {
+                organizationId: org.id,
+                userId: $window.localStorage.userId
+              })
+              .then(function(res) {
+                if (res.status === 503)
+                  return SSFAlertsService.showAlert('Error', res.data.error.message);
+                if (res.status !== 200)
+                  return SSFAlertsService.showAlert('Error', 'There was a problem requesting to join this selected company.');
+                // $ionicHistory.nextViewOptions({
+                //   disableBack: true
+                // });
+                // $state.go('lobby');
+              }, function(err) {
+                SSFAlertsService('Error', 'Some unknown error occured. Please try again later.');
+              });
+          });
+      }
 
+
+      $scope.openMembers = function() {
+        var template =
+          // '<form name="OrganizationForm" class="padding" ng-submit="submitForm(OrganizationForm)">' +
+          // '<label class="item item-input">' +
+          //     '<input name="orgCode" ng-model="ngModel.orgCode" type="text" placeholder="Type Code">' +
+          // '</label>' +
+          // '<button type="submit" class="button button-block button-calm ssf-button">' +
+          //     'submit' +
+          // '</button>' +
+          '<div class="list">' +
+          '<ion-item class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
+          '{{org.name}}' +
+          '</ion-item>' +
+          '</div>';
+        SSFAlertsService.showModal({
+          body: template,
+          scope: $scope,
+          title: "Request to Join"
+        }, selectOrg);
+      };
     }
   ]);
