@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers', 'starter.services',
     'pascalprecht.translate', 'SSFConfig', 'SSFAlerts', 'SSFCache',
-    'SSFConnectivity', 'SSFCss', 'SSFDirectives', 'SSFFavorites', 'SSFLogout',
+    'SSFConnectivity', 'SSFDirectives', 'SSFFavorites', 'SSFLogout',
     'SSFMailComposer', 'SSFSpinner', 'RESTServices'])
 
 .run(["$ionicPlatform", '$window', '$ionicHistory', '$state', '$rootScope',
@@ -74,8 +74,7 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
   
   //schedules
   .state('org.detail.sched-view', {
-    // abstract: true,
-    url: '/schedId',
+    url: '/scheds',
     template: '<ion-nav-view></ion-nav-view>'
   })
   .state('org.detail.sched-view.detail', {
@@ -83,46 +82,27 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     cache: false,
     templateUrl: 'templates/schedule/sched-view.html',
     controller: 'SchedViewCtrl',
-    resolve: {
-      schedule: ['SchedulesService', 'SSFAlertsService',
-          function(SchedulesService, SSFAlertsService) {
-        return SchedulesService.singleSched();
-      }],
-      members: ['SSFUsersREST', function(SSFUsersREST) {
-        return SSFUsersREST.getByCompany()
-        .then(function(res) {
-          if(res.status === 200) {
-            return res.data;
-          } else {
-            console.log('error');
-          }
-          return [];
-        });
-      }],
-    }
   })
   .state('org.detail.sched-create', {
     url: '/sched-create',
     cache: false,
     templateUrl: 'templates/schedule/sched-create.html',
     controller: 'SchedCreateCtrl',
-    // resolve: {
-    //   members: ['SSFUsersREST', function(SSFUsersREST) {
-    //     return SSFUsersREST.getByCompany()
-    //     .then(function(res) {
-    //       if(res.status === 200) {
-    //         return res.data;
-    //       } else {
-    //         console.log('error');
-    //       }
-    //       return [];
-    //     });
-    //   }],
-    //   template: ['SchedulesService', function(SchedulesService) {
-    //     return SchedulesService.template();
-    //   }]
-    // }
   })
+  
+  //members
+  .state('org.detail.members', {
+    url: '/members',
+    templateUrl: 'templates/organizations/org-members.html',
+    controller: 'OrgMembersCtrl',
+  })
+  .state('org.detail.members.detail', {
+    url: '/:memberId',
+    cache: false,
+    templateUrl: 'templates/schedule/org-member.html',
+    controller: 'OrgMemberCtrl',
+  })
+  
   
   .state('navigation', {
     url: '/navigation',

@@ -118,26 +118,28 @@ angular.module('starter.controllers')
           });
       }
 
-
       $scope.openMembers = function() {
-        var template =
-          // '<form name="OrganizationForm" class="padding" ng-submit="submitForm(OrganizationForm)">' +
-          // '<label class="item item-input">' +
-          //     '<input name="orgCode" ng-model="ngModel.orgCode" type="text" placeholder="Type Code">' +
-          // '</label>' +
-          // '<button type="submit" class="button button-block button-calm ssf-button">' +
-          //     'submit' +
-          // '</button>' +
-          '<div class="list">' +
-          '<ion-item class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
-          '{{org.name}}' +
-          '</ion-item>' +
-          '</div>';
-        SSFAlertsService.showModal({
-          body: template,
-          scope: $scope,
-          title: "Request to Join"
-        }, selectOrg);
+        $state.go('org.detail.members');
       };
+      // $scope.openMembers = function() {
+      //   var template =
+      //     // '<form name="OrganizationForm" class="padding" ng-submit="submitForm(OrganizationForm)">' +
+      //     // '<label class="item item-input">' +
+      //     //     '<input name="orgCode" ng-model="ngModel.orgCode" type="text" placeholder="Type Code">' +
+      //     // '</label>' +
+      //     // '<button type="submit" class="button button-block button-calm ssf-button">' +
+      //     //     'submit' +
+      //     // '</button>' +
+      //     '<div class="list">' +
+      //     '<ion-item class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
+      //     '{{org.name}}' +
+      //     '</ion-item>' +
+      //     '</div>';
+      //   SSFAlertsService.showModal({
+      //     body: template,
+      //     scope: $scope,
+      //     title: "Request to Join"
+      //   }, selectOrg);
+      // };
     }
   ]);

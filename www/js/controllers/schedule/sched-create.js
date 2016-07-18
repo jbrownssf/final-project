@@ -1,16 +1,17 @@
 angular.module('starter.controllers')
     .controller('SchedCreateCtrl', ['$scope', 'FillSpotService', '$state',
         'SchedulesREST', '$window', 'SSFAlertsService', 'SchedulesService', '$rootScope',
-        'SSFUsersREST', '$stateParams',
+        'SSFUsersREST', '$stateParams', 'MembersRest',
         function($scope, FillSpotService, $state, SchedulesREST, $window,
-            SSFAlertsService, SchedulesService, $rootScope, SSFUsersREST, $stateParams) {
+            SSFAlertsService, SchedulesService, $rootScope, SSFUsersREST, $stateParams,
+            MembersRest) {
 
 
             $scope.users = {};
             $scope.schedule = [];
             $scope.$on('$ionicView.enter', function() {
                 $rootScope.stopSpinner = true;
-                SSFUsersREST.getByCompany()
+                MembersRest.getByCompany()
                     .then(function(res) {
                     if(res.status === 200) {
                         for (var i in res.data) {
@@ -71,10 +72,10 @@ angular.module('starter.controllers')
                 $scope.schedule.groupId = $stateParams.orgId;
                 SchedulesREST.upsert($window.localStorage.token, $scope.schedule)
                     .then(function(res) {
-                        if (res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
+                        if(res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
                             if (hadId) {
                                 SchedulesService.template(res.data);
-                                $state.go('sched-view');
+                                $state.go('org.detail.sched-view.detail', {schedId: res.data.id});
                             }
                             else {
                                 $state.go('org.detail.lobby'); //go to list of schedules page
