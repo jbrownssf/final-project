@@ -3,7 +3,7 @@
     <ion-nav-buttons></ion-nav-buttons> 
     <ion-content>
         <div class="list">
-            <form name="scheduleForm" ng-submit="handleForm(scheduleForm)">
+            <form name="scheduleForm">
                 <label class="item item-input"><!-- ng-class="{ 'has-errors' : loginForm.email.$invalid && loginForm.$submitted}"> -->
                   <input type="date" ng-model="schedule.assignedDate" required>
                 </label>
@@ -38,13 +38,13 @@
                     </div>
                 </div>
                 <div class="padding">
-                    <button class="button button-block button-calm ssf-button" type="submit" ng-click="submitType(scheduleForm, 'saved')">
+                    <button class="button button-block button-calm ssf-button" type="button" ng-click="submitType(scheduleForm, 'saved')">
                         Save
                     </button>
-                    <button class="button button-block button-calm ssf-button" type="submit" ng-click="submitType(scheduleForm, 'published')">
+                    <button class="button button-block button-calm ssf-button" type="button" ng-click="submitType(scheduleForm, 'published')">
                         Publish
                     </button>
-                    <button class="button button-block button-calm ssf-button-inverted" type="submit" ng-click="submitType(scheduleForm, 'deleted')">
+                    <button class="button button-block button-calm ssf-button-inverted" type="button" ng-click="submitType(scheduleForm, 'deleted')">
                         Delete
                     </button>
                 </div>

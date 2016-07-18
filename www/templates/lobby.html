@@ -1,20 +1,27 @@
 <ion-view view-title="Home">
-     <!--Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
+    Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) 
     <ion-nav-buttons side="left">
         <button class="button button-icon icon ion-log-out button-clear" ng-click="logout()">
             
         </button>
-    </ion-nav-buttons> 
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-plus-round button-clear" ng-click="selectOrgModal()">
+
+        </button>
+    </ion-nav-buttons>
     <ion-content>
-        <lobby-select></lobby-select>
-        <!--<button class="item button button-block button-calm ssf-button" ui-sref="sched-list">-->
-        <!--    Schedule List-->
-        <!--</button>-->
-        <!--<button class="item button button-block button-calm ssf-button" ui-sref="req-memship">-->
-        <!--    Manage Organizations-->
-        <!--</button>-->
-        <!--<button class="item button button-block button-calm ssf-button" ui-sref="navigation">-->
-        <!--    Debugging Navigation-->
-        <!--</button>-->
+
+        <div class="padding text-center subheader">
+            Select an Organization
+        </div>
+        <div class="list">
+            <ion-item class="item" ng-show="reqMemRequests.statuses.length == 0">
+                Click to add Organization
+            </ion-item>
+            <ion-item ng-click="nextPage(item)" class="item" ng-repeat="item in lobbySelect.data">
+                {{item.orgName}}<span class="item-note">{{item.status}}</span>
+            </ion-item>
+        </div>
     </ion-content>
 </ion-view>

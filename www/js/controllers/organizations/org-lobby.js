@@ -1,19 +1,27 @@
 angular.module('starter.controllers')
   .controller('OrgLobbyCtrl', ['$scope', '$window', '$stateParams', 'SchedulesREST',
     'SSFAlertsService', 'SchedulesService', '$state', '$ionicListDelegate',
+    '$rootScope', '$ionicActionSheet',
     function($scope, $window, $stateParams, SchedulesREST, SSFAlertsService,
-    SchedulesService, $state, $ionicListDelegate) {
-      
+      SchedulesService, $state, $ionicListDelegate, $rootScope, $ionicActionSheet) {
+
+      $scope.$on('$ionicView.enter', function() {
+        $rootScope.stopSpinner = true;
+        makeRequest();
+      });
+
       $scope.schedules = [];
-      $scope.title = 'Welcome!';//$stateParams.org.orgName;
-      SchedulesREST.getList($window.localStorage.token, $window.localStorage.userId, $stateParams.orgId)
-        .then(function(res) {
-          if (res.status !== 200)
-            return SSFAlertsService.showAlert('Error', 'Something went wrong in getting the schedules.');
-          $scope.schedules = res.data;
-        }, function(err) {
-          SSFAlertsService.showAlert('Error', 'Something went wrong in gettting the schedules.');
-        });
+      $scope.title = 'Welcome!'; //$stateParams.org.orgName;
+      function makeRequest() {
+        SchedulesREST.getList($window.localStorage.token, $window.localStorage.userId, $stateParams.orgId)
+          .then(function(res) {
+            if (res.status !== 200)
+              return SSFAlertsService.showAlert('Error', 'Something went wrong in getting the schedules.');
+            $scope.schedules = res.data;
+          }, function(err) {
+            SSFAlertsService.showAlert('Error', 'Something went wrong in gettting the schedules.');
+          });
+      }
 
       //switch between published/unpublished options
       $scope.edit = [];
@@ -25,7 +33,9 @@ angular.module('starter.controllers')
 
       $scope.gotoSched = function(selectedSched) {
         SchedulesService.singleSched(selectedSched);
-        $state.go('sched-view');
+        $state.go('org.detail.sched-view.detail', {
+          schedId: selectedSched.id
+        });
       };
 
       $scope.listCanSwipe = true;
@@ -57,14 +67,16 @@ angular.module('starter.controllers')
             tempSchedule.schedule[j][1][k][2] = new Date(tempSchedule.schedule[j][1][k][2]);
           }
         }
+        tempSchedule.assignedDate = new Date(tempSchedule.assignedDate);
         SchedulesService.template(tempSchedule);
         $ionicListDelegate.closeOptionButtons();
-        $state.go('sched-create');
+        $state.go('org.detail.sched-create');
       };
-      $scope.delete = function(schedule) {
+      $scope.delete = function(schedule, index) {
         schedule.state = 'deleted';
         SchedulesREST.upsert($window.localStorage.token, schedule);
         $ionicListDelegate.closeOptionButtons();
+        $scope.schedules.splice(index, 1);
         //update
       };
       $scope.publish = function(schedule) {
@@ -72,5 +84,7 @@ angular.module('starter.controllers')
         SchedulesREST.upsert($window.localStorage.token, schedule);
         $ionicListDelegate.closeOptionButtons();
       };
+
+
     }
   ]);

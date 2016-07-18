@@ -56,59 +56,54 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
   })
   
   //schedule
-  .state('sched-create', {
-    cache: false,
-    url: '/sched-create',
-    templateUrl: 'templates/schedule/sched-create.html',
-    controller: 'SchedCreateCtrl',
-    resolve: {
-      members: ['SSFUsersREST', function(SSFUsersREST) {
-        return SSFUsersREST.getByCompany()
-        .then(function(res) {
-          if(res.status === 200) {
-            return res.data;
-          } else {
-            console.log('error');
-          }
-          return [];
-        });
-      }],
-      template: ['SchedulesService', function(SchedulesService) {
-        return SchedulesService.template();
-      }]
-    }
-  })
-  // .state('sched-list', {
+  // .state('sched-view', {
   //   cache: false,
-  //   url: '/sched-list',
-  //   templateUrl: 'templates/schedule/sched-list.html',
-  //   controller: 'SchedListCtrl',
+  //   url: '/sched-view',
+  //   templateUrl: 'templates/schedule/sched-view.html',
+  //   controller: 'SchedViewCtrl',
   //   resolve: {
-  //     schedules: ['SchedulesREST', 'SSFAlertsService', function(SchedulesREST, SSFAlertsService) {
-  //       return SchedulesREST.getList()
+  //     schedule: ['SchedulesService', 'SSFAlertsService',
+  //         function(SchedulesService, SSFAlertsService) {
+  //       return SchedulesService.singleSched();
+  //     }],
+  //     members: ['SSFUsersREST', function(SSFUsersREST) {
+  //       return SSFUsersREST.getByCompany()
   //       .then(function(res) {
   //         if(res.status === 200) {
-  //           for(var i in res.data) {
-  //             for(var j in res.data[i].schedule) {
-  //                 for(var k in res.data[i].schedule[j][1]) {
-  //                     res.data[i].schedule[j][1][k][1] = new Date(res.data[i].schedule[j][1][k][1]);
-  //                     res.data[i].schedule[j][1][k][2] = new Date(res.data[i].schedule[j][1][k][2]);
-  //                 }
-  //             }
-  //             res.data[i].assignedDate = new Date(res.data[i].assignedDate);
-  //           }
   //           return res.data;
   //         } else {
-  //           SSFAlertsService.showAlert('Error', 'Something went wrong with getting the list of schedules');
+  //           console.log('error');
   //         }
   //         return [];
   //       });
-  //     }]
+  //     }],
   //   }
   // })
-  .state('sched-view', {
+  
+  //organization
+  .state('org', {
+    // abstract: true,
+    url: '/orgId',
+    template: '<ion-nav-view></ion-nav-view>'
+  })
+  .state('org.detail', {
+    // abstract: true,
+    url: '/:orgId',
+    template: '<ion-nav-view></ion-nav-view>'
+  })
+  .state('org.detail.lobby', {
+    url: '/',
+    templateUrl: 'templates/organizations/org-lobby.html',
+    controller: 'OrgLobbyCtrl',
+  })
+  .state('org.detail.sched-view', {
+    // abstract: true,
+    url: '/schedId',
+    template: '<ion-nav-view></ion-nav-view>'
+  })
+  .state('org.detail.sched-view.detail', {
+    url: '/:schedId',
     cache: false,
-    url: '/sched-view',
     templateUrl: 'templates/schedule/sched-view.html',
     controller: 'SchedViewCtrl',
     resolve: {
@@ -130,46 +125,52 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     }
   })
   
-  //organization
-  .state('org', {
-    abstract: true,
-    url: '/org',
-    template: '<ion-nav-view></ion-nav-view>'
-  })
-  .state('org.detail', {
-    abstract: true,
-    url: '/:orgId',
-    template: '<ion-nav-view></ion-nav-view>'
-  })
-  .state('org.detail.lobby', {
-    url: '/',
-    templateUrl: 'templates/organizations/org-lobby.html',
-    controller: 'OrgLobbyCtrl',
-  })
-  
   
   .state('org.detail.sched-create', {
     url: '/sched-create',
     cache: false,
     templateUrl: 'templates/schedule/sched-create.html',
     controller: 'SchedCreateCtrl',
-    resolve: {
-      members: ['SSFUsersREST', function(SSFUsersREST) {
-        return SSFUsersREST.getByCompany()
-        .then(function(res) {
-          if(res.status === 200) {
-            return res.data;
-          } else {
-            console.log('error');
-          }
-          return [];
-        });
-      }],
-      template: ['SchedulesService', function(SchedulesService) {
-        return SchedulesService.template();
-      }]
-    }
+    // resolve: {
+    //   members: ['SSFUsersREST', function(SSFUsersREST) {
+    //     return SSFUsersREST.getByCompany()
+    //     .then(function(res) {
+    //       if(res.status === 200) {
+    //         return res.data;
+    //       } else {
+    //         console.log('error');
+    //       }
+    //       return [];
+    //     });
+    //   }],
+    //   template: ['SchedulesService', function(SchedulesService) {
+    //     return SchedulesService.template();
+    //   }]
+    // }
   })
+  // .state('sched-view', {
+  //   cache: false,
+  //   url: '/sched-view',
+  //   templateUrl: 'templates/schedule/sched-view.html',
+  //   controller: 'SchedViewCtrl',
+  //   resolve: {
+  //     schedule: ['SchedulesService', 'SSFAlertsService',
+  //         function(SchedulesService, SSFAlertsService) {
+  //       return SchedulesService.singleSched();
+  //     }],
+  //     members: ['SSFUsersREST', function(SSFUsersREST) {
+  //       return SSFUsersREST.getByCompany()
+  //       .then(function(res) {
+  //         if(res.status === 200) {
+  //           return res.data;
+  //         } else {
+  //           console.log('error');
+  //         }
+  //         return [];
+  //       });
+  //     }],
+  //   }
+  // })
   
   
   

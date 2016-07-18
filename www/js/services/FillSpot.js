@@ -29,7 +29,7 @@ angular.module('starter.services', [])
                             'Members' +
                         '</div>' +
                         '<select ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '">' +
-                            '<option ng-repeat="user in users" value="{{user.userId}}">{{who(user.userId).firstName}} {{who(user.userId).lastName}}</option>' +
+                            '<option ng-repeat="user in users" value="{{user.userId}}" ng-selected="{{user.userId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}">{{who(user.userId).firstName}} {{who(user.userId).lastName}}</option>' +
                         '</select>' +
                     '</label>' +
                     // '<div ng-repeat="user in users">{{consoleLog(user)}}</div>' +

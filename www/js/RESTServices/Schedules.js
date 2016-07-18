@@ -26,13 +26,13 @@ angular.module("RESTServices")
         // defer.resolve(tempObj);
         // return defer.promise;
     };
-    SchedulesREST.get = function() {
+    SchedulesREST.get = function(groupId) {
         var defer = $q.defer();
         defer.resolve({
             status: 200,
             data: {
                 state: 'published',
-                groupId: 'abc',
+                groupId: groupId,
                 id: '435',
                 note: 'Don\'t know why you say goodbye, I say Hello World!',
                 createDate: new Date(),
