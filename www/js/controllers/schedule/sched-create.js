@@ -1,10 +1,10 @@
 angular.module('starter.controllers')
     .controller('SchedCreateCtrl', ['$scope', 'FillSpotService', '$state',
         'SchedulesREST', '$window', 'SSFAlertsService', 'SchedulesService', '$rootScope',
-        'SSFUsersREST', '$stateParams', 'MembersRest',
+        'SSFUsersREST', '$stateParams', 'MembersRest', '$ionicHistory',
         function($scope, FillSpotService, $state, SchedulesREST, $window,
             SSFAlertsService, SchedulesService, $rootScope, SSFUsersREST, $stateParams,
-            MembersRest) {
+            MembersRest, $ionicHistory) {
 
 
             $scope.users = {};
@@ -12,14 +12,31 @@ angular.module('starter.controllers')
             $scope.$on('$ionicView.enter', function() {
                 $rootScope.stopSpinner = true;
                 MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, "accepted")
-                .then(function(res) {
-                    if(res.status === 200) {
-                        for(var i in res.data) {
-                            $scope.users[res.data[i].memberId] = res.data[i];
+                    .then(function(res) {
+                        if (res.status === 200) {
+                            for (var i in res.data) {
+                                $scope.users[res.data[i].memberId] = res.data[i];
+                            }
                         }
-                    }
-                });
+                    });
                 $scope.schedule = SchedulesService.template();
+                MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
+                    .then(function(res) {
+                        if (res.status !== 200) return;
+                        if (!res.data[0]) res.data[0] = {
+                            status: 'pending'
+                        };
+                        $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
+                        if (!$scope.canEdit) {
+                            SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
+                            $ionicHistory.nextViewOptions({
+                                disableBack: true
+                            });
+                            $state.go('lobby');
+                        }
+                    }, function(err) {
+
+                    });
             });
 
             $scope.addSection = function() {
@@ -72,10 +89,12 @@ angular.module('starter.controllers')
                 $scope.schedule.groupId = $stateParams.orgId;
                 SchedulesREST.upsert($window.localStorage.token, $scope.schedule)
                     .then(function(res) {
-                        if(res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
+                        if (res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
                             if (hadId) {
                                 SchedulesService.template(res.data);
-                                $state.go('org.detail.sched-view.detail', {schedId: res.data.id});
+                                $state.go('org.detail.sched-view.detail', {
+                                    schedId: res.data.id
+                                });
                             }
                             else {
                                 $state.go('org.detail.lobby'); //go to list of schedules page

@@ -1,13 +1,27 @@
 angular.module('starter.controllers')
   .controller('OrgMembersCtrl', ['$scope', '$rootScope', 'SSFAlertsService',
     'MembersRest', '$state', '$window', '$stateParams', '$ionicActionSheet',
-    'OrganizationsRest', 'SSFMailService',
+    'OrganizationsRest', 'SSFMailService', '$ionicHistory',
     function($scope, $rootScope, SSFAlertsService, MembersRest, $state,
-      $window, $stateParams, $ionicActionSheet, OrganizationsRest, SSFMailService) {
+      $window, $stateParams, $ionicActionSheet, OrganizationsRest, SSFMailService,
+      $ionicHistory) {
 
       $scope.members = [];
       $scope.$on('$ionicView.enter', function() {
         reloadPage();
+        MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
+          .then(function(res) {
+            $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
+            if (!$scope.canEdit) {
+              SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
+              $ionicHistory.nextViewOptions({
+                disableBack: true
+              });
+              $state.go('lobby');
+            }
+          }, function(err) {
+
+          });
       });
 
       function reloadPage() {
@@ -89,11 +103,11 @@ angular.module('starter.controllers')
         admin: {
           buttons: [{
             text: 'Set Member'
-          },{
+          }, {
             text: 'Set Suspended'
-          },{
+          }, {
             text: 'Set Declined'
-          },{
+          }, {
             text: 'Email Admin'
           }],
           funcs: [
@@ -139,9 +153,9 @@ angular.module('starter.controllers')
         pending: {
           buttons: [{
             text: 'Set Admin'
-          },{
+          }, {
             text: 'Set Member'
-          },{
+          }, {
             text: 'Set Declined'
           }, {
             text: 'Email Applicant'
@@ -164,11 +178,11 @@ angular.module('starter.controllers')
         suspended: {
           buttons: [{
             text: 'Set Admin'
-          },{
+          }, {
             text: 'Set Member'
-          },{
+          }, {
             text: 'Set Pending'
-          },{
+          }, {
             text: 'Set Declined'
           }, {
             text: 'Email Suspended User'

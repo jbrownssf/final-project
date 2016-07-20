@@ -8,17 +8,22 @@ angular.module('starter.controllers')
 
       $scope.openOrganizations = [];
       $scope.canEdit = false;
-      
+      $scope.listCanSwipe = false;
+      var testOne = [];
       $scope.$on('$ionicView.enter', function() {
         $rootScope.stopSpinner = true;
         makeRequest();
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
-        .then(function(res) {
-          if(res.status !== 200) return;
-          $scope.canEdit = res.data.status === 'admin' || res.data.status === 'owner';
-        }, function(err) {
-          
-        });
+          .then(function(res) {
+            if (res.status !== 200) return;
+            if (!res.data[0]) res.data[0] = {
+              status: 'pending'
+            };
+            $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
+            $scope.listCanSwipe = $scope.canEdit;
+          }, function(err) {
+
+          });
       });
 
       $scope.schedules = [];
@@ -48,8 +53,6 @@ angular.module('starter.controllers')
           schedId: selectedSched.id
         });
       };
-
-      $scope.listCanSwipe = true;
 
       $scope.newSchedule = function() {
         var tempObj = {

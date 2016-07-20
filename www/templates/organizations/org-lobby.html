@@ -7,7 +7,7 @@
     <!--    </button>-->
     <!--</ion-nav-buttons>-->
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-ios-people button-clear" ng-click="openMembers()">
+        <button class="button button-icon icon ion-ios-people button-clear" ng-click="openMembers()" ng-if="canEdit">
 
         </button>
     </ion-nav-buttons>
@@ -15,7 +15,8 @@
         <ion-list can-swipe="listCanSwipe">
             <div class="row padding text-center subheader">
               <div class="col col-offset-10">Published</div>
-              <div class="col col-10 icon ion-plus-round" ng-click="newSchedule()"></div>
+              <div class="col col-10" ng-if="!canEdit"></div>
+              <div class="col col-10 icon ion-plus-round" ng-click="newSchedule()" ng-if="canEdit"></div>
             </div>
 
             <ion-item ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state === 'published'">
@@ -31,11 +32,11 @@
                 </ion-option-button>
             </ion-item>
 
-            <div class="padding text-center subheader">
+            <div class="padding text-center subheader" ng-if="canEdit">
                 Drafts
             </div>
 
-            <ion-item ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'">
+            <ion-item ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'" ng-if="canEdit">
                 {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
                 <ion-option-button class="button-assertive" ng-click="delete(schedule)">
                     Delete

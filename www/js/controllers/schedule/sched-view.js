@@ -8,6 +8,7 @@ angular.module('starter.controllers')
 
             $scope.schedule = [];
             $scope.users = {};
+            $scope.canEdit = false;
             $scope.$on('$ionicView.enter', function() {
                 $rootScope.stopSpinner = true;
                 // $scope.schedule = SchedulesService.singleSched() || 
@@ -25,9 +26,19 @@ angular.module('starter.controllers')
                         if (res.status !== 200)
                             return SSFAlertsService.showAlert('Error', 'The members could not be loaded.');
                         var members = res.data;
-                        for(var i in members) {
+                        for (var i in members) {
                             $scope.users[members[i].memberId] = members[i];
                         }
+                    });
+                MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
+                    .then(function(res) {
+                        if (res.status !== 200) return;
+                        if (!res.data[0]) res.data[0] = {
+                            status: 'pending'
+                        };
+                        $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
+                    }, function(err) {
+
                     });
             });
 

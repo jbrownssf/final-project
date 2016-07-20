@@ -2,7 +2,7 @@
     <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
     <!--<ion-nav-buttons></ion-nav-buttons>-->
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-edit button-clear" ng-click="edit()">
+        <button class="button button-icon icon ion-edit button-clear" ng-click="edit()" ng-if="canEdit">
             
         </button>
     </ion-nav-buttons> 
