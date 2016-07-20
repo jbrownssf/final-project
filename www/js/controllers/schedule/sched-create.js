@@ -67,22 +67,14 @@ angular.module('starter.controllers')
             $scope.handleForm = function(form) {
                 if (form.$invalid)
                     return SSFAlertsService.showAlert('Error', 'Please make sure all fields are filled in.');
-
-                // var tempObj = {
-                //     schedule: $scope.schedule,
-                //     // id: '123'
-                // };
                 var hadId = $scope.schedule.id !== undefined;
                 if (action === 'saved') {
-                    console.log(1);
                     $scope.schedule.state = $scope.schedule.state === 'published' ? 'published' : 'saved';
                 }
                 else if (action === 'published') {
-                    console.log(2);
                     $scope.schedule.state = 'published';
                 }
                 else if (action === 'deleted') {
-                    console.log(3);
                     $scope.schedule.state = 'deleted';
                 }
                 $scope.schedule.createDate = new Date().toUTCString();
@@ -92,11 +84,13 @@ angular.module('starter.controllers')
                         if (res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
                             if (hadId) {
                                 SchedulesService.template(res.data);
+                                if(res.data.state === 'deleted') return $state.go('org.detail.lobby');
                                 $state.go('org.detail.sched-view.detail', {
                                     schedId: res.data.id
                                 });
                             }
                             else {
+                                if(res.data.state === 'deleted') return $state.go('org.detail.lobby');
                                 $state.go('org.detail.lobby'); //go to list of schedules page
                             }
                         }

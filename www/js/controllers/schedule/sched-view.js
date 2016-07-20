@@ -16,6 +16,7 @@ angular.module('starter.controllers')
                     .then(function(res) {
                         if (res.status !== 200)
                             return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
+                        if(res.data.state === 'deleted') $state.go('org.detail.lobby');
                         $scope.schedule = res.data;
                     }, function(err) {
                         return SSFAlertsService.showAlert('Error', 'The schedules could not load.');

@@ -73,13 +73,6 @@ angular.module('starter.controllers')
             }
             $scope.selectOrgModal = function() {
                 var template =
-                    // '<form name="OrganizationForm" class="padding" ng-submit="submitForm(OrganizationForm)">' +
-                    // '<label class="item item-input">' +
-                    //     '<input name="orgCode" ng-model="ngModel.orgCode" type="text" placeholder="Type Code">' +
-                    // '</label>' +
-                    // '<button type="submit" class="button button-block button-calm ssf-button">' +
-                    //     'submit' +
-                    // '</button>' +
                     '<div class="list">' +
                     '<ion-item class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
                     '{{org.name}}' +
