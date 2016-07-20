@@ -1,7 +1,7 @@
 angular.module("RESTServices")
 .service('SchedulesREST', ['SSFConfigConstants', '$http', '$q',
         function(SSFConfigConstants, $http, $q) {
-    var path = 'Schedules/',
+    var path = 'Schedules',
     SchedulesREST = this;
     function getUrl() {
         return SSFConfigConstants.EndpointUrl.url + path;
