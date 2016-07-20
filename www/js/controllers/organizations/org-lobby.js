@@ -1,22 +1,24 @@
 angular.module('starter.controllers')
   .controller('OrgLobbyCtrl', ['$scope', '$window', '$stateParams', 'SchedulesREST',
     'SSFAlertsService', 'SchedulesService', '$state', '$ionicListDelegate',
-    '$rootScope', '$ionicActionSheet', 'OrganizationsRest',
+    '$rootScope', '$ionicActionSheet', 'OrganizationsRest', 'MembersRest',
     function($scope, $window, $stateParams, SchedulesREST, SSFAlertsService,
       SchedulesService, $state, $ionicListDelegate, $rootScope, $ionicActionSheet,
-      OrganizationsRest) {
+      OrganizationsRest, MembersRest) {
 
       $scope.openOrganizations = [];
+      $scope.canEdit = false;
+      
       $scope.$on('$ionicView.enter', function() {
         $rootScope.stopSpinner = true;
         makeRequest();
-        $rootScope.stopSpinner = true;
-        OrganizationsRest.open()
-          .then(function(res) {
-            $scope.openOrganizations = res.data;
-          }, function(err) {
-
-          });
+        MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
+        .then(function(res) {
+          if(res.status !== 200) return;
+          $scope.canEdit = res.data.status === 'admin' || res.data.status === 'owner';
+        }, function(err) {
+          
+        });
       });
 
       $scope.schedules = [];

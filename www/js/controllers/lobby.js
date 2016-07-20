@@ -43,19 +43,19 @@ angular.module('starter.controllers')
             }
             $scope.nextPage = function(member) {
                 $state.go('org.detail.lobby', {
-                    orgId: member.orgId,
-                    org: member
+                    orgId: member.orgId
                 });
             };
 
             function selectOrg(err, org) {
                 if (err) return;
-                SSFAlertsService.showConfirm('Are You Sure?', 'You have selected to join "' + org.name + '". Would you like to continue with sending the request?')
+                SSFAlertsService.showPrompt('Are You Sure?', 'By accepting, you agree to share your contact information with "' + org.name + '". The following field is for a nickname.', 'Accept')
                     .then(function(res) {
-                        if (!res) return;
+                        if (!res && res !== "") return;
                         OrganizationsRest.request($window.localStorage.token, {
                                 organizationId: org.id,
-                                userId: $window.localStorage.userId
+                                userId: $window.localStorage.userId,
+                                nickName: res
                             })
                             .then(function(res) {
                                 if (res.status === 503)

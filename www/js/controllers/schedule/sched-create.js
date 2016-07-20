@@ -11,14 +11,14 @@ angular.module('starter.controllers')
             $scope.schedule = [];
             $scope.$on('$ionicView.enter', function() {
                 $rootScope.stopSpinner = true;
-                MembersRest.getByCompany()
-                    .then(function(res) {
+                MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, "accepted")
+                .then(function(res) {
                     if(res.status === 200) {
-                        for (var i in res.data) {
-                            $scope.users[res.data[i].userId] = res.data[i];
+                        for(var i in res.data) {
+                            $scope.users[res.data[i].memberId] = res.data[i];
                         }
                     }
-                  });
+                });
                 $scope.schedule = SchedulesService.template();
             });
 

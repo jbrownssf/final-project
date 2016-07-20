@@ -1,30 +1,32 @@
 angular.module('starter.controllers')
     .controller('SchedViewCtrl', ['$scope', '$rootScope', 'SSFUsersREST',
         'SchedulesService', '$state', 'SSFAlertsService', 'MembersRest',
+        'SchedulesREST', '$window', '$stateParams',
         function($scope, $rootScope, SSFUsersREST, SchedulesService, $state,
-            SSFAlertsService, MembersRest) {
+            SSFAlertsService, MembersRest, SchedulesREST, $window, $stateParams) {
 
 
             $scope.schedule = [];
             $scope.users = {};
             $scope.$on('$ionicView.enter', function() {
                 $rootScope.stopSpinner = true;
-                $scope.schedule = SchedulesService.singleSched();
-                    // .then(function(res) {
-                    //     if (res.status !== 200)
-                    //         return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
-                    //     $scope.schedule = res.data;
-                    // }, function(err) {
-                    //     return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
-                    // });
+                // $scope.schedule = SchedulesService.singleSched() || 
+                SchedulesREST.getById($window.localStorage.token, $stateParams.orgId, $stateParams.schedId)
+                    .then(function(res) {
+                        if (res.status !== 200)
+                            return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
+                        $scope.schedule = res.data;
+                    }, function(err) {
+                        return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
+                    });
 
-                MembersRest.getByCompany()
+                MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, "accepted")
                     .then(function(res) {
                         if (res.status !== 200)
                             return SSFAlertsService.showAlert('Error', 'The members could not be loaded.');
                         var members = res.data;
                         for(var i in members) {
-                            $scope.users[members[i].userId] = members[i];
+                            $scope.users[members[i].memberId] = members[i];
                         }
                     });
             });

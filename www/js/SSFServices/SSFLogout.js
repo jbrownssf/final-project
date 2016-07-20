@@ -29,11 +29,11 @@ angular.module('SSFLogout', [])
       $state.go('landing');
     });  
     if($window.localStorage.token !== undefined) {
-      $ionicHistory.nextViewOptions({
-        historyRoot: true,
-        disableBack: true
-      });
-      $state.go('lobby');
+      // $ionicHistory.nextViewOptions({
+      //   historyRoot: true,
+      //   disableBack: true
+      // });
+      // $state.go('lobby');
     }
     else {
       $rootScope.$broadcast('request:auth');

@@ -28,4 +28,17 @@ angular.module('RESTServices')
         });
     };
     
+    OrganizationsRest.handleRequest = function(token, requestId, status) {
+        return $http({
+            url: getUrl() + "/handleRequest",
+            method: 'POST',
+            data: {
+                requestId: requestId,
+                status: status
+            },
+            headers: {
+                Authorization: token
+            }
+        });
+    };
 }]);

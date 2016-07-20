@@ -79,13 +79,13 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
   })
   .state('org.detail.sched-view.detail', {
     url: '/:schedId',
-    cache: false,
+    // cache: false,
     templateUrl: 'templates/schedule/sched-view.html',
     controller: 'SchedViewCtrl',
   })
   .state('org.detail.sched-create', {
     url: '/sched-create',
-    cache: false,
+    // cache: false,
     templateUrl: 'templates/schedule/sched-create.html',
     controller: 'SchedCreateCtrl',
   })
@@ -96,10 +96,15 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     templateUrl: 'templates/organizations/org-members.html',
     controller: 'OrgMembersCtrl',
   })
-  .state('org.detail.members.detail', {
+  
+  .state('org.detail.member', {
+    url: '/member',
+    template: '<ion-nav-view></ion-nav-view>',
+  })
+  .state('org.detail.member.detail', {
     url: '/:memberId',
-    cache: false,
-    templateUrl: 'templates/schedule/org-member.html',
+    // cache: false,
+    templateUrl: 'templates/organizations/org-member.html',
     controller: 'OrgMemberCtrl',
   })
   

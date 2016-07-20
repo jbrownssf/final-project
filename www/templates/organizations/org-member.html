@@ -1,19 +1,54 @@
-<ion-view view-title="Members">
-    <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
-    <ion-nav-buttons></ion-nav-buttons>
-    <!--<ion-nav-buttons side="right">-->
-    <!--    <button class="button button-icon icon ion-plus-round button-clear" ng-click="newSchedule()">-->
-            
-    <!--    </button>-->
-    <!--</ion-nav-buttons>-->
-    <!--<ion-nav-buttons side="right">-->
-    <!--    <button class="button button-icon icon ion-ios-people button-clear" ng-click="openMembers()">-->
+<ion-view view-title="Member">
+  <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
+  <ion-nav-buttons></ion-nav-buttons>
+  <!--<ion-nav-buttons side="right">-->
+  <!--    <button class="button button-icon icon ion-plus-round button-clear" ng-click="newSchedule()">-->
 
-    <!--    </button>-->
-    <!--</ion-nav-buttons>-->
-    <ion-content>
-      <div class="card" ng-repeat="member in members">
+  <!--    </button>-->
+  <!--</ion-nav-buttons>-->
+  <!--<ion-nav-buttons side="right">-->
+  <!--    <button class="button button-icon icon ion-ios-people button-clear" ng-click="openMembers()">-->
+
+  <!--    </button>-->
+  <!--</ion-nav-buttons>-->
+  <ion-content>
+      <!--<label class="item item-input" ng-class="{ 'has-errors' : loginForm.username.$invalid && loginForm.$submitted}">-->
+      <!--  <span class="input-label">-->
+      <!--    Username:-->
+      <!--  </span>-->
+      <!--  <input disabled="true" type="text" name="username" ng-model="member.username" placeholder="someuser42" required>-->
+      <!--</label>-->
+
+
+
+    <div class="card">
+      <div class="item item-divider">
         {{member.firstName}} {{member.lastName}}
       </div>
-    </ion-content>
+      <div class="row">
+        <div class="col col-33">
+          Username:
+        </div>
+        <div class="col">
+          {{member.username}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-33">
+          Cell Phone:
+        </div>
+        <div class="col">
+          {{member.cellphone}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-33">
+          Email:
+        </div>
+        <div class="col">
+          {{member.email}}
+        </div>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

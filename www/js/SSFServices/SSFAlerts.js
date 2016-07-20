@@ -169,4 +169,31 @@ angular.module('SSFAlerts', [])
             callback('User closed modal');
         };
     };
+    
+    service.showPrompt = function(title, body, okText, cancelText)
+    {
+        if(navigator.notification == undefined)
+        {
+            var confirmPopup = $ionicPopup.prompt({
+                title: title,
+                template: body,
+                cancelText: cancelText || 'Cancel',
+                okText: okText || 'Okay'
+                
+            });
+            return confirmPopup;
+        }else {
+            var defer = $q.defer();
+            var confirmCallback = function(buttonIndex)
+            {
+                if(buttonIndex===1) {
+                    defer.resolve(true);
+                }else {
+                    defer.resolve(false);
+                }
+            };
+            navigator.notification.prompt(body, confirmCallback, title);
+            return defer.promise;
+        }
+    };
 }]);

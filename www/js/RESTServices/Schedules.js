@@ -26,101 +26,15 @@ angular.module("RESTServices")
         // defer.resolve(tempObj);
         // return defer.promise;
     };
-    SchedulesREST.get = function(groupId) {
-        var defer = $q.defer();
-        defer.resolve({
-            status: 200,
-            data: {
-                state: 'published',
-                groupId: groupId,
-                id: '435',
-                note: 'Don\'t know why you say goodbye, I say Hello World!',
-                createDate: new Date(),
-                schedule: [
-                    [
-                        'Maze',
-                        [
-                            [
-                                'Maze Maze',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '1'
-                            ],
-                            [
-                                'Maze Maze',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '2'
-                            ],
-                            [
-                                'Drums',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '3'
-                            ],
-                            [
-                                'Goat Head',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '4'
-                            ]
-                        ]
-                    ],
-                    [
-                        'Bus',
-                        [
-                            [
-                                'Seat #1',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '5'
-                            ],
-                            [
-                                'Seat #5',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '6'
-                            ],
-                            [
-                                'Seat #7',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '7'
-                            ],
-                            [
-                                'Shocker',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '8'
-                            ]
-                        ]
-                    ],
-                    [
-                        'Bourben Street',
-                        [
-                            [
-                                'Bride',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '9'
-                            ],
-                            [
-                                'Priest',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '10'
-                            ],
-                            [
-                                'Creep',
-                                'Thu, 01 Jan 1970 20:59:00 GMT',
-                                'Thu, 02 Jan 1970 20:59:00 GMT',
-                                '11'
-                            ]
-                        ]
-                    ]
-                ]
-        }});
-        return defer.promise;
+    SchedulesREST.getById = function(token, groupId, schedId) {
+        return $http({
+            url: getUrl() + "/findOne?filter[where][groupId]=" + groupId +
+                "&filter[where][id]=" + schedId,
+            method: "GET",
+            headers: {
+                'Authorization': token
+            }
+        });
     };
     
     SchedulesREST.getList = function(token, userId, groupId) {
