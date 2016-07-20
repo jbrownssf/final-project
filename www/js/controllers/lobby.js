@@ -14,7 +14,7 @@ angular.module('starter.controllers')
                 $rootScope.stopSpinner = true;
                 makeCall();
                 $rootScope.stopSpinner = true;
-                OrganizationsRest.open()
+                OrganizationsRest.open($window.localStorage.token)
                     .then(function(res) {
                         $scope.openOrganizations = res.data;
                     }, function(err) {

@@ -2,7 +2,7 @@ angular.module('RESTServices')
 .service('OrganizationsRest', ['$http', 'SSFConfigConstants',
         function($http, SSFConfigConstants) {
     var OrganizationsRest = this,
-    path = '/Organizations';
+    path = 'Organizations';
     function getUrl() {
         return SSFConfigConstants.EndpointUrl.url + path;
     }
