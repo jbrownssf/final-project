@@ -24,6 +24,16 @@ angular.module('starter.controllers')
           }, function(err) {
 
           });
+
+        //get company info
+        $rootScope.stopSpinner = true;
+        OrganizationsRest.open($window.localStorage.token, $stateParams.orgId)
+          .then(function(res) {
+            if(res.status !== 200) return;
+            $scope.openOrganizations = res.data[0];
+          }, function(err) {
+
+          });
       });
 
       $scope.schedules = [];
@@ -90,7 +100,13 @@ angular.module('starter.controllers')
         schedule.state = 'deleted';
         SchedulesREST.upsert($window.localStorage.token, schedule);
         $ionicListDelegate.closeOptionButtons();
-        $scope.schedules.splice(index, 1);
+        for (var i in $scope.schedules) {
+          if ($scope.schedules[i].id === schedule.id) {
+            console.log(i + " " + index);
+            $scope.schedules.splice(i, 1);
+            break;
+          }
+        }
         //update
       };
       $scope.publish = function(schedule) {

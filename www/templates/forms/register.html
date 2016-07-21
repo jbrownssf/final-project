@@ -17,13 +17,9 @@
           <span class="input-label">Email</span>
           <input type="text" name="lastName" ng-model="registerData.lastName" placeholder="Last Name" required>
         </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.username.$invalid && registerForm.$submitted}">
-          <span class="input-label">Username</span>
-          <input type="text" name="username" ng-model="registerData.username" placeholder="Username" required>
-        </label>
         <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.cellphone.$invalid && registerForm.$submitted}">
           <span class="input-label">Cell Phone</span>
-          <input type="text" name="cellphone" ng-model="registerData.cellphone" placeholder="Cell Phone" required>
+          <input phone-input type="text" name="cellphone" ng-model="registerData.cellphone" placeholder="Cell Phone">
         </label>
         <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.email.$invalid && registerForm.$submitted}">
           <span class="input-label">Email</span>

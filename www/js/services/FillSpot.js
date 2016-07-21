@@ -28,8 +28,8 @@ angular.module('starter.services', [])
                         '<div class="input-label">' +
                             'Members' +
                         '</div>' +
-                        '<select ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '">' +
-                            '<option ng-repeat="user in users" value="{{user.memberId}}" ng-selected="{{user.memberId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}">{{who(user.memberId).firstName}} {{who(user.memberId).lastName}}</option>' +
+                        '<select ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '">' +
+                            '<option ng-repeat="user in users" value="{{user.memberId}}" ng-selected="{{user.memberId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}" ng-show="user.status !== \'suspended\'">{{who(user.memberId).firstName}} {{who(user.memberId).lastName}}</option>' +
                         '</select>' +
                     '</label>' +
                     // '<div ng-repeat="user in users">{{consoleLog(user)}}</div>' +

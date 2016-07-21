@@ -19,7 +19,7 @@
 
     <div class="card" ng-repeat="member in members | filter: filterFunc" ng-click="selectMember(member)">
       <div class="item item-divider">
-        {{member.firstName}} {{member.lastName}}<span class="item-note">{{member.status}}</span>
+        {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
       </div>
       <div class="row">
         <div class="col col-33">
@@ -31,18 +31,10 @@
       </div>
       <div class="row">
         <div class="col col-33">
-          Username:
-        </div>
-        <div class="col">
-          {{member.username}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-33">
           Cell Phone:
         </div>
         <div class="col">
-          {{member.cellphone}}
+          {{member.cellphone | tel}}
         </div>
       </div>
       <div class="row">

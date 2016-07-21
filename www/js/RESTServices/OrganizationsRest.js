@@ -18,9 +18,11 @@ angular.module('RESTServices')
         });
     };
     
-    OrganizationsRest.open = function(token) {
+    OrganizationsRest.open = function(token, orgId) {
+        var tempString = getUrl() + "?filter[where][status]=open";
+        if(orgId) tempString += '&filter[where][id]=' + orgId;
         return $http({
-            url: getUrl() + "?filter[where][status]=open",
+            url: tempString,
             method: 'GET',
             headers: {
                 'Authorization': token

@@ -16,8 +16,9 @@ angular.module('starter.controllers')
                     .then(function(res) {
                         if (res.status !== 200)
                             return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
-                        if(res.data.state === 'deleted') $state.go('org.detail.lobby');
+                        if (res.data.state === 'deleted') $state.go('org.detail.lobby');
                         $scope.schedule = res.data;
+                        setSeen();
                     }, function(err) {
                         return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
                     });
@@ -43,6 +44,29 @@ angular.module('starter.controllers')
                     });
             });
 
+            function setSeen() {
+                for (var i in $scope.schedule.schedule) {
+                    for (var j = 1; j < $scope.schedule.schedule[i].length; j++) {
+                        for (var k in $scope.schedule.schedule[i][j]) {
+                            if ($scope.schedule.schedule[i][j][k][3] === $window.localStorage.userId) {
+                                return SSFAlertsService.showAlert('Heads Up!', 
+                                    'On ' +
+                                    $scope.schedule.assignedDate +
+                                    ' will be working in the section "' +
+                                    $scope.schedule.schedule[i][0] + 
+                                    '" in "' +
+                                    $scope.schedule.schedule[i][j][k][0] +
+                                    '" from "' +
+                                    $scope.schedule.schedule[i][j][k][1] +
+                                    '" until "' +
+                                    $scope.schedule.schedule[i][j][k][2] +
+                                    '".');
+                            }
+                        }
+                    }
+                }
+            }
+
             $scope.edit = function() {
                 for (var j in $scope.schedule.schedule) {
                     for (var k in $scope.schedule.schedule[j][1]) {
@@ -59,6 +83,14 @@ angular.module('starter.controllers')
             $scope.who = function(a) {
                 return $scope.users[a];
             };
+            
+            $scope.firstWindowWidth = function() {
+                return $window.innerWidth >= 325;
+            };
+            $scope.secondWindowWidth = function() {
+                return $window.innerWidth >= 400;
+            };
+            
 
         }
     ]);

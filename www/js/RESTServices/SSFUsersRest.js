@@ -23,15 +23,15 @@ angular.module("RESTServices", [])
     //         }
     //     });
     // };
-    // SSFUsersREST.logout = function(token) {
-    //     return $http({
-    //         url: getUrl()+"logout",
-    //         method: "POST",
-    //         headers: {
-    //             'Authorization': token
-    //         }
-    //     });
-    // };
+    SSFUsersREST.logout = function(token) {
+        return $http({
+            url: getUrl()+"logout",
+            method: "POST",
+            headers: {
+                'Authorization': token
+            }
+        });
+    };
     SSFUsersREST.getIP = function() {
         return $http({
             url: 'https://api.ipify.org',

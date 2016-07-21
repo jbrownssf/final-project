@@ -9,8 +9,10 @@ angular.module('starter.controllers')
 
             $scope.users = {};
             $scope.schedule = [];
+            $scope.canEdit = true;
             $scope.$on('$ionicView.enter', function() {
                 $rootScope.stopSpinner = true;
+                $scope.schedule = SchedulesService.template();
                 MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, "accepted")
                     .then(function(res) {
                         if (res.status === 200) {
@@ -19,7 +21,6 @@ angular.module('starter.controllers')
                             }
                         }
                     });
-                $scope.schedule = SchedulesService.template();
                 MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
                     .then(function(res) {
                         if (res.status !== 200) return;
@@ -38,6 +39,10 @@ angular.module('starter.controllers')
 
                     });
             });
+            
+            $scope.spotChangedResetView = function(a) {
+                delete a[4];
+            };
 
             $scope.addSection = function() {
                 $scope.schedule.schedule.push([

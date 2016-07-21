@@ -25,7 +25,7 @@
                             {{spot[1] | date: "h:mm a"}}
                         </div>
                         <div class="col col-33">
-                            {{who(spot[3]).firstName}} {{who(spot[3]).lastName}}
+                            {{who(spot[3]).firstName}} {{who(spot[3]).lastName}}&nbsp&nbsp&nbsp<icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
                         </div>
                     </div>
                     <div class="item" ng-click="addSpot($event, [$index])">
