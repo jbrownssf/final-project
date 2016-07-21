@@ -16,10 +16,10 @@
             Select an Organization
         </div>
         <div class="list">
-            <ion-item class="item" ng-show="reqMemRequests.statuses.length == 0">
+            <ion-item class="item" ng-if="lobbySelect.data.length === 0" ng-click="selectOrgModal()">
                 Click to add Organization
             </ion-item>
-            <ion-item ng-click="nextPage(item)" class="item" ng-repeat="item in lobbySelect.data">
+            <ion-item ng-if="lobbySelect.data.length !== 0" ng-click="nextPage(item)" class="item" ng-repeat="item in lobbySelect.data">
                 {{item.orgName}}<span class="item-note">{{item.status}}</span>
             </ion-item>
         </div>

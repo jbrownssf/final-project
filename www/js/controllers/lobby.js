@@ -1,14 +1,10 @@
 angular.module('starter.controllers')
-    .controller('LobbyCtrl', ['$scope', '$rootScope', '$translate', 'FillSpotService',
-        'MembersRest', '$window', 'SSFAlertsService', '$state', '$ionicHistory',
-        '$ionicActionSheet', 'OrganizationsRest',
-        function($scope, $rootScope, $translate, FillSpotService, MembersRest,
-            $window, SSFAlertsService, $state, $ionicHistory, $ionicActionSheet,
+    .controller('LobbyCtrl', ['$scope', '$rootScope', 'MembersRest', 
+        '$window', 'SSFAlertsService', '$state', 'OrganizationsRest',
+        function($scope, $rootScope, MembersRest, $window,
+        SSFAlertsService, $state,
             OrganizationsRest) {
 
-            // $scope.consoleLog = function(a) {
-            //     console.log(a);
-            // };
             $scope.openOrganizations = [];
             $scope.$on('$ionicView.enter', function() {
                 $rootScope.stopSpinner = true;
@@ -62,10 +58,6 @@ angular.module('starter.controllers')
                                     return SSFAlertsService.showAlert('Error', res.data.error.message);
                                 if (res.status !== 200)
                                     return SSFAlertsService.showAlert('Error', 'There was a problem requesting to join this selected company.');
-                                // $ionicHistory.nextViewOptions({
-                                //     disableBack: true
-                                // });
-                                // $state.go('lobby');
                             }, function(err) {
                                 SSFAlertsService('Error', 'Some unknown error occured. Please try again later.');
                             });
@@ -74,7 +66,10 @@ angular.module('starter.controllers')
             $scope.selectOrgModal = function() {
                 var template =
                     '<div class="list">' +
-                    '<ion-item class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
+                    '<ion-item ng-if="openOrganizations.length === 0" class="item">' +
+                    'No Companies to Select From' +
+                    '</ion-item>' +
+                    '<ion-item ng-if="openOrganizations.length !== 0" class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
                     '{{org.name}}' +
                     '</ion-item>' +
                     '</div>';
