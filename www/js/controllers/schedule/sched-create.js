@@ -104,5 +104,13 @@ angular.module('starter.controllers')
                         }
                     });
             };
+            
+            $scope.firstWindowWidth = function() {
+                return $window.innerWidth >= 325;
+            };
+            $scope.secondWindowWidth = function() {
+                return $window.innerWidth >= 400;
+            };
+            
         }
     ]);

@@ -90,7 +90,5 @@ angular.module('starter.controllers')
             $scope.secondWindowWidth = function() {
                 return $window.innerWidth >= 400;
             };
-            
-
         }
     ]);

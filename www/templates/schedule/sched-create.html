@@ -1,9 +1,12 @@
 <ion-view view-title="Add Schedule">
     <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
-    <ion-nav-buttons></ion-nav-buttons> 
+    <ion-nav-buttons></ion-nav-buttons>
     <ion-content>
         <div class="list">
             <form name="scheduleForm">
+                <div class="text-center assertive padding" ng-if="!secondWindowWidth()">
+                    (rotate device to see {{firstWindowWidth() ? "end" : "start/end"}} times)
+                </div>
                 <label class="item item-input"><!-- ng-class="{ 'has-errors' : loginForm.email.$invalid && loginForm.$submitted}"> -->
                   <input type="date" ng-model="schedule.assignedDate" required>
                 </label>
@@ -18,14 +21,15 @@
                         </label>
                     </div>
                     <div class="item row" ng-repeat="spot in section[1] track by $index" ng-click="assignPosition($event, [$parent.$index, $index])">
-                        <div class="col col-25">
+                        <div class="col">
                             {{spot[0]}}
                         </div>
-                        <div class="col">
-                            {{spot[1] | date: "h:mm a"}}
+                        <div class="col" ng-if="firstWindowWidth()">
+                            {{spot[1] | date: "h:mm a"}}<span ng-if="secondWindowWidth()"> - {{spot[2] | date: "h:mm a"}}</span>
                         </div>
-                        <div class="col col-33">
-                            {{who(spot[3]).firstName}} {{who(spot[3]).lastName}}&nbsp&nbsp&nbsp<icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
+                        <div class="col">
+                            {{who(spot[3]).firstName}} {{who(spot[3]).lastName}}&nbsp&nbsp&nbsp
+                            <icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
                         </div>
                     </div>
                     <div class="item" ng-click="addSpot($event, [$index])">
