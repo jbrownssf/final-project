@@ -130,12 +130,18 @@ angular.module('starter.controllers')
           }],
           funcs: [
             function(a) {
+              if($window.localStorage.userId === a.memberId)
+                return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
               makeRequest(a, a.id, 'member');
             },
             function(a) {
+              if($window.localStorage.userId === a.memberId)
+                return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
               makeRequest(a, a.id, 'suspended');
             },
             function(a) {
+              if($window.localStorage.userId === a.memberId)
+                return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
               makeRequest(a, a.id, 'declined');
             },
             function(a) {
