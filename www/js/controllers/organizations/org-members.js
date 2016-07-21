@@ -93,10 +93,24 @@ angular.module('starter.controllers')
         owner: {
           buttons: [{
             text: 'Email Owner'
+          }, {
+            text: 'Text Owner'
+          }, {
+            text: 'Call Owner'
           }],
           funcs: [
             function(a) {
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('sms:' + a.cellphone);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('tel:' + a.cellphone);
             }
           ]
         },
@@ -109,6 +123,10 @@ angular.module('starter.controllers')
             text: 'Set Declined'
           }, {
             text: 'Email Admin'
+          }, {
+            text: 'Text Admin'
+          }, {
+            text: 'Call Admin'
           }],
           funcs: [
             function(a) {
@@ -122,6 +140,16 @@ angular.module('starter.controllers')
             },
             function(a) {
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('sms:' + a.cellphone);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('tel:' + a.cellphone);
             }
           ]
         },
@@ -134,6 +162,10 @@ angular.module('starter.controllers')
             text: 'Set Suspended'
           }, {
             text: 'Email Member'
+          }, {
+            text: 'Text Member'
+          }, {
+            text: 'Call Member'
           }],
           funcs: [
             function(a) {
@@ -147,6 +179,16 @@ angular.module('starter.controllers')
             },
             function(a) {
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('sms:' + a.cellphone);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('tel:' + a.cellphone);
             }
           ]
         },
@@ -159,6 +201,10 @@ angular.module('starter.controllers')
             text: 'Set Declined'
           }, {
             text: 'Email Applicant'
+          }, {
+            text: 'Text Applicant'
+          }, {
+            text: 'Call Applicant'
           }],
           funcs: [
             function(a) {
@@ -172,6 +218,16 @@ angular.module('starter.controllers')
             },
             function(a) {
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('sms:' + a.cellphone);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('tel:' + a.cellphone);
             }
           ]
         },
@@ -186,6 +242,10 @@ angular.module('starter.controllers')
             text: 'Set Declined'
           }, {
             text: 'Email Suspended User'
+          }, {
+            text: 'Text Suspended User'
+          }, {
+            text: 'Call Suspended User'
           }],
           funcs: [
             function(a) {
@@ -202,6 +262,16 @@ angular.module('starter.controllers')
             },
             function(a) {
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('sms:' + a.cellphone);
+            },
+            function(a) {
+              if(!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('tel:' + a.cellphone);
             }
           ]
         }

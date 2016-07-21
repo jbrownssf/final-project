@@ -1,9 +1,11 @@
 angular.module('starter.controllers')
     .controller('SchedViewCtrl', ['$scope', '$rootScope', 'SSFUsersREST',
         'SchedulesService', '$state', 'SSFAlertsService', 'MembersRest',
-        'SchedulesREST', '$window', '$stateParams',
+        'SchedulesREST', '$window', '$stateParams', '$ionicActionSheet',
+        'SSFMailService', '$filter',
         function($scope, $rootScope, SSFUsersREST, SchedulesService, $state,
-            SSFAlertsService, MembersRest, SchedulesREST, $window, $stateParams) {
+            SSFAlertsService, MembersRest, SchedulesREST, $window, $stateParams,
+            $ionicActionSheet, SSFMailService, $filter) {
 
 
             $scope.schedule = [];
@@ -49,18 +51,21 @@ angular.module('starter.controllers')
                     for (var j = 1; j < $scope.schedule.schedule[i].length; j++) {
                         for (var k in $scope.schedule.schedule[i][j]) {
                             if ($scope.schedule.schedule[i][j][k][3] === $window.localStorage.userId) {
-                                return SSFAlertsService.showAlert('Heads Up!', 
-                                    'On ' +
-                                    $scope.schedule.assignedDate +
-                                    ' will be working in the section "' +
-                                    $scope.schedule.schedule[i][0] + 
-                                    '" in "' +
+                                return SSFAlertsService.showAlert('Heads Up!',
+                                    'On <b>' +
+                                    $filter('date')($scope.schedule.assignedDate, 'EEEE, MMMM d, y') +
+                                    // new Date($scope.schedule.assignedDate).toString('EEEE, MMMM d, y') +
+                                    '</b> you will be working in the section <b>' +
+                                    $scope.schedule.schedule[i][0] +
+                                    '</b> in <b>' +
                                     $scope.schedule.schedule[i][j][k][0] +
-                                    '" from "' +
-                                    $scope.schedule.schedule[i][j][k][1] +
-                                    '" until "' +
-                                    $scope.schedule.schedule[i][j][k][2] +
-                                    '".');
+                                    '</b> from <b>' +
+                                    $filter('date')($scope.schedule.schedule[i][j][k][1], 'h:mm a') +
+                                    // new Date($scope.schedule.schedule[i][j][k][1]).toString('h:mm a') +
+                                    '</b> until <b>' +
+                                    $filter('date')($scope.schedule.schedule[i][j][k][2], 'h:mm a') +
+                                    // new Date($scope.schedule.schedule[i][j][k][2]).toString('h:mm a') +
+                                    '</b>.');
                             }
                         }
                     }
@@ -83,12 +88,49 @@ angular.module('starter.controllers')
             $scope.who = function(a) {
                 return $scope.users[a];
             };
-            
+
             $scope.firstWindowWidth = function() {
                 return $window.innerWidth >= 325;
             };
             $scope.secondWindowWidth = function() {
                 return $window.innerWidth >= 400;
+            };
+
+            var options = [
+                function(a) {
+                    if (!a.cellphone)
+                        return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+                    $window.open('sms:' + a.cellphone);
+                },
+                function(a) {
+                    if (!a.cellphone)
+                        return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+                    $window.open('tel:' + a.cellphone);
+                },
+                function(a) {
+                    SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+                }
+            ];
+            $scope.selectMember = function(a) {
+                var hideSheet = $ionicActionSheet.show({
+                    buttons: [{
+                        text: "Text"
+                    }, {
+                        text: "Call"
+                    }, {
+                        text: "Email"
+                    }],
+                    // destructiveText: 'Delete',
+                    titleText: 'Contact: ' + a.firstName + " " + a.lastName + (a.nickName ? ' (' + a.nickName + ')' : ''),
+                    cancelText: 'Cancel',
+                    cancel: function() {
+                        // add cancel code..
+                    },
+                    buttonClicked: function(index) {
+                        options[a.status].funcs[index](a);
+                        return true;
+                    }
+                });
             };
         }
     ]);

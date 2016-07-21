@@ -14,15 +14,15 @@ angular.module('starter.services', [])
                 
                     '<label class="item item-input">' +
                         '<span class="input-label">Spot</span>' +
-                        '<input type="text" name="spot" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][0]' + '" placeholder="Spot" required>' +
+                        '<input ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" type="text" name="spot" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][0]' + '" placeholder="Spot" required>' +
                     '</label>' +
                     '<label class="item item-input">' +
                         '<span class="input-label">Start Time</span>' +
-                        '<input type="time" name="startTime" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][1]' + '" placeholder="Start Time" required>' +
+                        '<input ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" type="time" name="startTime" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][1]' + '" placeholder="Start Time" required>' +
                     '</label>' +
                     '<label class="item item-input">' +
                         '<span class="input-label">End Time</span>' +
-                        '<input type="time" name="endTime" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][2]' + '" placeholder="End Time" required>' +
+                        '<input ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" type="time" name="endTime" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][2]' + '" placeholder="End Time" required>' +
                     '</label>' +
                     '<label class="item item-input item-select">' +
                         '<div class="input-label">' +
