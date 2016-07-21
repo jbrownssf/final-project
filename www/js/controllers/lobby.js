@@ -38,7 +38,7 @@ angular.module('starter.controllers')
                     });
             }
             $scope.nextPage = function(member) {
-                $state.go('org.detail.lobby', {
+                $state.go('app.org.detail.lobby', {
                     orgId: member.orgId
                 });
             };

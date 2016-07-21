@@ -29,14 +29,14 @@ angular.module('SSFLogout', [])
       delete $window.localStorage['progress'];
       SSFCacheService.clearData();
       SSFFavoritesService.removeFavorites();
-      $state.go('landing');
+      $state.go('app.landing');
     });  
     if($window.localStorage.token !== undefined) {
       // $ionicHistory.nextViewOptions({
       //   historyRoot: true,
       //   disableBack: true
       // });
-      // $state.go('lobby');
+      // $state.go('app.lobby');
     }
     else {
       $rootScope.$broadcast('request:auth');

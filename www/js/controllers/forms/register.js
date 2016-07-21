@@ -32,7 +32,7 @@ angular.module('starter.controllers')
                 disableAnimate: false,
                 disableBack: true
             });
-            return $state.go('lobby');
+            return $state.go('app.lobby');
         // });
     }
     

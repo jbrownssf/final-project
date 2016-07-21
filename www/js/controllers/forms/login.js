@@ -25,7 +25,7 @@ angular.module('starter.controllers')
           $ionicHistory.nextViewOptions({
             disableBack: true
           });
-          $state.go('lobby');
+          $state.go('app.lobby');
         }
       }
 
@@ -43,7 +43,7 @@ angular.module('starter.controllers')
           $ionicHistory.nextViewOptions({
             disableBack: true
           });
-          $state.go('lobby');
+          $state.go('app.lobby');
         }
       }
 
@@ -102,7 +102,7 @@ angular.module('starter.controllers')
       };
 
       $scope.register = function() {
-        $state.go('register');
+        $state.go('app.register');
       };
 
       $scope.clickedRememberMe = function() {

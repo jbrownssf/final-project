@@ -18,7 +18,7 @@ angular.module('starter.controllers')
                     .then(function(res) {
                         if (res.status !== 200)
                             return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
-                        if (res.data.state === 'deleted') $state.go('org.detail.lobby');
+                        if (res.data.state === 'deleted') $state.go('app.org.detail.lobby');
                         $scope.schedule = res.data;
                         setSeen();
                     }, function(err) {
@@ -81,7 +81,7 @@ angular.module('starter.controllers')
                 }
                 SchedulesService.template($scope.schedule);
                 $scope.schedule.assignedDate = new Date($scope.schedule.assignedDate);
-                $state.go('org.detail.sched-create');
+                $state.go('app.org.detail.sched-create');
             };
 
 

@@ -32,72 +32,76 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
 }])
 .config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/app/');
   $stateProvider
-  .state('landing', {
+  .state('app', {
+    url: '/app',
+    template: '<ion-nav-view></ion-nav-view>'
+  })
+  .state('app.landing', {
     url: '/',
     templateUrl: 'templates/landing.html',
     controller: 'LandingCtrl'
   })
-  .state('login', {
+  .state('app.login', {
     url: '/login',
     templateUrl: 'templates/forms/login.html',
     controller: 'LoginCtrl'
   })
-  .state('register', {
+  .state('app.register', {
     url: '/register',
     templateUrl: 'templates/forms/register.html',
     controller: 'RegisterCtrl'
   })
-  .state('lobby', {
+  .state('app.lobby', {
     url: '/lobby',
     templateUrl: 'templates/lobby.html',
     controller: 'LobbyCtrl'
   })
   
   //organization
-  .state('org', {
+  .state('app.org', {
     url: '/orgId',
     template: '<ion-nav-view></ion-nav-view>'
   })
-  .state('org.detail', {
+  .state('app.org.detail', {
     url: '/:orgId',
     template: '<ion-nav-view></ion-nav-view>'
   })
-  .state('org.detail.lobby', {
+  .state('app.org.detail.lobby', {
     url: '/',
     templateUrl: 'templates/organizations/org-lobby.html',
     controller: 'OrgLobbyCtrl',
   })
   
   //schedules
-  .state('org.detail.sched-view', {
+  .state('app.org.detail.sched-view', {
     url: '/scheds',
     template: '<ion-nav-view></ion-nav-view>'
   })
-  .state('org.detail.sched-view.detail', {
+  .state('app.org.detail.sched-view.detail', {
     url: '/:schedId',
     templateUrl: 'templates/schedule/sched-view.html',
     controller: 'SchedViewCtrl',
   })
-  .state('org.detail.sched-create', {
+  .state('app.org.detail.sched-create', {
     url: '/sched-create',
     templateUrl: 'templates/schedule/sched-create.html',
     controller: 'SchedCreateCtrl',
   })
   
   //members
-  .state('org.detail.members', {
+  .state('app.org.detail.members', {
     url: '/members',
     templateUrl: 'templates/organizations/org-members.html',
     controller: 'OrgMembersCtrl',
   })
   
-  .state('org.detail.member', {
+  .state('app.org.detail.member', {
     url: '/member',
     template: '<ion-nav-view></ion-nav-view>',
   })
-  .state('org.detail.member.detail', {
+  .state('app.org.detail.member.detail', {
     url: '/:memberId',
     templateUrl: 'templates/organizations/org-member.html',
     controller: 'OrgMemberCtrl',

@@ -3,10 +3,10 @@ angular.module('starter.controllers', [])
         function($scope, $rootScope, $state, $ionicHistory) {
 
             $scope.login = function() {
-                $state.go('login');
+                $state.go('app.login');
             };
             $scope.register = function() {
-                $state.go('register');
+                $state.go('app.register');
             };
         }
     ]);

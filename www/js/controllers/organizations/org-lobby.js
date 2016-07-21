@@ -59,7 +59,7 @@ angular.module('starter.controllers')
 
       $scope.gotoSched = function(selectedSched) {
         SchedulesService.singleSched(selectedSched);
-        $state.go('org.detail.sched-view.detail', {
+        $state.go('app.org.detail.sched-view.detail', {
           schedId: selectedSched.id
         });
       };
@@ -77,7 +77,7 @@ angular.module('starter.controllers')
           ]
         };
         SchedulesService.template(tempObj);
-        $state.go('org.detail.sched-create');
+        $state.go('app.org.detail.sched-create');
       };
       $scope.clone = function(schedule) {
         var tempSchedule = {};
@@ -94,7 +94,7 @@ angular.module('starter.controllers')
         tempSchedule.assignedDate = new Date(tempSchedule.assignedDate);
         SchedulesService.template(tempSchedule);
         $ionicListDelegate.closeOptionButtons();
-        $state.go('org.detail.sched-create');
+        $state.go('app.org.detail.sched-create');
       };
       $scope.delete = function(schedule, index) {
         schedule.state = 'deleted';
@@ -132,7 +132,7 @@ angular.module('starter.controllers')
                 // $ionicHistory.nextViewOptions({
                 //   disableBack: true
                 // });
-                // $state.go('lobby');
+                // $state.go('app.lobby');
               }, function(err) {
                 SSFAlertsService('Error', 'Some unknown error occured. Please try again later.');
               });
@@ -140,7 +140,7 @@ angular.module('starter.controllers')
       }
 
       $scope.openMembers = function() {
-        $state.go('org.detail.members');
+        $state.go('app.org.detail.members');
       };
       // $scope.openMembers = function() {
       //   var template =

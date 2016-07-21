@@ -17,7 +17,7 @@ angular.module('starter.controllers')
               $ionicHistory.nextViewOptions({
                 disableBack: true
               });
-              $state.go('lobby');
+              $state.go('app.lobby');
             }
           }, function(err) {
 
@@ -70,7 +70,7 @@ angular.module('starter.controllers')
       }
 
       // $scope.selectMember = function(member) {
-      //   $state.go('org.detail.member.detail', {
+      //   $state.go('app.org.detail.member.detail', {
       //     memberId: member.memberId
       //   });
       // };

@@ -33,7 +33,7 @@ angular.module('starter.controllers')
                             $ionicHistory.nextViewOptions({
                                 disableBack: true
                             });
-                            $state.go('lobby');
+                            $state.go('app.lobby');
                         }
                     }, function(err) {
 
@@ -89,14 +89,14 @@ angular.module('starter.controllers')
                         if (res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
                             if (hadId) {
                                 SchedulesService.template(res.data);
-                                if(res.data.state === 'deleted') return $state.go('org.detail.lobby');
-                                $state.go('org.detail.sched-view.detail', {
+                                if(res.data.state === 'deleted') return $state.go('app.org.detail.lobby');
+                                $state.go('app.org.detail.sched-view.detail', {
                                     schedId: res.data.id
                                 });
                             }
                             else {
-                                if(res.data.state === 'deleted') return $state.go('org.detail.lobby');
-                                $state.go('org.detail.lobby'); //go to list of schedules page
+                                if(res.data.state === 'deleted') return $state.go('app.org.detail.lobby');
+                                $state.go('app.org.detail.lobby'); //go to list of schedules page
                             }
                         }
                         else {
