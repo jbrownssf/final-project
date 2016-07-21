@@ -1,10 +1,10 @@
 angular.module('starter.controllers')
   .controller('OrgMembersCtrl', ['$scope', '$rootScope', 'SSFAlertsService',
     'MembersRest', '$state', '$window', '$stateParams', '$ionicActionSheet',
-    'OrganizationsRest', 'SSFMailService', '$ionicHistory',
+    'OrganizationsRest', 'SSFMailService', '$ionicHistory', '$filter',
     function($scope, $rootScope, SSFAlertsService, MembersRest, $state,
       $window, $stateParams, $ionicActionSheet, OrganizationsRest, SSFMailService,
-      $ionicHistory) {
+      $ionicHistory, $filter) {
 
       $scope.members = [];
       $scope.$on('$ionicView.enter', function() {
@@ -292,7 +292,7 @@ angular.module('starter.controllers')
         var hideSheet = $ionicActionSheet.show({
           buttons: options[a.status].buttons,
           // destructiveText: 'Delete',
-          titleText: 'Modify ' + a.firstName + " " + a.lastName,
+          titleText: 'Modify/Contact: ' + a.firstName + " " + a.lastName + (a.nickName ? ' (' + a.nickName + ')' : '') + '<br>' + $filter('tel')(a.cellphone) + '<br>' + a.email,
           cancelText: 'Cancel',
           cancel: function() {
             // add cancel code..

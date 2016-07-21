@@ -29,10 +29,13 @@ angular.module('starter.services', [])
                             'Members' +
                         '</div>' +
                         '<select ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '">' +
-                            '<option ng-repeat="user in users" value="{{user.memberId}}" ng-selected="{{user.memberId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}" ng-show="user.status !== \'suspended\'">{{who(user.memberId).firstName}} {{who(user.memberId).lastName}}</option>' +
+                            '<option ng-repeat="user in users" value="{{user.memberId}}" ng-selected="{{user.memberId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}" ng-show="user.status !== \'suspended\'">' +
+                                '{{users[user.memberId].firstName}} ' +
+                                '{{users[user.memberId].lastName}} ' +
+                                '{{users[user.memberId].nickName ? "(" + users[user.memberId].nickName + ")" : ""}}' +
+                            '</option>' +
                         '</select>' +
                     '</label>' +
-                    // '<div ng-repeat="user in users">{{consoleLog(user)}}</div>' +
                     '<button class="button button-full button-calm ssf-button" ng-click="closeModal()">' +
                         'Done' +
                     '</button>' +

@@ -95,6 +95,12 @@ angular.module('starter.controllers')
             $scope.secondWindowWidth = function() {
                 return $window.innerWidth >= 400;
             };
+            $scope.thirdWindowWidth = function() {
+                return $window.innerWidth >= 450;
+            };
+            $scope.fourthWindowWidth = function() {
+                return $window.innerWidth >= 500;
+            };
 
             var options = [
                 function(a) {
@@ -121,16 +127,18 @@ angular.module('starter.controllers')
                         text: "Email"
                     }],
                     // destructiveText: 'Delete',
-                    titleText: 'Contact: ' + a.firstName + " " + a.lastName + (a.nickName ? ' (' + a.nickName + ')' : ''),
+                    titleText: 'Contact: ' + a.firstName + " " + a.lastName + (a.nickName ? ' (' + a.nickName + ')' : '') + '<br>' + $filter('tel')(a.cellphone) + '<br>' + a.email,
                     cancelText: 'Cancel',
                     cancel: function() {
                         // add cancel code..
                     },
                     buttonClicked: function(index) {
-                        options[a.status].funcs[index](a);
+                        options[index](a);
                         return true;
                     }
                 });
             };
         }
     ]);
+    
+    // timmy@test.com

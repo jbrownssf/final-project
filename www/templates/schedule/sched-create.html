@@ -28,8 +28,12 @@
                             {{spot[1] | date: "h:mm a"}}<span ng-if="secondWindowWidth()"> - {{spot[2] | date: "h:mm a"}}</span>
                         </div>
                         <div class="col">
-                            {{who(spot[3]).firstName}} {{who(spot[3]).lastName}}&nbsp&nbsp&nbsp
-                            <icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
+                            {{users[spot[3]].firstName}}
+                            {{fourthWindowWidth() || (users[spot[3]].firstName.length + users[spot[3]].lastName.length <= 12) && users[spot[3]].nickName || !users[spot[3]].nickName && thirdWindowWidth() ? users[spot[3]].lastName : users[spot[3]].lastName.slice(0, 1) + "."}}
+                            <span ng-if="users[spot[3]].nickName"> 
+                                ({{users[spot[3]].nickName}})
+                            </span>
+                            &nbsp&nbsp&nbsp<icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
                         </div>
                     </div>
                     <div class="item" ng-click="addSpot($event, [$index])">

@@ -111,6 +111,12 @@ angular.module('starter.controllers')
             $scope.secondWindowWidth = function() {
                 return $window.innerWidth >= 400;
             };
+            $scope.thirdWindowWidth = function() {
+                return $window.innerWidth >= 450;
+            };
+            $scope.fourthWindowWidth = function() {
+                return $window.innerWidth >= 500;
+            };
             
         }
     ]);
