@@ -1,9 +1,9 @@
 angular.module('starter.controllers')
-    .controller('LobbyCtrl', ['$scope', '$rootScope', 'MembersRest', 
+    .controller('LobbyCtrl', ['$scope', '$rootScope', 'MembersRest',
         '$window', 'SSFAlertsService', '$state', 'OrganizationsRest',
+        '$ionicHistory',
         function($scope, $rootScope, MembersRest, $window,
-        SSFAlertsService, $state,
-            OrganizationsRest) {
+            SSFAlertsService, $state, OrganizationsRest, $ionicHistory) {
 
             $scope.openOrganizations = [];
             $scope.$on('$ionicView.enter', function() {
@@ -38,6 +38,10 @@ angular.module('starter.controllers')
                     });
             }
             $scope.nextPage = function(member) {
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });
+                $window.localStorage['orgId'] = member.orgId;
                 $state.go('app.org.detail.lobby', {
                     orgId: member.orgId
                 });

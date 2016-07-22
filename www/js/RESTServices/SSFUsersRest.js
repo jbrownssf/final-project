@@ -13,16 +13,16 @@ angular.module("RESTServices", [])
         user["ttl"] = 1209600000;
         return $http.post(getUrl() + "login", user);
     };
-    // SSFUsersREST.updateUser = function(token, userId, changedInfo) {
-    //     return $http({
-    //         url: getUrl()+userId,
-    //         method: "PUT",
-    //         data: changedInfo,
-    //         headers: {
-    //             'Authorization': token
-    //         }
-    //     });
-    // };
+    SSFUsersREST.update = function(token, userId, changedInfo) {
+        return $http({
+            url: getUrl() + userId,
+            method: "PUT",
+            data: changedInfo,
+            headers: {
+                'Authorization': token
+            }
+        });
+    };
     SSFUsersREST.logout = function(token) {
         return $http({
             url: getUrl()+"logout",

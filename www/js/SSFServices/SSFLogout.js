@@ -27,6 +27,7 @@ angular.module('SSFLogout', [])
       delete $window.localStorage['token'];
       delete $window.localStorage['userId'];
       delete $window.localStorage['progress'];
+      delete $window.localStorage['orgId'];
       SSFCacheService.clearData();
       SSFFavoritesService.removeFavorites();
       $state.go('app.landing');

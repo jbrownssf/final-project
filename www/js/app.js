@@ -32,7 +32,17 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
 }])
 .config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/app/');
+      
+      
+  $urlRouterProvider.otherwise(function() {
+    if(window.localStorage.orgId)
+      return '/app/orgId/' + window.localStorage.orgId + '/';
+    if(window.localStorage.token)
+      return '/app/lobby';
+    return '/app/';
+  });
+  
+  
   $stateProvider
   .state('app', {
     url: '/app',

@@ -69,14 +69,6 @@ angular.module('starter.controllers')
           });
       }
 
-      // $scope.selectMember = function(member) {
-      //   $state.go('app.org.detail.member.detail', {
-      //     memberId: member.memberId
-      //   });
-      // };
-
-
-
       //manages the switch between viewing requests and current members
       $scope.isRequests = false;
       $scope.toggleView = function(a) {
@@ -86,7 +78,11 @@ angular.module('starter.controllers')
         return $scope.isRequests ? (a.status === 'pending') : (a.status !== 'pending' && a.status !== 'declined');
       };
 
-
+      $scope.openMember = function() {
+        $state.go('app.org.detail.member.detail', {
+          memberId: $window.localStorage.userId
+        });
+      };
 
       //action sheet that lets the manager change roles of members
       var options = {

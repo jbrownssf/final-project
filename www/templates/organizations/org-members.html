@@ -1,16 +1,9 @@
 <ion-view view-title="Members">
-  <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
-  <ion-nav-buttons></ion-nav-buttons>
-  <!--<ion-nav-buttons side="right">-->
-  <!--    <button class="button button-icon icon ion-plus-round button-clear" ng-click="newSchedule()">-->
+  <ion-nav-buttons side="right">
+      <button class="button button-icon icon button-clear ion-person" ng-click="openMember()">
 
-  <!--    </button>-->
-  <!--</ion-nav-buttons>-->
-  <!--<ion-nav-buttons side="right">-->
-  <!--    <button class="button button-icon icon ion-ios-people button-clear" ng-click="openMembers()">-->
-
-  <!--    </button>-->
-  <!--</ion-nav-buttons>-->
+      </button>
+  </ion-nav-buttons>
   <ion-content>
     <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
       <button class="col button button-full button-outline button-small" ng-class="isRequests ? 'button-stable' : 'button-dark'" ng-click="toggleView('isNot')">Members</button>
@@ -18,33 +11,65 @@
     </div>
 
     <div class="card" ng-repeat="member in members | filter: filterFunc" ng-click="selectMember(member)">
-      <div class="item item-divider">
-        {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
-      </div>
-      <div class="row">
-        <div class="col col-33">
-          Nick Name:
+      
+      <span ng-if="member.status !== 'suspended'">
+        <div class="item item-divider">
+          {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
         </div>
-        <div class="col">
-          {{member.nickName}}
+        <div class="row" ng-if="member.nickName">
+          <div class="col col-33">
+            Nick Name:
+          </div>
+          <div class="col">
+            {{member.nickName}}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col col-33">
-          Cell Phone:
+        <div class="row">
+          <div class="col col-33">
+            Cell Phone:
+          </div>
+          <div class="col">
+            {{member.cellphone | tel}}
+          </div>
         </div>
-        <div class="col">
-          {{member.cellphone | tel}}
+        <div class="row">
+          <div class="col col-33">
+            Email:
+          </div>
+          <div class="col">
+            {{member.email}}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col col-33">
-          Email:
+      </span>
+      <span ng-if="member.status === 'suspended'"><strike>
+        <div class="item item-divider">
+          {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
         </div>
-        <div class="col">
-          {{member.email}}
+        <div class="row" ng-if="member.nickName">
+          <div class="col col-33">
+            Nick Name:
+          </div>
+          <div class="col">
+            {{member.nickName}}
+          </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="col col-33">
+            Cell Phone:
+          </div>
+          <div class="col">
+            {{member.cellphone | tel}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-33">
+            Email:
+          </div>
+          <div class="col">
+            {{member.email}}
+          </div>
+        </div>
+      </strike></span>
     </div>
   </ion-content>
 </ion-view>

@@ -15,11 +15,12 @@
                   <input type="string" name="note" ng-model="schedule.note" placeholder="Message to others.">
                 </label>
                 <div class="card" ng-repeat="section in schedule.schedule track by $index">
-                    <div class="item item-divider item-icon-right">
-                        <label class="item item-input">
-                          <input type="text" ng-model="section[0]" placeholder="Section Name" required>
-                        </label>
-                    </div>
+                        <div class="item item-divider item-icon-right">
+                            <label class="item item-input">
+                              <input type="text" ng-model="section[0]" placeholder="Section Name" required>
+                            </label>
+                            <ion-icon class="icon ion-close-round assertive" ng-click="deleteSection($index)"></ion-icon>
+                        </div>
                     <div class="item row" ng-repeat="spot in section[1] track by $index" ng-click="assignPosition($event, [$parent.$index, $index])">
                         <div class="col">
                             {{spot[0]}}
@@ -29,8 +30,8 @@
                         </div>
                         <div class="col">
                             {{users[spot[3]].firstName}}
-                            {{fourthWindowWidth() || (users[spot[3]].firstName.length + users[spot[3]].lastName.length <= 12) && users[spot[3]].nickName || !users[spot[3]].nickName && thirdWindowWidth() ? users[spot[3]].lastName : users[spot[3]].lastName.slice(0, 1) + "."}}
-                            <span ng-if="users[spot[3]].nickName"> 
+                            {{fourthWindowWidth() || (users[spot[3]].firstName.length + users[spot[3]].lastName.length <= 12) && users[spot[3]].status !== 'suspended' && users[spot[3]].nickName && thirdWindowWidth() ? users[spot[3]].lastName : users[spot[3]].lastName.slice(0, 1) + "."}}
+                            <span ng-if="users[spot[3]].nickName && users[spot[3]].status !== 'suspended'"> 
                                 ({{users[spot[3]].nickName}})
                             </span>
                             &nbsp&nbsp&nbsp<icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
@@ -52,7 +53,7 @@
                     <button class="button button-block button-calm" type="button" ng-click="submitType(scheduleForm, 'published')">
                         Publish
                     </button>
-                    <button class="button button-block button-calm" type="button" ng-click="submitType(scheduleForm, 'deleted')">
+                    <button class="button button-block button-assertive" type="button" ng-click="submitType(scheduleForm, 'deleted')">
                         Delete
                     </button>
                 </div>

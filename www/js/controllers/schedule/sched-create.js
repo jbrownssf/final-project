@@ -117,6 +117,14 @@ angular.module('starter.controllers')
             $scope.fourthWindowWidth = function() {
                 return $window.innerWidth >= 500;
             };
+            $scope.deleteSection = function(a) {
+                SSFAlertsService.showConfirm('Warning', 'Are you sure you want to delete this spot? It cannot be undone.')
+                .then(function(res) {
+                    if(res) {
+                        delete $scope.schedule.schedule.splice(a, 1);
+                    }
+                });
+            };
             
         }
     ]);

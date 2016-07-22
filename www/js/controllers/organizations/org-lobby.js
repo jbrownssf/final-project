@@ -2,9 +2,10 @@ angular.module('starter.controllers')
   .controller('OrgLobbyCtrl', ['$scope', '$window', '$stateParams', 'SchedulesREST',
     'SSFAlertsService', 'SchedulesService', '$state', '$ionicListDelegate',
     '$rootScope', '$ionicActionSheet', 'OrganizationsRest', 'MembersRest',
+    '$ionicHistory',
     function($scope, $window, $stateParams, SchedulesREST, SSFAlertsService,
       SchedulesService, $state, $ionicListDelegate, $rootScope, $ionicActionSheet,
-      OrganizationsRest, MembersRest) {
+      OrganizationsRest, MembersRest, $ionicHistory) {
 
       $scope.openOrganizations = [];
       $scope.canEdit = false;
@@ -142,25 +143,17 @@ angular.module('starter.controllers')
       $scope.openMembers = function() {
         $state.go('app.org.detail.members');
       };
-      // $scope.openMembers = function() {
-      //   var template =
-      //     // '<form name="OrganizationForm" class="padding" ng-submit="submitForm(OrganizationForm)">' +
-      //     // '<label class="item item-input">' +
-      //     //     '<input name="orgCode" ng-model="ngModel.orgCode" type="text" placeholder="Type Code">' +
-      //     // '</label>' +
-      //     // '<button type="submit" class="button button-block button-calm ssf-button">' +
-      //     //     'submit' +
-      //     // '</button>' +
-      //     '<div class="list">' +
-      //     '<ion-item class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
-      //     '{{org.name}}' +
-      //     '</ion-item>' +
-      //     '</div>';
-      //   SSFAlertsService.showModal({
-      //     body: template,
-      //     scope: $scope,
-      //     title: "Request to Join"
-      //   }, selectOrg);
-      // };
+      $scope.openMember = function() {
+        $state.go('app.org.detail.member.detail', {
+          memberId: $window.localStorage.userId
+        });
+      };
+      $scope.goHome = function() {
+        delete $window.localStorage.orgId;
+        $ionicHistory.nextViewOptions({
+          disableBack: true
+        });
+        $state.go('app.lobby');
+      };
     }
   ]);

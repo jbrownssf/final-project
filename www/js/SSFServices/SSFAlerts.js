@@ -170,7 +170,7 @@ angular.module('SSFAlerts', [])
         };
     };
     
-    service.showPrompt = function(title, body, okText, cancelText)
+    service.showPrompt = function(title, body, okText, cancelText, inputType, inputPlaceholder)
     {
         if(navigator.notification == undefined)
         {
@@ -178,7 +178,9 @@ angular.module('SSFAlerts', [])
                 title: title,
                 template: body,
                 cancelText: cancelText || 'Cancel',
-                okText: okText || 'Okay'
+                okText: okText || 'Okay',
+                inputType: inputType,
+                inputPlaceholder: inputPlaceholder
                 
             });
             return confirmPopup;

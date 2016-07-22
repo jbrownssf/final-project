@@ -6,8 +6,13 @@
             
     <!--    </button>-->
     <!--</ion-nav-buttons>-->
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon button-clear ion-ios-home"ng-click="goHome()">
+
+        </button>
+    </ion-nav-buttons>
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-ios-people button-clear" ng-click="openMembers()" ng-if="canEdit">
+        <button class="button button-icon icon button-clear" ng-class="canEdit ? 'ion-ios-people' : 'ion-person'" ng-click="canEdit ? openMembers() : openMember()">
 
         </button>
     </ion-nav-buttons>

@@ -1,5 +1,6 @@
 angular.module('starter.services', [])
-.service('FillSpotService', ['$window', '$ionicModal', function($window, $ionicModal) {
+.service('FillSpotService', ['$window', '$ionicModal', 'SSFAlertsService',
+        function($window, $ionicModal, SSFAlertsService) {
     var FillSpotService = this;
     
     FillSpotService.set = function($event, $scope, modelObject, indexArray) {
@@ -36,12 +37,23 @@ angular.module('starter.services', [])
                             '</option>' +
                         '</select>' +
                     '</label>' +
-                    '<button class="button button-full button-calm ssf-button" ng-click="closeModal()">' +
+                    '<button class="button button-full button-calm" ng-click="closeModal()">' +
                         'Done' +
+                    '</button>' +
+                    '<button class="button button-full button-assertive" ng-click="removeSpot()">' +
+                        'Remove Spot' +
                     '</button>' +
                 '</ion-content>'+
             '</ion-modal-view>';
-        
+        $scope.removeSpot = function() {
+            SSFAlertsService.showConfirm('Warning', 'Are you sure you want to delete this spot? It cannot be undone.')
+            .then(function(res) {
+                if(res) {
+                    delete $scope[modelObject].schedule[indexArray[0]][1].splice([indexArray[1]], 1);
+                    $scope.closeModal();
+                }
+            });
+        };
         $scope.chooseEmployer = $ionicModal.fromTemplate(template, {
             scope: $scope,
             animation: 'slide-in-up',
