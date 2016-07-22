@@ -23,7 +23,15 @@ angular.module('starter.controllers')
                     });
                 MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
                     .then(function(res) {
-                        if (res.status !== 200) return;
+                        if (res.status !== 200) {
+                            $scope.canEdit = false;
+                            SSFAlertsService.showAlert('Warning', 'This service is currently unavailable.');
+                            $ionicHistory.nextViewOptions({
+                                disableBack: true
+                            });
+                            $state.go('app.lobby');
+                            return;
+                        }
                         if (!res.data[0]) res.data[0] = {
                             status: 'pending'
                         };
@@ -39,7 +47,7 @@ angular.module('starter.controllers')
 
                     });
             });
-            
+
             $scope.spotChangedResetView = function(a) {
                 delete a[4];
             };
@@ -89,13 +97,13 @@ angular.module('starter.controllers')
                         if (res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
                             if (hadId) {
                                 SchedulesService.template(res.data);
-                                if(res.data.state === 'deleted') return $state.go('app.org.detail.lobby');
+                                if (res.data.state === 'deleted') return $state.go('app.org.detail.lobby');
                                 $state.go('app.org.detail.sched-view.detail', {
                                     schedId: res.data.id
                                 });
                             }
                             else {
-                                if(res.data.state === 'deleted') return $state.go('app.org.detail.lobby');
+                                if (res.data.state === 'deleted') return $state.go('app.org.detail.lobby');
                                 $state.go('app.org.detail.lobby'); //go to list of schedules page
                             }
                         }
@@ -104,7 +112,7 @@ angular.module('starter.controllers')
                         }
                     });
             };
-            
+
             $scope.firstWindowWidth = function() {
                 return $window.innerWidth >= 325;
             };
@@ -119,12 +127,12 @@ angular.module('starter.controllers')
             };
             $scope.deleteSection = function(a) {
                 SSFAlertsService.showConfirm('Warning', 'Are you sure you want to delete this spot? It cannot be undone.')
-                .then(function(res) {
-                    if(res) {
-                        delete $scope.schedule.schedule.splice(a, 1);
-                    }
-                });
+                    .then(function(res) {
+                        if (res) {
+                            delete $scope.schedule.schedule.splice(a, 1);
+                        }
+                    });
             };
-            
+
         }
     ]);

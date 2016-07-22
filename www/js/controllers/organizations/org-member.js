@@ -121,6 +121,10 @@ angular.module('starter.controllers')
               });
           });
       }
+      
+      $scope.changePassword = function() {
+        SSFAlertsService.showAlert('Comming Soon...', 'This feature will be added shortly.');
+      };
 
     }
   ]);

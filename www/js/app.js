@@ -106,7 +106,6 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     templateUrl: 'templates/organizations/org-members.html',
     controller: 'OrgMembersCtrl',
   })
-  
   // .state('app.org.detail.member', {
   //   url: '/member',
   //   template: '<ion-nav-view></ion-nav-view>',

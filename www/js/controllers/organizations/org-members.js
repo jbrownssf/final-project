@@ -11,6 +11,14 @@ angular.module('starter.controllers')
         reloadPage();
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
           .then(function(res) {
+            if(!res.data[0]) {
+              $scope.canEdit = false;SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
+              $ionicHistory.nextViewOptions({
+                disableBack: true
+              });
+              $state.go('app.lobby');
+              return;
+            }
             $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
             if (!$scope.canEdit) {
               SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');

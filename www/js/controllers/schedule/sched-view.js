@@ -2,10 +2,10 @@ angular.module('starter.controllers')
     .controller('SchedViewCtrl', ['$scope', '$rootScope', 'SSFUsersREST',
         'SchedulesService', '$state', 'SSFAlertsService', 'MembersRest',
         'SchedulesREST', '$window', '$stateParams', '$ionicActionSheet',
-        'SSFMailService', '$filter',
+        'SSFMailService', '$filter', '$ionicHistory',
         function($scope, $rootScope, SSFUsersREST, SchedulesService, $state,
             SSFAlertsService, MembersRest, SchedulesREST, $window, $stateParams,
-            $ionicActionSheet, SSFMailService, $filter) {
+            $ionicActionSheet, SSFMailService, $filter, $ionicHistory) {
 
 
             $scope.schedule = [];
@@ -16,8 +16,15 @@ angular.module('starter.controllers')
                 // $scope.schedule = SchedulesService.singleSched() || 
                 SchedulesREST.getById($window.localStorage.token, $stateParams.orgId, $stateParams.schedId)
                     .then(function(res) {
-                        if (res.status !== 200)
-                            return SSFAlertsService.showAlert('Error', 'The schedules could not load.');
+                        if (res.status !== 200) {
+                            $scope.canEdit = false;
+                            SSFAlertsService.showAlert('Warning', 'This service is currently unavailable.');
+                            $ionicHistory.nextViewOptions({
+                                disableBack: true
+                            });
+                            $state.go('app.lobby');
+                            return;
+                        }
                         if (res.data.state === 'deleted') $state.go('app.org.detail.lobby');
                         $scope.schedule = res.data;
                         setSeen();
