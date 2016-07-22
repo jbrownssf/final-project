@@ -1,9 +1,13 @@
-<ion-view view-title="{{member.firstName + ' ' + member.lastName}}">
+<ion-view view-title="{{user.firstName + ' ' + user.lastName}}">
   <ion-content>
-    <div class="padding text-center subheader">
-      Your Profile
+    <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
+      <button class="col button button-full button-small" ng-class="currentView === 0 ? 'button-dark' : 'button-stable button-outline'" ng-click="currentView = 0">History</button>
+      <button class="col button button-full button-small" ng-class="currentView === 1 ? 'button-dark' : 'button-stable button-outline'" ng-click="currentView = 1">Profile</button>
+      <button class="col button button-full button-small" ng-class="currentView === 2 ? 'button-dark' : 'button-stable button-outline'" ng-click="currentView = 2">Groups</button>
     </div>
-    <form class="padding" name="profileForm" ng-submit="submitProfile(profileForm)">
+
+    <span ng-if="currentView === 1">
+      <form class="padding" name="profileForm" ng-submit="submitProfile(profileForm)">
         <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.firstName.$invalid && registerForm.$submitted}">
           <span class="input-label">First Name</span>
           <input type="text" name="firstName" ng-model="user.firstName" placeholder="First Name" required>
@@ -20,9 +24,25 @@
           <span class="input-label">Email</span>
           <input type="email" name="email" ng-model="user.email" placeholder="Email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required>
         </label>
-      <button class="button button-calm button-block" type="submit">
-        Update Profile
-      </button>
-    </form>
+        <button class="button button-calm button-block" type="submit">
+          Update Profile
+        </button>
+      </form>
+    </span>
+    
+    
+    
+    <span ng-if="currentView === 2">
+        <div class="list">
+            <ion-item ng-click="changeNickName(item)" class="item" ng-repeat="item in lobbySelect.data">
+                {{item.orgName}}<span class="item-note">{{item.status}}</span>
+            </ion-item>
+            <ion-item class="item" ng-click="selectOrgModal()">
+                Add a Company
+            </ion-item>
+        </div>
+    </span>
+
+
   </ion-content>
 </ion-view>

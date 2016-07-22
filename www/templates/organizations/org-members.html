@@ -6,8 +6,8 @@
   </ion-nav-buttons>
   <ion-content>
     <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
-      <button class="col button button-full button-outline button-small" ng-class="isRequests ? 'button-stable' : 'button-dark'" ng-click="toggleView('isNot')">Members</button>
-      <button class="col button button-full button-outline button-small" ng-class="isRequests ? 'button-dark' : 'button-stable'"  ng-click="toggleView('is')">Requests</button>
+      <button class="col button button-full button-small" ng-class="isRequests ? 'button-stable button-outline' : 'button-dark'" ng-click="toggleView('isNot')">Members</button>
+      <button class="col button button-full button-small" ng-class="isRequests ? 'button-dark' : 'button-stable button-outline'"  ng-click="toggleView('is')">Requests</button>
     </div>
 
     <div class="card" ng-repeat="member in members | filter: filterFunc" ng-click="selectMember(member)">

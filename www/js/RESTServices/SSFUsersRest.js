@@ -23,6 +23,15 @@ angular.module("RESTServices", [])
             }
         });
     };
+    SSFUsersREST.getById = function(token, userId) {
+        return $http({
+            url: getUrl()+userId,
+            method: "GET",
+            headers: {
+                'Authorization': token
+            }
+        });
+    };
     SSFUsersREST.logout = function(token) {
         return $http({
             url: getUrl()+"logout",
