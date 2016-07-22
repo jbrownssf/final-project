@@ -115,6 +115,11 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     url: '/:memberId',
     templateUrl: 'templates/organizations/org-member.html',
     controller: 'OrgMemberCtrl',
+  })
+  .state('app.user', {
+    url: '/user',
+    templateUrl: 'templates/organizations/org-member.html',
+    controller: 'OrgMemberCtrl',
   });
   
   

@@ -1,20 +1,22 @@
 <ion-view view-title="Home">
-    Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) 
+    Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug)
     <ion-nav-buttons side="left">
         <button class="button button-icon icon ion-log-out button-clear" ng-click="logout()">
             
         </button>
     </ion-nav-buttons>
-    <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-plus-round button-clear" ng-click="selectOrgModal()">
+  <ion-nav-buttons side="right">
+      <button class="button button-icon icon button-clear ion-person" ng-click="openMember()">
 
-        </button>
-    </ion-nav-buttons>
+      </button>
+  </ion-nav-buttons>
     <ion-content>
-
-        <div class="padding text-center subheader">
-            Select an Organization
-        </div>
+            <div class="row padding text-center subheader">
+                <div class="col col-offset-10 ">
+                    Select an Organization
+                </div>
+                <div class="col col-10 icon ion-plus-round" ng-click="selectOrgModal()"></div>
+            </div>
         <div class="list">
             <ion-item ng-click="nextPage(item)" class="item" ng-repeat="item in lobbySelect.data">
                 {{item.orgName}}<span class="item-note">{{item.status}}</span>

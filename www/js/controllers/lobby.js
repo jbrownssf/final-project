@@ -83,5 +83,11 @@ angular.module('starter.controllers')
                     title: "Request to Join"
                 }, selectOrg);
             };
+
+            $scope.openMember = function() {
+                $state.go('app.user', {
+                    memberId: $window.localStorage.userId
+                });
+            };
         }
     ]);
