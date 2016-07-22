@@ -10,8 +10,9 @@ angular.module('starter.controllers')
       $scope.openOrganizations = [];
       $scope.canEdit = false;
       $scope.listCanSwipe = false;
-      var testOne = [];
+      $scope.currentView = 1;
       $scope.$on('$ionicView.enter', function() {
+        $scope.currentView = 1;
         $rootScope.stopSpinner = true;
         makeRequest();
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
@@ -56,6 +57,7 @@ angular.module('starter.controllers')
             }
             $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
             $scope.listCanSwipe = $scope.canEdit;
+            if(!$scope.canEdit) $scope.currentView = 1;
           }, function(err) {
 
           });
@@ -70,7 +72,9 @@ angular.module('starter.controllers')
 
           });
       });
-
+      $scope.setView = function(a) {
+        $scope.currentView = a;
+      };
       $scope.schedules = [];
       $scope.title = 'Welcome!'; //$stateParams.org.orgName;
       function makeRequest() {
@@ -178,9 +182,7 @@ angular.module('starter.controllers')
         $state.go('app.org.detail.members');
       };
       $scope.openMember = function() {
-        $state.go('app.org.detail.member.detail', {
-          memberId: $window.localStorage.userId
-        });
+        $state.go('app.user');
       };
       $scope.goHome = function() {
         delete $window.localStorage.orgId;

@@ -3,11 +3,11 @@
     <ion-nav-buttons></ion-nav-buttons>
     <!--<ion-nav-buttons side="right">-->
     <!--    <button class="button button-icon icon ion-plus-round button-clear" ng-click="newSchedule()">-->
-            
+
     <!--    </button>-->
     <!--</ion-nav-buttons>-->
     <ion-nav-buttons side="left">
-        <button class="button button-icon icon button-clear ion-ios-home"ng-click="goHome()">
+        <button class="button button-icon icon button-clear ion-ios-home" ng-click="goHome()">
 
         </button>
     </ion-nav-buttons>
@@ -17,14 +17,13 @@
         </button>
     </ion-nav-buttons>
     <ion-content>
+        <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
+            <button class="col button button-full button-small" ng-class="currentView === 0 ? 'button-dark' : 'button-stable button-outline'" ng-click="canEdit ? setView(0) : ''">{{canEdit ? 'Drafts' : ''}}</button>
+            <button class="col button button-full button-small" ng-class="currentView === 1 ? 'button-dark' : 'button-stable button-outline'" ng-click="setView(1)">Posts</button>
+            <button class="col button button-full button-small" ng-class="currentView === 2 ? 'button-dark' : 'button-stable button-outline'" ng-click="canEdit ? newSchedule() : ''">{{canEdit ? 'Create' : ''}}</button>
+        </div>
         <ion-list can-swipe="listCanSwipe">
-            <div class="row padding text-center subheader">
-              <div class="col col-offset-10">Published</div>
-              <div class="col col-10" ng-if="!canEdit"></div>
-              <div class="col col-10 icon ion-plus-round" ng-click="newSchedule()" ng-if="canEdit"></div>
-            </div>
-
-            <ion-item ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state === 'published'">
+            <ion-item ng-if="currentView === 1" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state === (currentView === 1 ?  'published' : 'draft')">
                 {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
                 <ion-option-button class="button-assertive" ng-click="delete(schedule, $index)">
                     Delete
@@ -36,12 +35,7 @@
                     {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}
                 </ion-option-button>
             </ion-item>
-
-            <div class="padding text-center subheader" ng-if="canEdit">
-                Drafts
-            </div>
-
-            <ion-item ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'" ng-if="canEdit">
+            <ion-item ng-if="canEdit && currentView === 0" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'" ng-if="canEdit">
                 {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
                 <ion-option-button class="button-assertive" ng-click="delete(schedule)">
                     Delete
