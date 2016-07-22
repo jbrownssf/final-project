@@ -79,9 +79,7 @@ angular.module('starter.controllers')
       };
 
       $scope.openMember = function() {
-        $state.go('app.org.detail.member.detail', {
-          memberId: $window.localStorage.userId
-        });
+        $state.go('app.user');
       };
 
       //action sheet that lets the manager change roles of members
