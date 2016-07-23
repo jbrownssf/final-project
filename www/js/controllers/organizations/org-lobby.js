@@ -2,16 +2,19 @@ angular.module('starter.controllers')
   .controller('OrgLobbyCtrl', ['$scope', '$window', '$stateParams', 'SchedulesREST',
     'SSFAlertsService', 'SchedulesService', '$state', '$ionicListDelegate',
     '$rootScope', '$ionicActionSheet', 'OrganizationsRest', 'MembersRest',
-    '$ionicHistory',
+    '$ionicHistory', '$timeout',
     function($scope, $window, $stateParams, SchedulesREST, SSFAlertsService,
       SchedulesService, $state, $ionicListDelegate, $rootScope, $ionicActionSheet,
-      OrganizationsRest, MembersRest, $ionicHistory) {
+      OrganizationsRest, MembersRest, $ionicHistory, $timeout) {
 
       $scope.openOrganizations = [];
       $scope.canEdit = false;
       $scope.listCanSwipe = false;
       $scope.currentView = 1;
       $scope.$on('$ionicView.enter', function() {
+        $scope.doRefresh();
+      });
+      $scope.doRefresh = function(a) {
         $scope.currentView = 1;
         $rootScope.stopSpinner = true;
         makeRequest();
@@ -20,44 +23,45 @@ angular.module('starter.controllers')
             if (res.status !== 200) return;
             if (!res.data[0]) {
               SSFAlertsService.showConfirm('Error', 'You are not already a member of this company. Would you like to request to join the company?', 'Yes', 'No')
-              .then(function(bool) {
-                if(bool) {
-                  if($scope.openOrganizations.status !== 'open') {
-                    SSFAlertsService.showAlert('Sorry', 'This company is not accepting new members at this time.');
-                    $ionicHistory.nextViewOptions({
-                      disableBack: true
-                    });
-                    return $state.go('app.lobby');
-                  }
-                  SSFAlertsService.showPrompt('Create Nick Name', 'What would you like your new nick name to be?', 'Apply', undefined, undefined, 'Nick Name')
-                  .then(function(res) {
-                    if(!res) {
+                .then(function(bool) {
+                  if (bool) {
+                    if ($scope.openOrganizations.status !== 'open') {
+                      SSFAlertsService.showAlert('Sorry', 'This company is not accepting new members at this time.');
                       $ionicHistory.nextViewOptions({
                         disableBack: true
                       });
-                      $state.go('app.lobby');
+                      return $state.go('app.lobby');
                     }
-                    console.log(res);
-                    console.log($scope.openOrganizations);
+                    SSFAlertsService.showPrompt('Create Nick Name', 'What would you like your new nick name to be?', 'Apply', undefined, undefined, 'Nick Name')
+                      .then(function(res) {
+                        if (!res) {
+                          $ionicHistory.nextViewOptions({
+                            disableBack: true
+                          });
+                          $state.go('app.lobby');
+                        }
+                        console.log(res);
+                        console.log($scope.openOrganizations);
+                        $ionicHistory.nextViewOptions({
+                          disableBack: true
+                        });
+                        $state.go('app.lobby');
+                      });
+                  }
+                  else {
                     $ionicHistory.nextViewOptions({
                       disableBack: true
                     });
                     $state.go('app.lobby');
-                  });
-                } else {
-                  $ionicHistory.nextViewOptions({
-                    disableBack: true
-                  });
-                  $state.go('app.lobby');
-                }
-              });
+                  }
+                });
               res.data[0] = {
                 status: 'pending'
               };
             }
             $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
             $scope.listCanSwipe = $scope.canEdit;
-            if(!$scope.canEdit) $scope.currentView = 1;
+            if (!$scope.canEdit) $scope.currentView = 1;
           }, function(err) {
 
           });
@@ -66,12 +70,17 @@ angular.module('starter.controllers')
         $rootScope.stopSpinner = true;
         OrganizationsRest.open($window.localStorage.token, $stateParams.orgId)
           .then(function(res) {
-            if(res.status !== 200) return;
+            if (res.status !== 200) return;
             $scope.openOrganizations = res.data[0];
           }, function(err) {
 
           });
-      });
+        if (a) {
+          $timeout(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+          }, '1500');
+        }
+      };
       $scope.setView = function(a) {
         $scope.currentView = a;
       };

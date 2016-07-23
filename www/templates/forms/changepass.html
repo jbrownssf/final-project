@@ -1,0 +1,29 @@
+<ion-modal-view scroll="false">
+  <ion-header-bar>
+    <h1 class="title">Update Password</h1>
+    <div class="button button-icon button-clear" ng-click="closeModal()"><button class="button-icon icon ion-close-round"></button></div>
+  </ion-header-bar>
+  <ion-content>
+
+
+    <form name="updatePassword" ng-submit="submitPassword(updatePassword)" novalidate>
+      <div class="list">
+        <label class="item item-input">
+        <span class="input-label">Current Password</span>
+        <input name="oldPass" type="password" ng-model="updateUser.oldPassword" required>
+        </label>
+        <label class="item item-input">
+        <span class="input-label">New Password</span>
+        <input name="newPass" type="password" ng-model="updateUser.password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+        </label>
+        <label class="item item-input">
+        <span class="input-label">Repeat Password</span>
+        <input name="rePass" type="password" ng-model="repeat.password" required>
+        </label>
+      </div>
+      <button type="submit" class="item button button-block button-calm app-button">
+        Apply Changes
+        </button>
+    </form>
+  </ion-content>
+</ion-modal-view>

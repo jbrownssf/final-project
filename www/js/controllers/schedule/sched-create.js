@@ -7,10 +7,12 @@ angular.module('starter.controllers')
             MembersRest, $ionicHistory) {
 
 
+            $scope.showHome = false;
             $scope.users = {};
             $scope.schedule = [];
             $scope.canEdit = true;
             $scope.$on('$ionicView.enter', function() {
+                $scope.showHome = !$ionicHistory.backTitle() ? true : false;
                 $rootScope.stopSpinner = true;
                 $scope.schedule = SchedulesService.template();
                 MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, "accepted")
@@ -132,6 +134,13 @@ angular.module('starter.controllers')
                             delete $scope.schedule.schedule.splice(a, 1);
                         }
                     });
+            };
+            $scope.goHome = function() {
+                delete $window.localStorage.orgId;
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });
+                $state.go('app.lobby');
             };
 
         }

@@ -2,18 +2,24 @@ angular.module('starter.controllers')
     .controller('SchedViewCtrl', ['$scope', '$rootScope', 'SSFUsersREST',
         'SchedulesService', '$state', 'SSFAlertsService', 'MembersRest',
         'SchedulesREST', '$window', '$stateParams', '$ionicActionSheet',
-        'SSFMailService', '$filter', '$ionicHistory',
+        'SSFMailService', '$filter', '$ionicHistory', '$timeout',
         function($scope, $rootScope, SSFUsersREST, SchedulesService, $state,
             SSFAlertsService, MembersRest, SchedulesREST, $window, $stateParams,
-            $ionicActionSheet, SSFMailService, $filter, $ionicHistory) {
+            $ionicActionSheet, SSFMailService, $filter, $ionicHistory, $timeout) {
 
 
+            $scope.showHome = false;
             $scope.schedule = [];
             $scope.users = {};
             $scope.canEdit = false;
+            $scope.currentUser = $window.localStorage.userId;
             $scope.$on('$ionicView.enter', function() {
+                $scope.doRefresh();
+            });
+            $scope.doRefresh = function(a) {
+                $scope.currentUser = $window.localStorage.userId;
+                $scope.showHome = !$ionicHistory.backTitle() ? true : false;
                 $rootScope.stopSpinner = true;
-                // $scope.schedule = SchedulesService.singleSched() || 
                 SchedulesREST.getById($window.localStorage.token, $stateParams.orgId, $stateParams.schedId)
                     .then(function(res) {
                         if (res.status !== 200) {
@@ -51,14 +57,21 @@ angular.module('starter.controllers')
                     }, function(err) {
 
                     });
-            });
+                
+                if(a) {
+                    $timeout(function() {
+                        $scope.$broadcast('scroll.refreshComplete');
+                    }, '1500');
+                }
+                
+            };
 
             function setSeen() {
                 for (var i in $scope.schedule.schedule) {
                     for (var j = 1; j < $scope.schedule.schedule[i].length; j++) {
                         for (var k in $scope.schedule.schedule[i][j]) {
                             if ($scope.schedule.schedule[i][j][k][3] === $window.localStorage.userId) {
-                                return SSFAlertsService.showAlert('Heads Up!',
+                                SSFAlertsService.showAlert('Heads Up!',
                                     'On <b>' +
                                     $filter('date')($scope.schedule.assignedDate, 'EEEE, MMMM d, y') +
                                     // new Date($scope.schedule.assignedDate).toString('EEEE, MMMM d, y') +
@@ -145,7 +158,12 @@ angular.module('starter.controllers')
                     }
                 });
             };
+            $scope.goHome = function() {
+                delete $window.localStorage.orgId;
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });
+                $state.go('app.lobby');
+            };
         }
     ]);
-    
-    // timmy@test.com

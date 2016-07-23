@@ -1,15 +1,24 @@
 angular.module('starter.controllers')
   .controller('OrgMemberCtrl', ['$scope', '$rootScope', 'SSFAlertsService',
     'MembersRest', '$window', '$stateParams', 'SSFUsersREST',
-    'OrganizationsRest',
+    'OrganizationsRest', '$ionicHistory', '$state', '$ionicModal',
+    '$timeout',
     function($scope, $rootScope, SSFAlertsService, MembersRest, $window,
-      $stateParams, SSFUsersREST, OrganizationsRest) {
+      $stateParams, SSFUsersREST, OrganizationsRest, $ionicHistory,
+      $state, $ionicModal, $timeout) {
 
+      $scope.showHome = false;
       $scope.user = {};
       $scope.lobbySelect = {};
       $scope.currentView = 1;
 
       $scope.$on('$ionicView.enter', function() {
+        $scope.doRefresh();
+      });
+      $scope.doRefresh = function(a) {
+        $scope.updateUser = {};
+        $scope.repeat = {};
+        $scope.showHome = !$ionicHistory.backTitle() ? true : false;
         $rootScope.stopSpinner = true;
         SSFUsersREST.getById($window.localStorage.token, $window.localStorage.userId)
           .then(function(res) {
@@ -35,7 +44,13 @@ angular.module('starter.controllers')
           }, function(err) {
 
           });
-      });
+        if (a) {
+          $timeout(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+          }, '1500');
+        }
+
+      };
 
       $scope.submitProfile = function(form) {
         if (!form.$dirty) return;
@@ -121,10 +136,72 @@ angular.module('starter.controllers')
               });
           });
       }
-      
+
       $scope.changePassword = function() {
         SSFAlertsService.showAlert('Comming Soon...', 'This feature will be added shortly.');
       };
+      $scope.goHome = function() {
+        delete $window.localStorage.orgId;
+        $ionicHistory.nextViewOptions({
+          disableBack: true
+        });
+        $state.go('app.lobby');
+      };
 
+
+
+
+      //password reset code
+      $scope.updateUser = {};
+      $scope.repeat = {};
+      $scope.submitPassword = function(form) {
+        if (form.newPass.$invalid)
+          return SSFAlertsService.showAlert("Error", "Your password must be at least 8 characters long and contain one of each of the following: An upper and lower case letter, a number, and a special character which include, but are not limited to: ! @ # $");
+        if (form.$invalid)
+          return SSFAlertsService.showAlert('Error', 'Please fill in all required fields.');
+        if ($scope.updateUser.password !== $scope.repeat.password)
+          return SSFAlertsService.showAlert('Error', 'Please make sure your passwords match.');
+        // $scope.updateUser.userId = $window.localStorage.userId;
+        SSFUsersREST.update($window.localStorage.token, $window.localStorage.userId, $scope.updateUser)
+          .then(function(res) {
+            if (res.status !== 200)
+              return SSFAlertsService.showAlert('Update Failed', res.data.error.message === 'login failed' ? 'We could not varify your password.' : res.data.error.message);
+            SSFAlertsService.showAlert('Success!', 'Your password has successfully been updated.');
+            $scope.updateUser = {};
+            $scope.repeat = {};
+          }, function(err) {
+            if (err.data !== undefined)
+              return SSFAlertsService.showAlert('Error', 'Check your connectin to the internet and try again.');
+            SSFAlertsService.showAlert('Error', 'Something went wrong.');
+          });
+      };
+      $scope.openPasswordModal = function() {
+        showModal({
+          title: 'Update Password',
+          scope: $scope
+        }, function(err, res) {
+          if (err) return;
+          //successful
+        });
+      };
+
+      function showModal(parameters, callback) {
+        $ionicModal.fromTemplateUrl('templates/forms/changepass.html', {
+          scope: parameters.scope,
+          animation: 'slide-in-up',
+          backdropClickToClose: false
+        }).then(function(modal) {
+          parameters.scope.chooseEmployer = modal;
+          parameters.scope.chooseEmployer.show();
+        });
+        parameters.scope.closeEmployerPopover = function(a) {
+          parameters.scope.chooseEmployer.remove();
+          callback(0, a);
+        };
+        parameters.scope.closeModal = function() {
+          parameters.scope.chooseEmployer.remove();
+          callback('User closed modal');
+        };
+      }
     }
   ]);

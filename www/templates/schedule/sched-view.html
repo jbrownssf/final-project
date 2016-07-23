@@ -5,8 +5,17 @@
         <button class="button button-icon icon ion-edit button-clear" ng-click="edit()" ng-if="canEdit">
             
         </button>
-    </ion-nav-buttons> 
+    </ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon icon button-clear ion-ios-home" ng-if="showHome" ng-click="goHome()">
+
+    </button>
+  </ion-nav-buttons>
     <ion-content>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+            
+        </ion-refresher>
+        
         <div class="padding text-center subheader">
             {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
         </div>
@@ -21,7 +30,53 @@
                 <div class="item item-divider">
                     {{section[0]}}
                 </div>
-                <div class="item row" ng-repeat="spot in section[1] track by $index" ng-if="canEdit" ng-click="selectMember(who(spot[3]))">
+                
+                
+                <div class="item row" ng-repeat="spot in section[1] track by $index" ng-if="canEdit && currentUser === spot[3]" ng-click="selectMember(who(spot[3]))">
+                    <div class="col">
+                        <b>{{spot[0]}}</b>
+                    </div>
+                    <div class="col" ng-if="firstWindowWidth()">
+                        <b>{{spot[1] | date: "h:mm a"}}<span ng-if="secondWindowWidth()"> - {{spot[2] | date: "h:mm a"}}</span></b>
+                    </div>
+                    <div class="col" ng-if="users[spot[3]].status !== 'suspended'">
+                        <b>{{users[spot[3]].firstName}}
+                        {{fourthWindowWidth() || (users[spot[3]].firstName.length + users[spot[3]].lastName.length <= 12) && users[spot[3]].status !== 'suspended' && users[spot[3]].nickName && thirdWindowWidth() ? users[spot[3]].lastName : users[spot[3]].lastName.slice(0, 1) + "."}}
+                        <span ng-if="users[spot[3]].nickName && users[spot[3]].status !== 'suspended'"> 
+                            ({{users[spot[3]].nickName}})
+                        </span>
+                        &nbsp&nbsp&nbsp<icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon></b>
+                    </div>
+                    
+                    <div class="col" ng-if="users[spot[3]].status === 'suspended'"><strike>
+                        {{users[spot[3]].firstName}}
+                        {{fourthWindowWidth() || (users[spot[3]].firstName.length + users[spot[3]].lastName.length <= 12) && users[spot[3]].status !== 'suspended' && users[spot[3]].nickName && thirdWindowWidth() ? users[spot[3]].lastName : users[spot[3]].lastName.slice(0, 1) + "."}}
+                        <span ng-if="users[spot[3]].nickName && users[spot[3]].status !== 'suspended'"> 
+                            ({{users[spot[3]].nickName}})
+                        </span></strike>
+                        &nbsp&nbsp&nbsp<icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
+                    </div>
+                </div>
+                <div class="item row" ng-repeat="spot in section[1] track by $index" ng-if="!canEdit && currentUser === spot[3]">
+                    <div class="col">
+                        <b>{{spot[0]}}</b>
+                    </div>
+                    <div class="col" ng-if="firstWindowWidth()">
+                        <b>{{spot[1] | date: "h:mm a"}}<span ng-if="secondWindowWidth()"> - {{spot[2] | date: "h:mm a"}}</span></b>
+                    </div>
+                    <div class="col">
+                        <b>{{users[spot[3]].firstName}}
+                        {{fourthWindowWidth() || (users[spot[3]].firstName.length + users[spot[3]].lastName.length <= 12) && users[spot[3]].nickName || !users[spot[3]].nickName && thirdWindowWidth() ? users[spot[3]].lastName : users[spot[3]].lastName.slice(0, 1) + "."}}
+                        <span ng-if="users[spot[3]].nickName"> 
+                            ({{users[spot[3]].nickName}})
+                        </span>
+                        </b>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="item row" ng-repeat="spot in section[1] track by $index" ng-if="canEdit && currentUser !== spot[3]" ng-click="selectMember(who(spot[3]))">
                     <div class="col">
                         {{spot[0]}}
                     </div>
@@ -46,7 +101,7 @@
                         &nbsp&nbsp&nbsp<icon ng-if="spot[4] && canEdit" class="ion-eye icon icon-small"></icon>
                     </div>
                 </div>
-                <div class="item row" ng-repeat="spot in section[1] track by $index" ng-if="!canEdit">
+                <div class="item row" ng-repeat="spot in section[1] track by $index" ng-if="!canEdit && currentUser !== spot[3]">
                     <div class="col">
                         {{spot[0]}}
                     </div>
@@ -61,6 +116,8 @@
                         </span>
                     </div>
                 </div>
+                
+                
             </div>
         </div>
     </ion-content>

@@ -1,5 +1,13 @@
 <ion-view view-title="{{user.firstName + ' ' + user.lastName}}">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon icon button-clear ion-ios-home" ng-if="showHome" ng-click="goHome()">
+
+    </button>
+  </ion-nav-buttons>
   <ion-content>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+            
+        </ion-refresher>
     
     
     <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
@@ -29,7 +37,7 @@
         <button class="button button-calm button-block" type="submit">
           Update Profile
         </button>
-        <button class="button button-calm button-block" type="button" ng-click="changePassword()">
+        <button class="button button-calm button-block" type="button" ng-click="openPasswordModal()">
           Change Password
         </button>
       </form>
@@ -43,7 +51,7 @@
                 {{item.orgName}}<span class="item-note">{{item.status}}</span>
             </ion-item>
             <ion-item class="item" ng-click="selectOrgModal()">
-                Add a Company
+                Join a Group
             </ion-item>
         </div>
     </span>

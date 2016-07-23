@@ -1,12 +1,16 @@
 angular.module('starter.controllers')
     .controller('LobbyCtrl', ['$scope', '$rootScope', 'MembersRest',
         '$window', 'SSFAlertsService', '$state', 'OrganizationsRest',
-        '$ionicHistory',
+        '$ionicHistory', '$timeout',
         function($scope, $rootScope, MembersRest, $window,
-            SSFAlertsService, $state, OrganizationsRest, $ionicHistory) {
+            SSFAlertsService, $state, OrganizationsRest, $ionicHistory,
+            $timeout) {
 
             $scope.openOrganizations = [];
             $scope.$on('$ionicView.enter', function() {
+                $scope.doRefresh();
+            });
+            $scope.doRefresh = function(a) {
                 $rootScope.stopSpinner = true;
                 makeCall();
                 $rootScope.stopSpinner = true;
@@ -16,7 +20,12 @@ angular.module('starter.controllers')
                     }, function(err) {
 
                     });
-            });
+                if (a) {
+                    $timeout(function() {
+                        $scope.$broadcast('scroll.refreshComplete');
+                    }, '1500');
+                }
+            };
 
             $scope.logout = function() {
                 $rootScope.$broadcast('request:auth');

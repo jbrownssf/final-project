@@ -17,6 +17,9 @@
         </button>
     </ion-nav-buttons>
     <ion-content>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+            
+        </ion-refresher>
         <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
             <button class="col button button-full button-small" ng-class="currentView === 0 ? 'button-dark' : 'button-stable button-outline'" ng-click="canEdit ? setView(0) : ''">{{canEdit ? 'Drafts' : ''}}</button>
             <button class="col button button-full button-small" ng-class="currentView === 1 ? 'button-dark' : 'button-stable button-outline'" ng-click="setView(1)">Posts</button>

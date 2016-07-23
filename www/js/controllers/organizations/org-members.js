@@ -2,17 +2,25 @@ angular.module('starter.controllers')
   .controller('OrgMembersCtrl', ['$scope', '$rootScope', 'SSFAlertsService',
     'MembersRest', '$state', '$window', '$stateParams', '$ionicActionSheet',
     'OrganizationsRest', 'SSFMailService', '$ionicHistory', '$filter',
+    '$timeout',
     function($scope, $rootScope, SSFAlertsService, MembersRest, $state,
       $window, $stateParams, $ionicActionSheet, OrganizationsRest, SSFMailService,
-      $ionicHistory, $filter) {
+      $ionicHistory, $filter, $timeout) {
 
+      $scope.showHome = false;
       $scope.members = [];
+      $scope.search = {};
       $scope.$on('$ionicView.enter', function() {
+        $scope.doRefresh();
+      });
+      $scope.doRefresh = function(a) {
+        $scope.showHome = !$ionicHistory.backTitle() ? true : false;
         reloadPage();
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
           .then(function(res) {
-            if(!res.data[0]) {
-              $scope.canEdit = false;SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
+            if (!res.data[0]) {
+              $scope.canEdit = false;
+              SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
               $ionicHistory.nextViewOptions({
                 disableBack: true
               });
@@ -28,9 +36,13 @@ angular.module('starter.controllers')
               $state.go('app.lobby');
             }
           }, function(err) {
-
           });
-      });
+        if (a) {
+          $timeout(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+          }, '1500');
+        }
+      };
 
       function reloadPage() {
         $rootScope.stopSpinner = true;
@@ -77,6 +89,13 @@ angular.module('starter.controllers')
           });
       }
 
+      $scope.goHome = function() {
+        delete $window.localStorage.orgId;
+        $ionicHistory.nextViewOptions({
+          disableBack: true
+        });
+        $state.go('app.lobby');
+      };
       //manages the switch between viewing requests and current members
       $scope.isRequests = false;
       $scope.toggleView = function(a) {
@@ -105,12 +124,12 @@ angular.module('starter.controllers')
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('sms:' + a.cellphone);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('tel:' + a.cellphone);
             }
@@ -132,17 +151,17 @@ angular.module('starter.controllers')
           }],
           funcs: [
             function(a) {
-              if($window.localStorage.userId === a.memberId)
+              if ($window.localStorage.userId === a.memberId)
                 return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
               makeRequest(a, a.id, 'member');
             },
             function(a) {
-              if($window.localStorage.userId === a.memberId)
+              if ($window.localStorage.userId === a.memberId)
                 return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
               makeRequest(a, a.id, 'suspended');
             },
             function(a) {
-              if($window.localStorage.userId === a.memberId)
+              if ($window.localStorage.userId === a.memberId)
                 return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
               makeRequest(a, a.id, 'declined');
             },
@@ -150,12 +169,12 @@ angular.module('starter.controllers')
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('sms:' + a.cellphone);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('tel:' + a.cellphone);
             }
@@ -189,12 +208,12 @@ angular.module('starter.controllers')
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('sms:' + a.cellphone);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('tel:' + a.cellphone);
             }
@@ -228,12 +247,12 @@ angular.module('starter.controllers')
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('sms:' + a.cellphone);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('tel:' + a.cellphone);
             }
@@ -272,12 +291,12 @@ angular.module('starter.controllers')
               SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('sms:' + a.cellphone);
             },
             function(a) {
-              if(!a.cellphone)
+              if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
               $window.open('tel:' + a.cellphone);
             }
@@ -311,6 +330,10 @@ angular.module('starter.controllers')
           }
         });
 
+      };
+
+      $scope.resetSearch = function() {
+        $scope.search = {};
       };
 
     }
