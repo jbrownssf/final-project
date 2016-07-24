@@ -93,14 +93,15 @@ angular.module('starter.controllers')
             }
 
             $scope.edit = function() {
-                for (var j in $scope.schedule.schedule) {
-                    for (var k in $scope.schedule.schedule[j][1]) {
-                        $scope.schedule.schedule[j][1][k][1] = new Date($scope.schedule.schedule[j][1][k][1]);
-                        $scope.schedule.schedule[j][1][k][2] = new Date($scope.schedule.schedule[j][1][k][2]);
+                var tempSched = JSON.parse(JSON.stringify($scope.schedule));
+                for (var j in tempSched.schedule) {
+                    for (var k in tempSched.schedule[j][1]) {
+                        tempSched.schedule[j][1][k][1] = new Date(tempSched.schedule[j][1][k][1]);
+                        tempSched.schedule[j][1][k][2] = new Date(tempSched.schedule[j][1][k][2]);
                     }
                 }
-                SchedulesService.template($scope.schedule);
-                $scope.schedule.assignedDate = new Date($scope.schedule.assignedDate);
+                tempSched.assignedDate = new Date(tempSched.assignedDate);
+                SchedulesService.template(tempSched);
                 $state.go('app.org.detail.sched-create');
             };
 

@@ -34,9 +34,9 @@
                 <ion-option-button class="button-dark ssf-button-inverted" ng-click="clone(schedule)">
                     Clone
                 </ion-option-button>
-                <ion-option-button class="button-positive ssf-button" ng-click="publish(schedule)">
-                    {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}
-                </ion-option-button>
+                <!--<ion-option-button class="button-positive ssf-button" ng-click="publish(schedule)">-->
+                <!--    {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}-->
+                <!--</ion-option-button>-->
             </ion-item>
             <ion-item ng-if="canEdit && currentView === 0" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'" ng-if="canEdit">
                 {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}

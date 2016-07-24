@@ -49,7 +49,7 @@ angular.module('starter.services', [])
             SSFAlertsService.showConfirm('Warning', 'Are you sure you want to delete this spot? It cannot be undone.')
             .then(function(res) {
                 if(res) {
-                    delete $scope[modelObject].schedule[indexArray[0]][1].splice([indexArray[1]], 1);
+                    $scope[modelObject].schedule[indexArray[0]][1][indexArray[1]] = ['NaN'];
                     $scope.closeModal();
                 }
             });
