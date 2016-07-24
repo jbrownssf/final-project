@@ -83,7 +83,6 @@ angular.module('starter.controllers')
         SSFAlertsService.showPrompt('Update Nick Name', promptBody + 'What would you like your new nick name to be?', 'Update', undefined, undefined, 'New Nick Name')
           .then(function(res) {
             if (!res && res !== '') return;
-            console.log(res);
             OrganizationsRest.request($window.localStorage.token, {
                 organizationId: org.orgId,
                 userId: $window.localStorage.userId,
@@ -94,6 +93,7 @@ angular.module('starter.controllers')
                   return SSFAlertsService.showAlert('Error', res.data.error.message);
                 if (res.status !== 200)
                   return SSFAlertsService.showAlert('Error', 'There was a problem requesting to join this selected company.');
+                org.nickName = res.data.nickName;
               }, function(err) {
                 SSFAlertsService('Error', 'Some unknown error occured. Please try again later.');
               });
