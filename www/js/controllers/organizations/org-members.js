@@ -10,91 +10,65 @@ angular.module('starter.controllers')
       $scope.showHome = false;
       $scope.members = [];
       $scope.search = {};
+      var errArr = [];
+      
       $scope.$on('$ionicView.enter', function() {
         $scope.doRefresh();
       });
       $scope.doRefresh = function(a) {
+        errArr = [];
         $scope.showHome = !$ionicHistory.backTitle() ? true : false;
-        reloadPage();
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
           .then(function(res) {
-            if (!res.data[0]) {
+            if (res.status !== 200 || !res.data[0]) {
               $scope.canEdit = false;
-              SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
-              $ionicHistory.nextViewOptions({
-                disableBack: true
-              });
-              $state.go('app.lobby');
-              return;
+              return errArr[0] = res;
             }
+            errArr[0] = 200;
             $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
-            if (!$scope.canEdit) {
-              SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
-              $ionicHistory.nextViewOptions({
-                disableBack: true
-              });
-              $state.go('app.lobby');
-            }
+            // if (!$scope.canEdit) {
+            //   SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
+            //   $ionicHistory.nextViewOptions({
+            //     disableBack: true
+            //   });
+            //   $state.go('app.lobby');
+            // }
           }, function(err) {
+            errArr[0] = err;
           });
-        if (a) {
-          $timeout(function() {
-            $scope.$broadcast('scroll.refreshComplete');
-          }, '1500');
-        }
-      };
-
-      function reloadPage() {
         $rootScope.stopSpinner = true;
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId)
           .then(function(res) {
             if (res.status !== 200)
-              return SSFAlertsService.showAlert('Error', 'Something went wrong when getting the users for your company.');
+              return errArr[1] = res;
+            errArr[1] = 200;
             //TODO: re-order the response
-            // res.data.sort(function(a, b) {
-            //   console.log(a.status + ' ' + b.status);
-            //   if(a.status === b.status) {
-            //     return 0;
-            //   } else if(b.status === 'owner') {
-            //     return 1;
-            //   } else if(b.status === 'owner') {
-            //     return -1;
-            //   } else if(a.status === 'admin') {
-            //     return 1;
-            //   } else if(b.status === 'admin') {
-            //     return -1;
-            //   } else if(a.status === 'member') {
-            //     return 1;
-            //   } else if(b.status === 'member') {
-            //     return -1;
-            //   } else if(a.status === 'suspended') {
-            //     return 1;
-            //   } else if(b.status === 'suspended') {
-            //     return -1;
-            //   } else if(a.status === 'pending') {
-            //     return 1;
-            //   } else if(b.status === 'pending') {
-            //     return -1;
-            //   } else if(a.status === 'declined') {
-            //     return 1;
-            //   } else if(b.status === 'declined') {
-            //     return -1;
-            //   } else {
-            //     return 0;
-            //   }
-            // });
             $scope.members = res.data;
           }, function(err) {
-            SSFAlertsService.showAlert('Error', 'Something went wrong when getting the users for your company.');
+            errArr[1] = err;
           });
+        handleErrors(a);
+      };
+      
+      
+      
+      function handleErrors(a) {
+        $timeout(function() {
+          if (!errArr[0] || !errArr[1])
+            return handleErrors(a);
+          if(a) $scope.$broadcast('scroll.refreshComplete');
+          if (errArr[0] !== 200)
+            return SSFAlertsService.showAlert('Error', 'There was a problem loading your information. Please try again later.');
+          if (errArr[1] !== 200)
+            return SSFAlertsService.showAlert('Error', 'There was a problem retrieving your current groups. Please try again later.');
+        },  '100');
       }
 
       $scope.goHome = function() {
-        delete $window.localStorage.orgId;
         $ionicHistory.nextViewOptions({
           disableBack: true
         });
-        $state.go('app.lobby');
+        $window.localStorage.orgId ? $state.go('app.org.detail.lobby', {orgId: $window.localStorage.orgId}) : $state.go('app.lobby');
       };
       //manages the switch between viewing requests and current members
       $scope.isRequests = false;

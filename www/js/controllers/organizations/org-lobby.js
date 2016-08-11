@@ -11,91 +11,92 @@ angular.module('starter.controllers')
       $scope.canEdit = false;
       $scope.listCanSwipe = false;
       $scope.currentView = 1;
+      var errArr = [];
+
       $scope.$on('$ionicView.enter', function() {
         $scope.doRefresh();
       });
       $scope.doRefresh = function(a) {
-        $scope.currentView = 1;
+        errArr = [];
         $rootScope.stopSpinner = true;
-        makeRequest();
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
           .then(function(res) {
-            if (res.status !== 200) return;
-            if (!res.data[0]) {
-              SSFAlertsService.showConfirm('Error', 'You are not already a member of this company. Would you like to request to join the company?', 'Yes', 'No')
-                .then(function(bool) {
-                  if (bool) {
-                    if ($scope.openOrganizations.status !== 'open') {
-                      SSFAlertsService.showAlert('Sorry', 'This company is not accepting new members at this time.');
-                      $ionicHistory.nextViewOptions({
-                        disableBack: true
-                      });
-                      return $state.go('app.lobby');
-                    }
-                    SSFAlertsService.showPrompt('Create Nick Name', 'What would you like your new nick name to be?', 'Apply', undefined, undefined, 'Nick Name')
-                      .then(function(res) {
-                        if (!res) {
-                          $ionicHistory.nextViewOptions({
-                            disableBack: true
-                          });
-                          $state.go('app.lobby');
-                        }
-                        console.log(res);
-                        console.log($scope.openOrganizations);
-                        $ionicHistory.nextViewOptions({
-                          disableBack: true
-                        });
-                        $state.go('app.lobby');
-                      });
-                  }
-                  else {
-                    $ionicHistory.nextViewOptions({
-                      disableBack: true
-                    });
-                    $state.go('app.lobby');
-                  }
-                });
-              res.data[0] = {
-                status: 'pending'
-              };
-            }
+            if (res.status !== 200 || !res.data[0])
+              return errArr[0] = res;
+            errArr[0] = 200;
             $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
             $scope.listCanSwipe = $scope.canEdit;
             if (!$scope.canEdit) $scope.currentView = 1;
           }, function(err) {
-
+            errArr = err;
           });
 
         //get company info
         $rootScope.stopSpinner = true;
         OrganizationsRest.open($window.localStorage.token, $stateParams.orgId)
           .then(function(res) {
-            if (res.status !== 200) return;
+            if (res.status !== 200)
+              return errArr[1] = res;
+            errArr[1] = 200;
             $scope.openOrganizations = res.data[0];
           }, function(err) {
-
+            errArr[1] = err;
           });
-        if (a) {
-          $timeout(function() {
-            $scope.$broadcast('scroll.refreshComplete');
-          }, '1500');
-        }
+          
+        $rootScope.stopSpinner = true;
+        SchedulesREST.getList($window.localStorage.token, $window.localStorage.userId, $stateParams.orgId)
+          .then(function(res) {
+            if (res.status !== 200)
+              return errArr[2] = res;
+            errArr[2] = 200;
+            $scope.schedules = res.data;
+          }, function(err) {
+            errArr[2] = err;
+          });
+        handleErrors(a);
       };
+
+      function handleErrors(a) {
+        $timeout(function() {
+          if (!errArr[0] || !errArr[1] || !errArr[2])
+            return handleErrors(a);
+          if (a) $scope.$broadcast('scroll.refreshComplete');
+          if (errArr[0] !== 200) {
+            if (errArr[0].status === 200 && !errArr[0].data[0]) {
+              if (!errArr[0].data[0]) {
+                return SSFAlertsService.showConfirm('Error', 'You are not already a member of this company. Would you like to request to join the company?', 'Yes', 'No')
+                  .then(function(bool) {
+                    if (bool) {
+                      if ($scope.openOrganizations.status !== 'open') {
+                        SSFAlertsService.showAlert('Sorry', 'This company is not accepting new members at this time.');
+                      }
+                      SSFAlertsService.showPrompt('Create Nick Name', 'What would you like your new nick name to be?', 'Apply', undefined, undefined, 'Nick Name')
+                        .then(function(res) {
+                          if (!res) {
+                            return;
+                          }
+                          return OrganizationsRest.request($window.localStorage.token, {
+                            organizationId: $stateParams.orgId,
+                            userId: $window.localStorage.userId,
+                            nickName: res
+                          });
+                        });
+                    }
+                  });
+              }
+            }
+          }
+          if (errArr[1] !== 200)
+            return SSFAlertsService.showAlert('Error', 'There was a problem loading this page. Please try again later.');
+          if (errArr[2] !== 200)
+            return SSFAlertsService.showAlert('Error', 'There was a problem loading this page. Please try again later.');
+        }, '100');
+      }
       $scope.setView = function(a) {
         $scope.currentView = a;
       };
       $scope.schedules = [];
       $scope.title = 'Welcome!'; //$stateParams.org.orgName;
-      function makeRequest() {
-        SchedulesREST.getList($window.localStorage.token, $window.localStorage.userId, $stateParams.orgId)
-          .then(function(res) {
-            if (res.status !== 200)
-              return SSFAlertsService.showAlert('Error', 'Something went wrong in getting the schedules.');
-            $scope.schedules = res.data;
-          }, function(err) {
-            SSFAlertsService.showAlert('Error', 'Something went wrong in gettting the schedules.');
-          });
-      }
 
       //switch between published/unpublished options
       $scope.edit = [];

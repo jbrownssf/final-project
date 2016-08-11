@@ -2,16 +2,17 @@ angular.module('starter.controllers')
     .controller('SchedViewCtrl', ['$scope', '$rootScope', 'SSFUsersREST',
         'SchedulesService', '$state', 'SSFAlertsService', 'MembersRest',
         'SchedulesREST', '$window', '$stateParams', '$ionicActionSheet',
-        'SSFMailService', '$filter', '$ionicHistory', '$timeout',
+        'SSFMailService', '$filter', '$ionicHistory', '$timeout', 'HistoryRest',
         function($scope, $rootScope, SSFUsersREST, SchedulesService, $state,
             SSFAlertsService, MembersRest, SchedulesREST, $window, $stateParams,
-            $ionicActionSheet, SSFMailService, $filter, $ionicHistory, $timeout) {
-
-
+            $ionicActionSheet, SSFMailService, $filter, $ionicHistory, $timeout,
+            HistoryRest) {
+        
             $scope.showHome = false;
             $scope.schedule = [];
             $scope.users = {};
             $scope.canEdit = false;
+            $scope.historyItems = [];
             $scope.currentUser = $window.localStorage.userId;
             $scope.$on('$ionicView.enter', function() {
                 $scope.doRefresh();
@@ -54,6 +55,14 @@ angular.module('starter.controllers')
                             status: 'pending'
                         };
                         $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
+                    }, function(err) {
+
+                    });
+                //only if manager
+                HistoryRest.getBySchedId($window.localStorage.token, $stateParams.schedId, Intl.DateTimeFormat().resolvedOptions().timeZone)
+                    .then(function(res) {
+                        if (res.status !== 200) return;
+                        $scope.historyItems = res.data;
                     }, function(err) {
 
                     });
@@ -160,11 +169,10 @@ angular.module('starter.controllers')
                 });
             };
             $scope.goHome = function() {
-                delete $window.localStorage.orgId;
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
-                $state.go('app.lobby');
+                $window.localStorage.orgId ? $state.go('app.org.detail.lobby', {orgId: $window.localStorage.orgId}) : $state.go('app.lobby');
             };
         }
     ]);

@@ -1,54 +1,61 @@
 angular.module('starter.controllers')
     .controller('SchedCreateCtrl', ['$scope', 'FillSpotService', '$state',
         'SchedulesREST', '$window', 'SSFAlertsService', 'SchedulesService', '$rootScope',
-        'SSFUsersREST', '$stateParams', 'MembersRest', '$ionicHistory',
+        'SSFUsersREST', '$stateParams', 'MembersRest', '$ionicHistory', '$timeout',
         function($scope, FillSpotService, $state, SchedulesREST, $window,
             SSFAlertsService, SchedulesService, $rootScope, SSFUsersREST, $stateParams,
-            MembersRest, $ionicHistory) {
+            MembersRest, $ionicHistory, $timeout) {
 
 
             $scope.showHome = false;
             $scope.users = {};
             $scope.schedule = [];
             $scope.canEdit = true;
+            var errArr = [];
+            
             $scope.$on('$ionicView.enter', function() {
+                errArr = [];
                 $scope.showHome = !$ionicHistory.backTitle() ? true : false;
                 $rootScope.stopSpinner = true;
                 $scope.schedule = SchedulesService.template();
                 MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, "accepted")
                     .then(function(res) {
-                        if (res.status === 200) {
-                            for (var i in res.data) {
-                                $scope.users[res.data[i].memberId] = res.data[i];
-                            }
+                        if (res.status !== 200)
+                            return errArr[0] = res;
+                        errArr[0] = 200;
+                        for (var i in res.data) {
+                            $scope.users[res.data[i].memberId] = res.data[i];
                         }
                     });
                 MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
                     .then(function(res) {
-                        if (res.status !== 200) {
+                        if (res.status !== 200 || !res.data[0]) {
                             $scope.canEdit = false;
-                            SSFAlertsService.showAlert('Warning', 'This service is currently unavailable.');
-                            $ionicHistory.nextViewOptions({
-                                disableBack: true
-                            });
-                            $state.go('app.lobby');
-                            return;
+                            return errArr[1] = res;
                         }
-                        if (!res.data[0]) res.data[0] = {
-                            status: 'pending'
-                        };
                         $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
                         if (!$scope.canEdit) {
-                            SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
-                            $ionicHistory.nextViewOptions({
-                                disableBack: true
-                            });
-                            $state.go('app.lobby');
+                            return errArr[1] = res;
                         }
+                        errArr[1] = 200;
+                        
                     }, function(err) {
-
+                        errArr[1] = err;
                     });
+                handleErrors();
             });
+            
+            
+            function handleErrors() {
+                $timeout(function() {
+                    if(!errArr[0] || !errArr[1])
+                        return handleErrors();
+                    if(errArr[0] !== 200)
+                        return SSFAlertsService.showAlert('Error', 'There was a problem loading your page. Please try again later.');
+                    if(errArr[1] !== 200)
+                        return SSFAlertsService.showAlert('Error', 'There was a problem retrieving open groups. Please try again later.');
+                },  '100');
+            }
 
             $scope.spotChangedResetView = function(a) {
                 delete a[4];
@@ -99,7 +106,13 @@ angular.module('starter.controllers')
                         if (res.status === 200 || (res.status === 404 && $scope.submitType === 'deleted')) {
                             if (hadId) {
                                 SchedulesService.template(res.data);
-                                if (res.data.state === 'deleted') return $state.go('app.org.detail.lobby');
+                                if (res.data.state === 'deleted') {
+                                    //stop back button
+                                    $ionicHistory.nextViewOptions({
+                                        disableBack: true
+                                    });
+                                    return $state.go('app.org.detail.lobby');
+                                }
                                 $state.go('app.org.detail.sched-view.detail', {
                                     schedId: res.data.id
                                 });
@@ -136,11 +149,10 @@ angular.module('starter.controllers')
                     });
             };
             $scope.goHome = function() {
-                delete $window.localStorage.orgId;
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
-                $state.go('app.lobby');
+                $window.localStorage.orgId ? $state.go('app.org.detail.lobby', {orgId: $window.localStorage.orgId}) : $state.go('app.lobby');
             };
 
         }

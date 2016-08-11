@@ -11,11 +11,13 @@ angular.module('starter.controllers')
       $scope.user = {};
       $scope.lobbySelect = {};
       $scope.currentView = 1;
-
+      var errArr = [];
+      
       $scope.$on('$ionicView.enter', function() {
         $scope.doRefresh();
       });
       $scope.doRefresh = function(a) {
+        errArr = [];
         $scope.updateUser = {};
         $scope.repeat = {};
         $scope.showHome = !$ionicHistory.backTitle() ? true : false;
@@ -23,34 +25,48 @@ angular.module('starter.controllers')
         SSFUsersREST.getById($window.localStorage.token, $window.localStorage.userId)
           .then(function(res) {
             if (res.status !== 200)
-              return SSFAlertsService.showAlert('Error', 'Something went wrong when getting the user information.');
+              return errArr[0] = res;
+            errArr[0] = 200;
             $scope.user = res.data;
           }, function(err) {
-            SSFAlertsService.showAlert('Error', 'Something went wrong when getting the user information.');
+              errArr[0] = err;
           });
         $rootScope.stopSpinner = true;
         MembersRest.getCurrentOrgs($window.localStorage.token, $window.localStorage.userId)
           .then(function(res) {
             if (res.status !== 200)
-              return SSFAlertsService.showAlert("Error", "There was a problem loading your page.");
+              return errArr[1] = res;
+            errArr[1] = 200;
             $scope.lobbySelect.data = res.data;
           }, function(err) {
-            SSFAlertsService.showAlert("Error", "Some unknown error occured, please try again.");
+              errArr[1] = err;
           });
         $rootScope.stopSpinner = true;
         OrganizationsRest.open($window.localStorage.token)
           .then(function(res) {
+            if(res.status !== 200)
+              return errArr[2] = res;
+            errArr[2] = 200;
             $scope.openOrganizations = res.data;
           }, function(err) {
-
+              errArr[2] = err;
           });
-        if (a) {
-          $timeout(function() {
-            $scope.$broadcast('scroll.refreshComplete');
-          }, '1500');
-        }
-
+        handleErrors(a);
       };
+
+      function handleErrors(a) {
+        $timeout(function() {
+          if (!errArr[0] || !errArr[1]|| !errArr[2])
+            return handleErrors(a);
+          if(a) $scope.$broadcast('scroll.refreshComplete');
+          if (errArr[0] !== 200)
+            return SSFAlertsService.showAlert('Error', 'There was a problem loading your information. Please try again later.');
+          if (errArr[1] !== 200)
+            return SSFAlertsService.showAlert('Error', 'There was a problem retrieving your current groups. Please try again later.');
+          if (errArr[2] !== 200)
+            return SSFAlertsService.showAlert('Error', 'There was a problem retrieving open groups. Please try again later.');
+        },  '100');
+      }
 
       $scope.submitProfile = function(form) {
         if (!form.$dirty) return;
@@ -141,11 +157,10 @@ angular.module('starter.controllers')
         SSFAlertsService.showAlert('Comming Soon...', 'This feature will be added shortly.');
       };
       $scope.goHome = function() {
-        delete $window.localStorage.orgId;
         $ionicHistory.nextViewOptions({
           disableBack: true
         });
-        $state.go('app.lobby');
+        $window.localStorage.orgId ? $state.go('app.org.detail.lobby', {orgId: $window.localStorage.orgId}) : $state.go('app.lobby');
       };
 
 

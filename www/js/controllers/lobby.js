@@ -7,26 +7,46 @@ angular.module('starter.controllers')
             $timeout) {
 
             $scope.openOrganizations = [];
+            var errArr = [];
+            
             $scope.$on('$ionicView.enter', function() {
                 $scope.doRefresh();
             });
             $scope.doRefresh = function(a) {
+                errArr = [];
                 $rootScope.stopSpinner = true;
-                makeCall();
+                MembersRest.getCurrentOrgs($window.localStorage.token, $window.localStorage.userId)
+                    .then(function(res) {
+                        if (res.status !== 200) 
+                            return errArr[0] = res;
+                        errArr[0] = 200;
+                        $scope.lobbySelect.data = res.data;
+                    }, function(err) {
+                        errArr[0] = err;
+                    });
                 $rootScope.stopSpinner = true;
                 OrganizationsRest.open($window.localStorage.token)
                     .then(function(res) {
+                        if(res.status !== 200)
+                            return errArr[1] = res;
+                        errArr[1] = 200;
                         $scope.openOrganizations = res.data;
                     }, function(err) {
-
+                        errArr[1] = err;
                     });
-                if (a) {
-                    $timeout(function() {
-                        $scope.$broadcast('scroll.refreshComplete');
-                    }, '1500');
-                }
+                handleErrors(a);
             };
-
+            function handleErrors(a) {
+                $timeout(function() {
+                    if(!errArr[0] || !errArr[1])
+                        return handleErrors(a);
+                    if(a) $scope.$broadcast('scroll.refreshComplete');
+                    if(errArr[0] !== 200)
+                        return SSFAlertsService.showAlert('Error', 'There was a problem loading your page. Please try again later.');
+                    if(errArr[1] !== 200)
+                        return SSFAlertsService.showAlert('Error', 'There was a problem retrieving open groups. Please try again later.');
+                },  '100');
+            }
             $scope.logout = function() {
                 $rootScope.$broadcast('request:auth');
             };
@@ -34,18 +54,6 @@ angular.module('starter.controllers')
             $scope.lobbySelect = {};
             $scope.lobbySelect.data = [];
 
-            function makeCall() {
-                MembersRest.getCurrentOrgs($window.localStorage.token, $window.localStorage.userId)
-                    .then(function(res) {
-                        if (res.status !== 200) return SSFAlertsService.showConfirm("Error", "There was a problem loading your page, would you like to try again?")
-                            .then(function(res) {
-                                if (res) makeCall();
-                            });
-                        $scope.lobbySelect.data = res.data;
-                    }, function(err) {
-                        SSFAlertsService.showAlert("Error", "Some unknown error occured, please try again.");
-                    });
-            }
             $scope.nextPage = function(member) {
                 $ionicHistory.nextViewOptions({
                     disableBack: true
