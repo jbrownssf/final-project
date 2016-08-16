@@ -68,7 +68,7 @@ angular.module('starter.controllers')
                 if (err) return;
                 SSFAlertsService.showPrompt('Are You Sure?', 'By accepting, you agree to share your contact information with "' + org.name + '". The following field is for a nickname.', 'Accept')
                     .then(function(res) {
-                        if (!res || res === "") return;
+                        if (!res && res !== "") return;
                         OrganizationsRest.request($window.localStorage.token, {
                                 organizationId: org.id,
                                 userId: $window.localStorage.userId,

@@ -58,8 +58,7 @@ angular.module('starter.controllers')
                     }, function(err) {
 
                     });
-                //only if manager
-                HistoryRest.getBySchedId($window.localStorage.token, $stateParams.schedId, Intl.DateTimeFormat().resolvedOptions().timeZone)
+                HistoryRest.getBySchedId($window.localStorage.token, $stateParams.schedId, new Date().getTimezoneOffset())
                     .then(function(res) {
                         if (res.status !== 200) return;
                         $scope.historyItems = res.data;
@@ -76,6 +75,7 @@ angular.module('starter.controllers')
             };
 
             function setSeen() {
+                if($scope.schedule.state === "saved") return;
                 for (var i in $scope.schedule.schedule) {
                     for (var j = 1; j < $scope.schedule.schedule[i].length; j++) {
                         for (var k in $scope.schedule.schedule[i][j]) {
@@ -105,8 +105,8 @@ angular.module('starter.controllers')
                 var tempSched = JSON.parse(JSON.stringify($scope.schedule));
                 for (var j in tempSched.schedule) {
                     for (var k in tempSched.schedule[j][1]) {
-                        tempSched.schedule[j][1][k][1] = new Date(tempSched.schedule[j][1][k][1]);
-                        tempSched.schedule[j][1][k][2] = new Date(tempSched.schedule[j][1][k][2]);
+                        if(tempSched.schedule[j][1][k][1]) tempSched.schedule[j][1][k][1] = new Date(tempSched.schedule[j][1][k][1]);
+                        if(tempSched.schedule[j][1][k][2]) tempSched.schedule[j][1][k][2] = new Date(tempSched.schedule[j][1][k][2]);
                     }
                 }
                 tempSched.assignedDate = new Date(tempSched.assignedDate);

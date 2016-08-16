@@ -22,7 +22,8 @@
             </div>
         <div class="list">
             <ion-item ng-click="nextPage(item)" class="item" ng-repeat="item in lobbySelect.data">
-                {{item.orgName}}<span class="item-note">{{item.status}}</span>
+                {{item.orgName}}
+                <span class="item-note">{{item.status}}</span>
             </ion-item>
             <ion-item class="item" ng-click="selectOrgModal()">
                 Join a Group

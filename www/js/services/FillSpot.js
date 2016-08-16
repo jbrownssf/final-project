@@ -4,7 +4,10 @@ angular.module('starter.services', [])
     var FillSpotService = this;
     
     FillSpotService.set = function($event, $scope, modelObject, indexArray) {
-        console.log()
+        $scope.nonSuspended = [];
+        for(var i in $scope.users) {
+            if($scope.users[i].status !== 'suspended') $scope.nonSuspended.push($scope.users[i]);
+        }
         var template = 
             '<ion-modal-view>'+
                 '<ion-header-bar>'+
@@ -30,7 +33,7 @@ angular.module('starter.services', [])
                             'Members' +
                         '</div>' +
                         '<select ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '">' +
-                            '<option ng-repeat="user in users" value="{{user.memberId}}" ng-selected="{{user.memberId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}" ng-show="user.status !== \'suspended\'">' +
+                            '<option ng-repeat="user in nonSuspended" value="{{user.memberId}}" ng-selected="{{user.memberId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}">' +
                                 '{{users[user.memberId].firstName}} ' +
                                 '{{users[user.memberId].lastName}} ' +
                                 '{{users[user.memberId].nickName ? "(" + users[user.memberId].nickName + ")" : ""}}' +
