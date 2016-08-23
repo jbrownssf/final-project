@@ -310,5 +310,8 @@ angular.module('starter.controllers')
         $scope.search = {};
       };
 
+      $scope.customBackground = function(a) {
+        return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
+      };
     }
   ]);

@@ -4,58 +4,60 @@
 
     </button>
   </ion-nav-buttons>
-  <ion-content>
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
-            
-        </ion-refresher>
-    
-    
+  <ion-content scroll="false">
     <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
       <!--<button class="col button button-full button-small" ng-class="currentView === 0 ? 'button-dark' : 'button-stable button-outline'" ng-click="currentView = 0">History</button>-->
-      <button class="col button button-full button-small" ng-class="currentView === 1 ? 'button-dark' : 'button-stable button-outline'" ng-click="currentView = 1">Profile</button>
-      <button class="col button button-full button-small" ng-class="currentView === 2 ? 'button-dark' : 'button-stable button-outline'" ng-click="currentView = 2">Groups</button>
+      <button class="col button button-full button-small button-light" ng-class="currentView === 1 ? '' : 'button-outline'" ng-click="currentView = 1">Profile</button>
+      <button class="col button button-full button-small button-light" ng-class="currentView === 2 ? '' : 'button-outline'" ng-click="currentView = 2">Groups</button>
     </div>
-
-    <span ng-if="currentView === 1">
-      <form class="padding" name="profileForm" ng-submit="submitProfile(profileForm)">
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.firstName.$invalid && registerForm.$submitted}">
-          <span class="input-label">First Name</span>
-          <input type="text" name="firstName" ng-model="user.firstName" placeholder="First Name" required>
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.lastName.$invalid && registerForm.$submitted}">
-          <span class="input-label">Last Name</span>
-          <input type="text" name="lastName" ng-model="user.lastName" placeholder="Last Name" required>
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.cellphone.$invalid && registerForm.$submitted}">
-          <span class="input-label">Cell Phone</span>
-          <input phone-input type="text" name="cellphone" ng-model="user.cellphone" placeholder="Cell Phone">
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.email.$invalid && registerForm.$submitted}">
-          <span class="input-label">Email</span>
-          <input type="email" name="email" ng-model="user.email" placeholder="Email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required>
-        </label>
-        <button class="button button-calm button-block" type="submit">
-          Update Profile
-        </button>
-        <button class="button button-calm button-block" type="button" ng-click="openPasswordModal()">
-          Change Password
-        </button>
-      </form>
-    </span>
-    
-    
-    
-    <span ng-if="currentView === 2">
-        <div class="list">
-            <ion-item ng-click="changeNickName(item)" class="item" ng-repeat="item in lobbySelect.data">
-                {{item.orgName}}<span class="item-note">{{item.status}}</span>
-            </ion-item>
-            <ion-item class="item" ng-click="selectOrgModal()">
-                Join a Group
-            </ion-item>
-        </div>
-    </span>
-
+  
+    <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground9" ng-style="customBackground('customBackground9')">
+      <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+          
+      </ion-refresher>
+      <span ng-if="currentView === 1">
+        <form class="padding" name="profileForm" ng-submit="submitProfile(profileForm)">
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.firstName.$invalid && registerForm.$submitted}">
+            <span class="input-label">First Name</span>
+            <input type="text" name="firstName" ng-model="user.firstName" placeholder="First Name" required>
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.lastName.$invalid && registerForm.$submitted}">
+            <span class="input-label">Last Name</span>
+            <input type="text" name="lastName" ng-model="user.lastName" placeholder="Last Name" required>
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.cellphone.$invalid && registerForm.$submitted}">
+            <span class="input-label">Cell Phone</span>
+            <input phone-input type="text" name="cellphone" ng-model="user.cellphone" placeholder="Cell Phone">
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : user.email.$invalid && registerForm.$submitted}">
+            <span class="input-label">Email</span>
+            <input type="email" name="email" ng-model="user.email" placeholder="Email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required>
+          </label>
+          <button class="button button-calm button-block" type="submit">
+            Update Profile
+          </button>
+          <button class="button button-calm button-block" type="button" ng-click="openPasswordModal()">
+            Change Password
+          </button>
+        </form>
+      </span>
+      
+      
+      
+      <span ng-if="currentView === 2">
+          <div class="list">
+              <ion-item ng-click="changeNickName(item)" class="item" ng-repeat="item in lobbySelect.data">
+                  {{item.orgName}}<span class="item-note">{{item.status}}</span>
+              </ion-item>
+              <ion-item class="item" ng-click="selectOrgModal()">
+                  Join a Group
+              </ion-item>
+              <ion-item>
+                
+              </ion-item>
+          </div>
+      </span>
+    </ion-scroll>
 
   </ion-content>
 </ion-view>

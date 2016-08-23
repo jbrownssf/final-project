@@ -129,7 +129,6 @@ angular.module('SSFAlerts', [])
         });
         $scope.popover.show($event);
     };
-    
     service.showModal = function(parameters, callback) {
         // {
         //     body: '',
@@ -137,17 +136,19 @@ angular.module('SSFAlerts', [])
         //     title: ''
         // }
         var template = 
-            '<ion-modal-view scroll="false">'+
-                '<ion-header-bar>'+
-                    '<h1 class="title">' + parameters.title + '</h1>'+
-                    '<div class="button button-icon button-clear" ng-click="closeModal()"><button class="button-icon icon ion-close-round"></button></div>' +
+            '<ion-modal-view scroll="false" ng-style="ssfInputModal()">'+
+                '<ion-header-bar style="background-color: #39864c; border-color: #39864c;">'+
+                    '<h1 class="title" style="color: white;">' + parameters.title + '</h1>'+
+                    '<div class="button button-icon button-clear" ng-click="closeModal()"><button class="button-icon icon ion-close-round light"></button></div>' +
                 '</ion-header-bar>'+
-                '<ion-content>';
+                '<ion-content scroll="false">' +
+                    '<ion-scroll class="card custom-background" scroll="true" direction="y" ng-style="customBackground(\'modal\')">';
         template += parameters.dragClose ? 
-                    '<ion-refresher on-refresh="closeModal()" pulling-text="Pull to hide...">' +
-                    '</ion-refresher>' : '';
+                        '<ion-refresher on-refresh="closeModal()" pulling-text="Pull to hide...">' +
+                        '</ion-refresher>' : '';
         template +=
                     parameters.body +
+                    '</ion-scroll>' +
                 '</ion-content>'+
             '</ion-modal-view>';
         

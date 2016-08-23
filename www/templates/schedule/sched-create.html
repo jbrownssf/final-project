@@ -1,12 +1,15 @@
-<ion-view view-title="Add Schedule">
+<ion-view view-title="Manage Schedule">
     
   <ion-nav-buttons side="left">
     <button class="button button-icon icon button-clear ion-ios-home" ng-if="showHome" ng-click="goHome()">
 
     </button>
   </ion-nav-buttons>
-    <ion-content>
-        <div class="list">
+    <ion-content scroll="false">
+        <div class="padding text-center subheader">
+            {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
+        </div>
+        <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground7" ng-style="customBackground('customBackground7')">
             <form name="scheduleForm">
                 <div class="text-center assertive padding" ng-if="!secondWindowWidth()">
                     (rotate device to see {{firstWindowWidth() ? "end" : "start/end"}} times)
@@ -16,12 +19,13 @@
                 </label>
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Message</span>
-                  <input type="string" name="note" ng-model="schedule.note" placeholder="Message to others.">
+                  <input type="string" name="note" ng-model="schedule.note" placeholder="Message to Members.">
                 </label>
                 <div class="card" ng-show="section[0] !== 'NaN'" ng-repeat="section in schedule.schedule track by $index">
                         <div class="item item-divider item-icon-right">
                             <label class="item item-input">
-                              <input type="text" ng-model="section[0]" placeholder="Section Name" required>
+                                <span class="input-label">Area</span>
+                                <input type="text" ng-model="section[0]" placeholder="Name" required>
                             </label>
                             <ion-icon class="icon ion-close-round assertive" ng-click="deleteSection($index)"></ion-icon>
                         </div>
@@ -42,12 +46,12 @@
                         </div>
                     </div>
                     <div class="item" ng-click="addSpot($event, [$index])">
-                        <strong>Add a Position</strong>
+                        <strong>Add Location</strong>
                     </div>
                 </div>
                 <div class="card">
                     <div class="item" ng-click="addSection()">
-                        <strong>Add a Section</strong>
+                        <strong>Add an Area</strong>
                     </div>
                 </div>
                 <div class="padding">
@@ -62,6 +66,6 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </ion-scroll>
     </ion-content>
 </ion-view>

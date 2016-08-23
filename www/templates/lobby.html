@@ -1,4 +1,4 @@
-<ion-view view-title="Home">
+<ion-view view-title="Seasonally Scheduling">
     Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug)
     <ion-nav-buttons side="left">
         <button class="button button-icon icon ion-log-out button-clear" ng-click="logout()">
@@ -10,17 +10,16 @@
 
       </button>
   </ion-nav-buttons>
-    <ion-content>
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+    <ion-content scroll="false">
+        <div class="padding text-center subheader">
+                Select a Group
+        </div>
             
-        </ion-refresher>
-            <div class="row padding text-center subheader">
-                <div class="col col-offset-10 ">
-                    Select a Group
-                </div>
-                <div class="col col-10 icon ion-plus-round" ng-click="selectOrgModal()"></div>
-            </div>
-        <div class="list">
+            
+        <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground4" ng-style="customBackground('customBackground4')">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+                
+            </ion-refresher>
             <ion-item ng-click="nextPage(item)" class="item" ng-repeat="item in lobbySelect.data">
                 {{item.orgName}}
                 <span class="item-note">{{item.status}}</span>
@@ -28,6 +27,9 @@
             <ion-item class="item" ng-click="selectOrgModal()">
                 Join a Group
             </ion-item>
-        </div>
+            <ion-item>
+                
+            </ion-item>
+        </ion-scroll>
     </ion-content>
 </ion-view>

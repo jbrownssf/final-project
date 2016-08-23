@@ -174,5 +174,8 @@ angular.module('starter.controllers')
                 });
                 $window.localStorage.orgId ? $state.go('app.org.detail.lobby', {orgId: $window.localStorage.orgId}) : $state.go('app.lobby');
             };
+            $scope.customBackground = function(a) {
+                return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
+            };
         }
     ]);

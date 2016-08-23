@@ -3,7 +3,7 @@ angular.module('starter.controllers')
     'SSFUsersREST', 'SSFAlertsService',
     function($scope, $window, $state, $ionicHistory, $rootScope, SSFUsersREST,
       SSFAlertsService) {
-
+        
       //sets current user's information **make sure this function mirrors the RegisterCtrl function**
       function setLocalStorage(data) {
         $window.localStorage['rememberMe'] = $scope.checkbox.rememberMe;
@@ -107,6 +107,10 @@ angular.module('starter.controllers')
 
       $scope.clickedRememberMe = function() {
         $window.localStorage.rememberMe = $scope.checkbox.rememberMe;
+      };
+      
+      $scope.customBackground = function(a) {
+        return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
       };
 
     }

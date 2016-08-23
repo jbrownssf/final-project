@@ -1,10 +1,10 @@
 angular.module('starter.controllers')
     .controller('LobbyCtrl', ['$scope', '$rootScope', 'MembersRest',
         '$window', 'SSFAlertsService', '$state', 'OrganizationsRest',
-        '$ionicHistory', '$timeout',
+        '$ionicHistory', '$timeout', 'SSFConfigConstants',
         function($scope, $rootScope, MembersRest, $window,
             SSFAlertsService, $state, OrganizationsRest, $ionicHistory,
-            $timeout) {
+            $timeout, SSFConfigConstants) {
 
             $scope.openOrganizations = [];
             var errArr = [];
@@ -86,25 +86,53 @@ angular.module('starter.controllers')
             }
             $scope.selectOrgModal = function() {
                 var template =
-                    '<div class="list">' +
+                    // '<div class="list">' +
                     '<ion-item ng-if="openOrganizations.length === 0" class="item">' +
                     'No Companies to Select From' +
                     '</ion-item>' +
                     '<ion-item ng-if="openOrganizations.length !== 0" class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
                     '{{org.name}}' +
                     '</ion-item>' +
-                    '</div>';
+                    '<ion-item></ion-item>';
+                    // '</div>';
                 SSFAlertsService.showModal({
                     body: template,
                     scope: $scope,
                     title: "Request to Join"
                 }, selectOrg);
             };
+          $scope.ssfInputModal =function() {
+            if($window.innerWidth < SSFConfigConstants.SSFDirectives.contentWidth) {
+              return {
+                width: $window.innerWidth + 'px',
+                margin: 'auto',
+                height: '100%',
+                top: '0%',
+                right: '0%',
+                bottom: '0%',
+                left: '0%'
+              };
+            } else {
+              return {
+                width: SSFConfigConstants.SSFDirectives.contentWidth + 'px',
+                margin: 'auto',
+                height: '100%',
+                top: '0%',
+                right: '0%',
+                bottom: '0%',
+                left: '0%'
+              };
+            }
+          };
 
             $scope.openMember = function() {
                 $state.go('app.user', {
                     memberId: $window.localStorage.userId
                 });
+            };
+            $scope.customBackground = function(a) {
+                if(a == 'modal') return {height: ($window.innerHeight - 44) + 'px'};
+                return {height: ($window.innerHeight - document.getElementById(a || 0).getBoundingClientRect().top) + 'px'};
             };
         }
     ]);

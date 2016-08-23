@@ -1,29 +1,30 @@
-<ion-modal-view scroll="false">
-  <ion-header-bar>
+<ion-modal-view scroll="false" ng-style="ssfInputModal()">
+  <ion-header-bar style="background-color: #39864c; border-color: #39864c; color: white;">
     <h1 class="title">Update Password</h1>
     <div class="button button-icon button-clear" ng-click="closeModal()"><button class="button-icon icon ion-close-round"></button></div>
   </ion-header-bar>
-  <ion-content>
+  <ion-content scroll="false">
 
-
-    <form name="updatePassword" ng-submit="submitPassword(updatePassword)" novalidate>
-      <div class="list">
-        <label class="item item-input">
-        <span class="input-label">Current Password</span>
-        <input name="oldPass" type="password" ng-model="updateUser.oldPassword" required>
-        </label>
-        <label class="item item-input">
-        <span class="input-label">New Password</span>
-        <input name="newPass" type="password" ng-model="updateUser.password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-        </label>
-        <label class="item item-input">
-        <span class="input-label">Repeat Password</span>
-        <input name="rePass" type="password" ng-model="repeat.password" required>
-        </label>
-      </div>
-      <button type="submit" class="item button button-block button-calm app-button">
-        Apply Changes
-        </button>
-    </form>
+    <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground10" ng-style="customBackground('customBackground10')">
+      <form name="updatePassword" ng-submit="submitPassword(updatePassword)" novalidate>
+        <div class="list">
+          <label class="item item-input">
+          <span class="input-label">Current Password</span>
+          <input name="oldPass" type="password" ng-model="updateUser.oldPassword" required>
+          </label>
+          <label class="item item-input">
+          <span class="input-label">New Password</span>
+          <input name="newPass" type="password" ng-model="updateUser.password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+          </label>
+          <label class="item item-input">
+          <span class="input-label">Repeat Password</span>
+          <input name="rePass" type="password" ng-model="repeat.password" required>
+          </label>
+        </div>
+        <button type="submit" class="item button button-block button-calm app-button">
+          Apply Changes
+          </button>
+      </form>
+    </ion-scroll>
   </ion-content>
 </ion-modal-view>

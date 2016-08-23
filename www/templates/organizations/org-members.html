@@ -18,87 +18,90 @@
        Cancel
        </button>
   </ion-header-bar>
-  <ion-content>
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
-            
-        </ion-refresher>
+  <ion-content scroll="false">
 
-    <ion-header-bar class="item-input-inset">
-      <label class="item-input-wrapper">
-        <i class="icon ion-ios7-search placeholder-icon"></i>
-        <input type="search" placeholder="Search..." ng-model="search.txt">
-      </label>
-      <button ng-if="search.txt" class="button button-clear" ng-click="resetSearch()">
-        Cancel
-      </button>
-    </ion-header-bar>
 
-    <div class="row" style="width: 67%; margin-left: auto; margin-right: auto; padding-top: 0px; padding-bottom: 0px;">
-      <button class="col button button-full button-small" ng-class="isRequests ? 'button-stable button-outline' : 'button-dark'" ng-click="toggleView('isNot')">Members</button>
-      <button class="col button button-full button-small" ng-class="isRequests ? 'button-dark' : 'button-stable button-outline'" ng-click="toggleView('is')">Requests</button>
+    <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
+      <button class="col button button-full button-small button-light" ng-class="isRequests ? 'button-outline' : ''" ng-click="toggleView('isNot')">Members</button>
+      <button class="col button button-full button-small button-light" ng-class="isRequests ? '' : 'button-outline'" ng-click="toggleView('is')">Requests</button>
     </div>
 
-    <div class="card" ng-repeat="member in members | filter: search.txt" ng-show="filterFunc(member)" ng-click="selectMember(member)" style="margin-top: 7px">
 
-      <span ng-if="member.status !== 'suspended'">
-        <div class="item item-divider">
-          {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
-    </div>
-    <div class="row" ng-if="member.nickName">
-      <div class="col col-33">
-        Nick Name:
+    <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground8" ng-style="customBackground('customBackground8')">
+      <ion-header-bar class="item-input-inset search">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" placeholder="Search..." ng-model="search.txt">
+        </label>
+        <button ng-if="search.txt" class="button button-clear" ng-click="resetSearch()">
+          Cancel
+        </button>
+      </ion-header-bar>
+      <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+          
+      </ion-refresher>
+      <div class="card" ng-repeat="member in members | filter: search.txt" ng-show="filterFunc(member)" ng-click="selectMember(member)" style="margin-top: 7px">
+        <span ng-if="member.status !== 'suspended'">
+          <div class="item item-divider">
+            {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
+          </div>
+          <div class="row" ng-if="member.nickName">
+            <div class="col col-33">
+              Nick Name:
+            </div>
+            <div class="col">
+              {{member.nickName}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-33">
+              Cell Phone:
+            </div>
+            <div class="col">
+              {{member.cellphone | tel}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-33">
+              Email:
+            </div>
+            <div class="col">
+              {{member.email}}
+            </div>
+          </div>
+        </span>
+        <span ng-if="member.status === 'suspended'">
+          <strike>
+            <div class="item item-divider">
+              {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
+            </div>
+            <div class="row" ng-if="member.nickName">
+              <div class="col col-33">
+                Nick Name:
+              </div>
+              <div class="col">
+                {{member.nickName}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-33">
+                Cell Phone:
+              </div>
+              <div class="col">
+                {{member.cellphone | tel}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-33">
+                Email:
+              </div>
+              <div class="col">
+                {{member.email}}
+              </div>
+            </div>
+          </strike>
+        </span>
       </div>
-      <div class="col">
-        {{member.nickName}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-33">
-        Cell Phone:
-      </div>
-      <div class="col">
-        {{member.cellphone | tel}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-33">
-        Email:
-      </div>
-      <div class="col">
-        {{member.email}}
-      </div>
-    </div>
-    </span>
-    <span ng-if="member.status === 'suspended'"><strike>
-        <div class="item item-divider">
-          {{member.firstName}} {{member.lastName}} <span ng-if="member.nickName">({{member.nickName}})</span><span class="item-note">{{member.status}}</span>
-    </div>
-    <div class="row" ng-if="member.nickName">
-      <div class="col col-33">
-        Nick Name:
-      </div>
-      <div class="col">
-        {{member.nickName}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-33">
-        Cell Phone:
-      </div>
-      <div class="col">
-        {{member.cellphone | tel}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-33">
-        Email:
-      </div>
-      <div class="col">
-        {{member.email}}
-      </div>
-    </div>
-    </strike>
-    </span>
-    </div>
+    </ion-scroll>
   </ion-content>
 </ion-view>

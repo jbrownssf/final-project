@@ -19,19 +19,58 @@ html {
 .subheader {
     font-size: 20px !important;
     text-align: center !important;
+    color: white;
+    margin-bottom: 18px;
 }
 
-
-/*these '.ssf-' classes are for the SSFCssServices*/
-.ssf-button {
-    font-weight: bold !important;
+.bar.bar-calm {
+  background-color: #39864c;
+  border-color: #39864c;
 }
-.ssf-button-inverted {
-    font-weight: bold !important;
+.bar-header {
+    border: 0px !important;
+    border-bottom-color: transparent !important;
+    background-image: none !important;
+    border-bottom: none !important;
 }
-.ssf-bar-header {
-    color: #808285 !important;
+.has-header {
+  background-color: #39864c
 }
-.ssf-tabs {
-    font-weight: bold !important;
+.item-input-inset {
+  background-color: #39864c;
+  border-color: #39864c;
+}
+.item-input-inset.search {
+  background-color: white;
+  border-color: white;
+}
+ion-content ion-scroll.card.custom-background{
+  margin-bottom: 0px !important;
+  margin-top: 0px;
+  margin-left: 0px;
+  position: relative;
+  right: 5px;
+  left: 5px;
+  bottom: 10px;
+}
+ion-content div.card.custom-background{
+  margin-bottom: 0px !important;
+  margin-top: 0px;
+  margin-left: 0px;
+  position: relative;
+  right: 5px;
+  left: 5px;
+  bottom: 0px;
+}
+button.button.button-calm {
+  background-color: #184924;
+}
+button.button.button-calm.activated {
+  background-color: #39864c;
+}
+.button.button-dark {
+  background-color: #184924;
+}
+.button.button-dark.activated {
+  background-color: #39864c;
 }

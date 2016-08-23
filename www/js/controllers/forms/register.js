@@ -110,6 +110,9 @@ angular.module('starter.controllers')
             $window.open(SSFConfigConstants.eulaUrl);
         }
     };
+    $scope.customBackground = function(a) {
+        return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
+    };
 }])
 .directive('phoneInput', function($filter, $browser) {
     //directive from: https://codepen.io/rpdasilva/pen/DpbFf?editors=1000

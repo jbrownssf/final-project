@@ -1,54 +1,56 @@
 <ion-view view-title="Scheduling App" hide-nav-bar="false">
   <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
   <ion-nav-buttons></ion-nav-buttons>
-  <ion-content>
+  <ion-content scroll="false">
     <div class="padding subheader">
         Register
     </div>
+    <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground2" ng-style="customBackground('customBackground2')">
     
-    <form name="registerForm" class="padding" ng-submit="submitRegisterForm(registerForm)" novalidate>
-      <div class="list animate-ripple">
-        
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.firstName.$invalid && registerForm.$submitted}">
-          <span class="input-label">First Name</span>
-          <input type="text" name="firstName" ng-model="registerData.firstName" placeholder="First Name" required>
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.lastName.$invalid && registerForm.$submitted}">
-          <span class="input-label">Last Name</span>
-          <input type="text" name="lastName" ng-model="registerData.lastName" placeholder="Last Name" required>
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.cellphone.$invalid && registerForm.$submitted}">
-          <span class="input-label">Cell Phone</span>
-          <input phone-input type="text" name="cellphone" ng-model="registerData.cellphone" placeholder="Cell Phone">
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.email.$invalid && registerForm.$submitted}">
-          <span class="input-label">Email</span>
-          <input type="email" name="email" ng-model="registerData.email" placeholder="Email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required>
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.password.$invalid && registerForm.$submitted}">
-          <span class="input-label">Password</span>
-          <input type="password" name="password" ng-model="registerData.password" placeholder="Password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-        </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.rePassword.$invalid && registerForm.$submitted}">
-          <span class="input-label">Repeat Password</span>
-          <input type="password" name="rePassword" ng-model="repeatPassword.password" placeholder="Repeat Password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-        </label>
-        
-        <ion-checkbox name="eula" ng-model="registerData.hasAcceptedEULA" class="checkbox-calm" ng-class="{ 'has-errors' : !registerForm.eula.$modelValue && registerForm.$submitted}" required>
-          End User License Agreement
-        </ion-checkbox>
-        <ion-checkbox ng-model="checkbox.rememberMe" class="no-border checkbox-calm" ng-change="clickedRememberMe()">
-          Remember Me
-        </ion-checkbox>
-      </div>
-      <div class="list animate-ripple">
-        <button class="item button button-block button-calm ssf-button-inverted" type="button" style="margin:0" ng-click="navEula()">
-          EULA
-        </button>
-        <button class="item button button-block button-calm ssf-button" type="submit" ion-track-tap="Register-tap" ion-track-data="{ mockData: 'User tapped Register'}">
-          Submit
-        </button>
-      </div>
-    </form>
+      <form name="registerForm" class="padding" ng-submit="submitRegisterForm(registerForm)" novalidate>
+        <div class="list animate-ripple">
+          
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.firstName.$invalid && registerForm.$submitted}">
+            <span class="input-label">First Name</span>
+            <input type="text" name="firstName" ng-model="registerData.firstName" placeholder="First Name" required>
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.lastName.$invalid && registerForm.$submitted}">
+            <span class="input-label">Last Name</span>
+            <input type="text" name="lastName" ng-model="registerData.lastName" placeholder="Last Name" required>
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.cellphone.$invalid && registerForm.$submitted}">
+            <span class="input-label">Cell Phone</span>
+            <input phone-input type="text" name="cellphone" ng-model="registerData.cellphone" placeholder="Cell Phone">
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.email.$invalid && registerForm.$submitted}">
+            <span class="input-label">Email</span>
+            <input type="email" name="email" ng-model="registerData.email" placeholder="Email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required>
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.password.$invalid && registerForm.$submitted}">
+            <span class="input-label">Password</span>
+            <input type="password" name="password" ng-model="registerData.password" placeholder="Password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+          </label>
+          <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.rePassword.$invalid && registerForm.$submitted}">
+            <span class="input-label">Repeat Password</span>
+            <input type="password" name="rePassword" ng-model="repeatPassword.password" placeholder="Repeat Password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+          </label>
+          
+          <ion-checkbox name="eula" ng-model="registerData.hasAcceptedEULA" class="checkbox-dark" ng-class="{ 'has-errors' : !registerForm.eula.$modelValue && registerForm.$submitted}" required>
+            End User License Agreement
+          </ion-checkbox>
+          <ion-checkbox ng-model="checkbox.rememberMe" class="no-border checkbox-dark" ng-change="clickedRememberMe()">
+            Remember Me
+          </ion-checkbox>
+        </div>
+        <div class="list animate-ripple">
+          <button class="item button button-block button-calm ssf-button-inverted" type="button" style="margin:0" ng-click="navEula()">
+            EULA
+          </button>
+          <button class="item button button-block button-calm ssf-button" type="submit" ion-track-tap="Register-tap" ion-track-data="{ mockData: 'User tapped Register'}">
+            Submit
+          </button>
+        </div>
+      </form>
+    </ion-scroll>
   </ion-content>
 </ion-view>

@@ -61,35 +61,35 @@ angular.module('starter.controllers')
           if (!errArr[0] || !errArr[1] || !errArr[2])
             return handleErrors(a);
           if (a) $scope.$broadcast('scroll.refreshComplete');
-          if (errArr[0] !== 200) {
-            if (errArr[0].status === 200 && !errArr[0].data[0]) {
-              if (!errArr[0].data[0]) {
-                return SSFAlertsService.showConfirm('Error', 'You are not already a member of this company. Would you like to request to join the company?', 'Yes', 'No')
-                  .then(function(bool) {
-                    if (bool) {
-                      if ($scope.openOrganizations.status !== 'open') {
-                        SSFAlertsService.showAlert('Sorry', 'This company is not accepting new members at this time.');
-                      }
-                      SSFAlertsService.showPrompt('Create Nick Name', 'What would you like your new nick name to be?', 'Apply', undefined, undefined, 'Nick Name')
-                        .then(function(res) {
-                          if (!res) {
-                            return;
-                          }
-                          return OrganizationsRest.request($window.localStorage.token, {
-                            organizationId: $stateParams.orgId,
-                            userId: $window.localStorage.userId,
-                            nickName: res
-                          });
-                        });
-                    }
-                  });
-              }
-            }
-          }
-          if (errArr[1] !== 200)
-            return SSFAlertsService.showAlert('Error', 'There was a problem loading this page. Please try again later.');
-          if (errArr[2] !== 200)
-            return SSFAlertsService.showAlert('Error', 'There was a problem loading this page. Please try again later.');
+          // if (errArr[0] !== 200) {
+          //   if (errArr[0].status === 200 && !errArr[0].data[0]) {
+          //     if (!errArr[0].data[0]) {
+          //       return SSFAlertsService.showConfirm('Error', 'You are not already a member of this company. Would you like to request to join the company?', 'Yes', 'No')
+          //         .then(function(bool) {
+          //           if (bool) {
+          //             if ($scope.openOrganizations.status !== 'open') {
+          //               SSFAlertsService.showAlert('Sorry', 'This company is not accepting new members at this time.');
+          //             }
+          //             SSFAlertsService.showPrompt('Create Nick Name', 'What would you like your new nick name to be?', 'Apply', undefined, undefined, 'Nick Name')
+          //               .then(function(res) {
+          //                 if (!res) {
+          //                   return;
+          //                 }
+          //                 return OrganizationsRest.request($window.localStorage.token, {
+          //                   organizationId: $stateParams.orgId,
+          //                   userId: $window.localStorage.userId,
+          //                   nickName: res
+          //                 });
+          //               });
+          //           }
+          //         });
+          //     }
+          //   }
+          // }
+          // if (errArr[1] !== 200)
+          //   return SSFAlertsService.showAlert('Error', 'There was a problem loading this page. Please try again later.');
+          // if (errArr[2] !== 200)
+          //   return SSFAlertsService.showAlert('Error', 'There was a problem loading this page. Please try again later.');
         }, '100');
       }
       $scope.setView = function(a) {
@@ -200,6 +200,9 @@ angular.module('starter.controllers')
           disableBack: true
         });
         $state.go('app.lobby');
+      };
+      $scope.customBackground = function(a) {
+        return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
       };
     }
   ]);

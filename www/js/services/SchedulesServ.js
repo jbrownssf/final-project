@@ -31,6 +31,7 @@ angular.module('starter.services')
     SchedulesService.template = function(replace) {
         if(replace)
             template = replace;
+        if(!template.assignedDate) template.assignedDate = new Date();
         return template;
     };
     SchedulesService.singleSched = function(replace) {

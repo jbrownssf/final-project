@@ -2,10 +2,10 @@ angular.module('starter.controllers')
   .controller('OrgMemberCtrl', ['$scope', '$rootScope', 'SSFAlertsService',
     'MembersRest', '$window', '$stateParams', 'SSFUsersREST',
     'OrganizationsRest', '$ionicHistory', '$state', '$ionicModal',
-    '$timeout',
+    '$timeout', 'SSFConfigConstants',
     function($scope, $rootScope, SSFAlertsService, MembersRest, $window,
       $stateParams, SSFUsersREST, OrganizationsRest, $ionicHistory,
-      $state, $ionicModal, $timeout) {
+      $state, $ionicModal, $timeout, SSFConfigConstants) {
 
       $scope.showHome = false;
       $scope.user = {};
@@ -153,9 +153,6 @@ angular.module('starter.controllers')
           });
       }
 
-      $scope.changePassword = function() {
-        SSFAlertsService.showAlert('Comming Soon...', 'This feature will be added shortly.');
-      };
       $scope.goHome = function() {
         $ionicHistory.nextViewOptions({
           disableBack: true
@@ -218,5 +215,32 @@ angular.module('starter.controllers')
           callback('User closed modal');
         };
       }
+      
+      $scope.ssfInputModal =function() {
+        if($window.innerWidth < SSFConfigConstants.SSFDirectives.contentWidth) {
+          return {
+            width: $window.innerWidth + 'px',
+            margin: 'auto',
+            height: '100%',
+            top: '0%',
+            right: '0%',
+            bottom: '0%',
+            left: '0%'
+          };
+        } else {
+          return {
+            width: SSFConfigConstants.SSFDirectives.contentWidth + 'px',
+            margin: 'auto',
+            height: '100%',
+            top: '0%',
+            right: '0%',
+            bottom: '0%',
+            left: '0%'
+          };
+        }
+      };
+      $scope.customBackground = function(a) {
+        return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
+      };
     }
   ]);

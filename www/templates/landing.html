@@ -1,14 +1,21 @@
-<ion-view view-title="Home" hide-nav-bar="false">
+<ion-view view-title="Seasonally Scheduling" hide-nav-bar="false">
     <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
     <ion-nav-buttons></ion-nav-buttons> 
-    <ion-content>
-        <div class="padding list animate-ripple">
-            <button class="item button button-block button-calm ssf-button" ng-click="login()">
-                Login
-            </button>
-            <button class="item button button-block button-calm ssf-button" ng-click="register()">
-                Register
-            </button>
+    <ion-content scroll="false">
+        <!--<div class="button-bar" style="width: 67%; margin-left: auto; margin-right: auto; padding-top: 0px; padding-bottom: 0px;">-->
+        <!--    <a class="button button-dark button-small button-full button-outline">First</a>-->
+        <!--    <a class="button button-dark button-small button-full">Second</a>-->
+        <!--    <a class="button button-dark button-small button-full button-outline">Third</a>-->
+        <!--</div>-->
+        <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
+            <button class="col button button-full button-small button-light button-outline" ng-click="login()">Login</button>
+            <button class="col col-10 button button-full button-small button-light"></button>
+            <button class="col button button-full button-small button-light button-outline" ng-click="register()">Register</button>
         </div>
+        <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground" ng-style="customBackground('customBackground')">
+            <div class="padding list">
+                yet to be filled in
+            </div>
+        </ion-scroll>
     </ion-content>
 </ion-view>
