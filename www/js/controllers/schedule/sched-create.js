@@ -156,6 +156,7 @@ angular.module('starter.controllers')
             };
 
             $scope.customBackground = function(a) {
+                if(a == 'modal') return {bottom: 0 + 'px'};
                 return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
             };
         }

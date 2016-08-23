@@ -74,3 +74,9 @@ button.button.button-calm.activated {
 .button.button-dark.activated {
   background-color: #39864c;
 }
+.action-sheet-group .button {
+  color: #184924;
+}
+.action-sheet .button:hover {
+  color: #39864c;
+}

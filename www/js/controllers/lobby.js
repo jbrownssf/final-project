@@ -130,6 +130,7 @@ angular.module('starter.controllers')
                     memberId: $window.localStorage.userId
                 });
             };
+            
             $scope.customBackground = function(a) {
                 if(a == 'modal') return {height: ($window.innerHeight - 44) + 'px'};
                 return {height: ($window.innerHeight - document.getElementById(a || 0).getBoundingClientRect().top) + 'px'};

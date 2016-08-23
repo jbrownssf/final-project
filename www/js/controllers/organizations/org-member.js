@@ -240,7 +240,8 @@ angular.module('starter.controllers')
         }
       };
       $scope.customBackground = function(a) {
-        return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
+        if(a == 'modal') return {bottom: 0 + 'px'};
+        return {height: ($window.innerHeight - document.getElementById(a || 0).getBoundingClientRect().top) + 'px'};
       };
     }
   ]);

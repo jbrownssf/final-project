@@ -1,11 +1,11 @@
 <ion-modal-view scroll="false" ng-style="ssfInputModal()">
   <ion-header-bar style="background-color: #39864c; border-color: #39864c; color: white;">
-    <h1 class="title">Update Password</h1>
-    <div class="button button-icon button-clear" ng-click="closeModal()"><button class="button-icon icon ion-close-round"></button></div>
+    <h1 class="title" style="color: white">Update Password</h1>
+    <div class="button button-icon" ng-click="closeModal()"><button style="color: white" class="button-icon icon ion-close-round button-stable"></button></div>
   </ion-header-bar>
   <ion-content scroll="false">
-
-    <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground10" ng-style="customBackground('customBackground10')">
+    <!--<div style="height: 15px"></div>-->
+    <ion-scroll class="card custom-background" scroll="true" direction="y" style="height: 10000px" ng-style="customBackground('modal')">
       <form name="updatePassword" ng-submit="submitPassword(updatePassword)" novalidate>
         <div class="list">
           <label class="item item-input">
@@ -21,9 +21,11 @@
           <input name="rePass" type="password" ng-model="repeat.password" required>
           </label>
         </div>
-        <button type="submit" class="item button button-block button-calm app-button">
-          Apply Changes
+        <div class="padding">
+          <button type="submit" class="item button button-block button-calm app-button">
+            Apply Changes
           </button>
+        </div>
       </form>
     </ion-scroll>
   </ion-content>
