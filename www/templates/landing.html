@@ -8,14 +8,93 @@
         <!--    <a class="button button-dark button-small button-full button-outline">Third</a>-->
         <!--</div>-->
         <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
-            <button class="col button button-full button-small button-light button-outline" ng-click="login()">Login</button>
-            <button class="col col-10 button button-full button-small button-light"></button>
-            <button class="col button button-full button-small button-light button-outline" ng-click="register()">Register</button>
+            <button class="col button button-full button-small button-light" ng-class="whichOption == '0' ? '' : 'button-outline'" ng-click="setView('0')">Login</button>
+            <button class="col button button-full button-small button-light" ng-class="whichOption == '1' ? '' : 'button-outline'" ng-click="setView('1')">Welcome</button>
+            <button class="col button button-full button-small button-light" ng-class="whichOption == '2' ? '' : 'button-outline'" ng-click="setView('2')">Register</button>
         </div>
         <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground" ng-style="customBackground('customBackground')">
-            <div class="padding list">
-                yet to be filled in
-            </div>
+            
+            <span ng-if="whichOption === '0'" ng-controller="LoginCtrl">
+              <form class="padding" name="loginForm" novalidate ng-submit="doLogin(loginForm)">
+                <div class="list animate-ripple">
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : loginForm.email.$invalid && loginForm.$submitted}">
+                    <span class="input-label">Email</span>
+                    <input type="email" name="email" ng-model="loginData.email" placeholder="Email" required>
+                  </label>
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : loginForm.password.$invalid && loginForm.$submitted}">
+                    <span class="input-label">Password</span>
+                    <input type="password" name="password" ng-model="loginData.password" placeholder="Password" required>
+                  </label>
+                  <ion-checkbox ng-model="checkbox.rememberMe" class="no-border checkbox-dark" ng-change="clickedRememberMe()">
+                    Remember Me
+                  </ion-checkbox>
+                  <button class="item button button-block button-calm ssf-button" type="submit" ion-track-tap="Login-tap" ion-track-data="{ mockData: 'User tapped Login'}">
+                    Submit
+                  </button>
+                  <button class="item button button-block button-calm ssf-button-inverted" type="button" ng-click="register()">
+                    Register
+                  </button>
+                </div>
+              </form>
+            </span>
+            
+            
+            
+            <span ng-if="whichOption === '1'">
+                <div class="padding list">
+                    yet to be filled in
+                    <br>
+                </div>
+            </span>
+            
+            
+            
+            <span ng-if="whichOption === '2'" ng-controller="RegisterCtrl">
+              <form name="registerForm" class="padding" ng-submit="submitRegisterForm(registerForm)" novalidate>
+                <div class="list animate-ripple">
+                  
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.firstName.$invalid && registerForm.$submitted}">
+                    <span class="input-label">First Name</span>
+                    <input type="text" name="firstName" ng-model="registerData.firstName" placeholder="First Name" required>
+                  </label>
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.lastName.$invalid && registerForm.$submitted}">
+                    <span class="input-label">Last Name</span>
+                    <input type="text" name="lastName" ng-model="registerData.lastName" placeholder="Last Name" required>
+                  </label>
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.cellphone.$invalid && registerForm.$submitted}">
+                    <span class="input-label">Cell Phone</span>
+                    <input phone-input type="text" name="cellphone" ng-model="registerData.cellphone" placeholder="Cell Phone">
+                  </label>
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.email.$invalid && registerForm.$submitted}">
+                    <span class="input-label">Email</span>
+                    <input type="email" name="email" ng-model="registerData.email" placeholder="Email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required>
+                  </label>
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.password.$invalid && registerForm.$submitted}">
+                    <span class="input-label">Password</span>
+                    <input type="password" name="password" ng-model="registerData.password" placeholder="Password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                  </label>
+                  <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : registerData.rePassword.$invalid && registerForm.$submitted}">
+                    <span class="input-label">Repeat Password</span>
+                    <input type="password" name="rePassword" ng-model="repeatPassword.password" placeholder="Repeat Password" pattern="(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                  </label>
+                  
+                  <ion-checkbox name="eula" ng-model="registerData.hasAcceptedEULA" class="checkbox-dark" ng-class="{ 'has-errors' : !registerForm.eula.$modelValue && registerForm.$submitted}" required>
+                    End User License Agreement
+                  </ion-checkbox>
+                  <ion-checkbox ng-model="checkbox.rememberMe" class="no-border checkbox-dark" ng-change="clickedRememberMe()">
+                    Remember Me
+                  </ion-checkbox>
+                </div>
+                <div class="list animate-ripple">
+                  <button class="item button button-block button-calm ssf-button-inverted" type="button" style="margin:0" ng-click="navEula()">
+                    EULA
+                  </button>
+                  <button class="item button button-block button-calm ssf-button" type="submit" ion-track-tap="Register-tap" ion-track-data="{ mockData: 'User tapped Register'}">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </span>
         </ion-scroll>
     </ion-content>
 </ion-view>

@@ -177,5 +177,15 @@ angular.module('starter.controllers')
             $scope.customBackground = function(a) {
                 return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
             };
+            
+            $scope.showWings = true;
+            $scope.setSubHeaderGrid = function() {
+                if(!$scope.showWings && $window.innerWidth >= 320) $scope.showWings = true;
+                if($window.innerWidth > 745) return 'col-33';
+                if($window.innerWidth > 505) return 'col-50';
+                if($window.innerWidth > 381) return 'col-67';
+                if($window.innerWidth >= 320) return 'col-80';
+                $scope.showWings = false;
+            };
         }
     ]);

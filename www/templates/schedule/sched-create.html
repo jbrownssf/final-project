@@ -6,8 +6,11 @@
     </button>
   </ion-nav-buttons>
     <ion-content scroll="false">
-        <div class="padding text-center subheader">
-            {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
+        
+        <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
+            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
+            <button class="col button button-full button-small button-light" ng-class="setSubHeaderGrid()">{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</button>
+            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
         </div>
         <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground7" ng-style="customBackground('customBackground7')">
             <form name="scheduleForm">
@@ -22,13 +25,13 @@
                   <input type="string" name="note" ng-model="schedule.note" placeholder="Message to Members.">
                 </label>
                 <div class="card" ng-show="section[0] !== 'NaN'" ng-repeat="section in schedule.schedule track by $index">
-                        <div class="item item-divider item-icon-right">
-                            <label class="item item-input">
-                                <span class="input-label">Area</span>
-                                <input type="text" ng-model="section[0]" placeholder="Name" required>
-                            </label>
-                            <ion-icon class="icon ion-close-round assertive" ng-click="deleteSection($index)"></ion-icon>
-                        </div>
+                    <div class="item item-divider item-icon-right">
+                        <label class="item item-input">
+                            <span class="input-label">Area</span>
+                            <input type="text" ng-model="section[0]" placeholder="Name" required>
+                        </label>
+                        <ion-icon class="icon ion-close-round assertive" ng-click="deleteSection($index)"></ion-icon>
+                    </div>
                     <div class="item row" ng-show="spot[0] !== 'NaN'" ng-repeat="spot in section[1] track by $index" ng-click="assignPosition($event, [$parent.$index, $index])">
                         <div class="col">
                             {{spot[0]}}

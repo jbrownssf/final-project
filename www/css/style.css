@@ -17,10 +17,18 @@ html {
   vertical-align: bottom !important;
 }
 .subheader {
-    font-size: 20px !important;
-    text-align: center !important;
-    color: white;
-    margin-bottom: 18px;
+  padding: 0px;
+  font-size: 20px !important;
+  text-align: center !important;
+  /*color: black;*/
+  /*height: 28px;*/
+  margin-bottom: 18px;
+  /*width: 67%; */
+  /*margin-left: auto; */
+  /*margin-right: auto; */
+  /*border-top: 0.5px solid #fff;*/
+  /*border-bottom: 0.5px solid #fff;*/
+  /*background-color: white;*/
 }
 
 .bar.bar-calm {

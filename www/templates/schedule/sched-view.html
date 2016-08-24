@@ -12,8 +12,11 @@
     </button>
   </ion-nav-buttons>
     <ion-content scroll="false">
-        <div class="padding text-center subheader">
-            {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
+        <!--<div style="color: gray; position: absolute; z-index: 10; bottom: 0; background-color: white;">DRAFT</div>-->
+        <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
+            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
+            <button class="col button button-full button-small button-light" ng-class="setSubHeaderGrid()">{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</button>
+            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
         </div>
         <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground6" ng-style="customBackground('customBackground6')">
             <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
