@@ -2,22 +2,30 @@ angular.module('starter.controllers')
   .controller('OrgLobbyCtrl', ['$scope', '$window', '$stateParams', 'SchedulesREST',
     'SSFAlertsService', 'SchedulesService', '$state', '$ionicListDelegate',
     '$rootScope', '$ionicActionSheet', 'OrganizationsRest', 'MembersRest',
-    '$ionicHistory', '$timeout',
+    '$ionicHistory', '$timeout', 'BadgeServ',
     function($scope, $window, $stateParams, SchedulesREST, SSFAlertsService,
       SchedulesService, $state, $ionicListDelegate, $rootScope, $ionicActionSheet,
-      OrganizationsRest, MembersRest, $ionicHistory, $timeout) {
+      OrganizationsRest, MembersRest, $ionicHistory, $timeout, BadgeServ) {
 
       $scope.openOrganizations = [];
       $scope.canEdit = false;
       $scope.listCanSwipe = false;
       $scope.currentView = 1;
+      $scope.orgId = $stateParams.orgId;
+      $scope.badges = {};
       var errArr = [];
 
       $scope.$on('$ionicView.enter', function() {
         $scope.doRefresh();
       });
       $scope.doRefresh = function(a) {
+        $scope.orgId = $stateParams.orgId;
         errArr = [];
+        BadgeServ.getAll()
+        .then(function(res) {
+          console.log(res)
+          $scope.badges = res;
+        });
         $rootScope.stopSpinner = true;
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
           .then(function(res) {

@@ -1,5 +1,21 @@
-<ion-view view-title="Seasonally Scheduling">
-    Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug)
+<ion-view view-title="Simply Scheduling">
+    
+    <ion-header-bar class="bar bar-subheader bar-calm" style="height: 48px;">
+      <div class="tabs">
+        <div style="width: 16%"></div>
+        <button class="button button-clear button-full tab-item tab-off">
+          
+        </button>
+        <button class="button button-clear button-full tab-item tab-on" style="min-width: 106px;">
+          Select Group
+        </button>
+        <button class="button button-clear button-full tab-item tab-off">
+          
+        </button>
+        <div style="width: 16%"></div>
+      </div>
+    </ion-header-bar>
+    
     <ion-nav-buttons side="left">
         <button class="button button-icon icon ion-log-out button-clear" ng-click="logout()">
             
@@ -10,28 +26,27 @@
 
       </button>
   </ion-nav-buttons>
-    <ion-content scroll="false">
-        <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
-            <button class="col button button-full button-small button-light button-outline"></button>
-            <button class="col button button-full button-small button-light">Select a Group</button>
-            <button class="col button button-full button-small button-light button-outline"></button>
-        </div>
+    <ion-content>
+        <!--<div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">-->
+        <!--    <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>-->
+        <!--    <button class="col button button-full button-small button-light" ng-class="setSubHeaderGrid()">Select Group</button>-->
+        <!--    <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>-->
+        <!--</div>-->
             
             
-        <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground4" ng-style="customBackground('customBackground4')">
+        <!--<ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground4" ng-style="customBackground('customBackground4')">-->
             <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
                 
             </ion-refresher>
             <ion-item ng-click="nextPage(item)" class="item" ng-repeat="item in lobbySelect.data">
+                <!--<span class="badge badge-assertive" style="left:0px; right:auto;">30</span>-->
                 {{item.orgName}}
                 <span class="item-note">{{item.status}}</span>
+                <!--badgeCounts-->
             </ion-item>
             <ion-item class="item" ng-click="selectOrgModal()">
                 Join a Group
             </ion-item>
-            <ion-item>
-                
-            </ion-item>
-        </ion-scroll>
+        <!--</ion-scroll>-->
     </ion-content>
 </ion-view>

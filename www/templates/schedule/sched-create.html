@@ -1,18 +1,34 @@
 <ion-view view-title="Manage Schedule">
     
+    <ion-header-bar class="bar bar-subheader bar-calm" style="height: 48px;">
+      <div class="tabs">
+        <div style="width: 16%"></div>
+        <button class="button button-clear button-full tab-item tab-off" style="max-width: 200px;">
+          
+        </button>
+        <button class="button button-clear button-full tab-item tab-on" style="min-width: 200px; max-width: 200px;">
+          {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
+        </button>
+        <button class="button button-clear button-full tab-item tab-off" style="max-width: 200px;">
+          
+        </button>
+        <div style="width: 16%"></div>
+      </div>
+    </ion-header-bar>
+    
   <ion-nav-buttons side="left">
     <button class="button button-icon icon button-clear ion-ios-home" ng-if="showHome" ng-click="goHome()">
 
     </button>
   </ion-nav-buttons>
-    <ion-content scroll="false">
+    <ion-content>
         
-        <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
-            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
-            <button class="col button button-full button-small button-light" ng-class="setSubHeaderGrid()">{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</button>
-            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
-        </div>
-        <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground7" ng-style="customBackground('customBackground7')">
+        <!--<div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">-->
+        <!--    <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>-->
+        <!--    <button class="col button button-full button-small button-light" ng-class="setSubHeaderGrid()">{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</button>-->
+        <!--    <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>-->
+        <!--</div>-->
+        <!--<ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground7" ng-style="customBackground('customBackground7')">-->
             <form name="scheduleForm">
                 <div class="text-center assertive padding" ng-if="!secondWindowWidth()">
                     (rotate device to see {{firstWindowWidth() ? "end" : "start/end"}} times)
@@ -69,6 +85,6 @@
                     </button>
                 </div>
             </form>
-        </ion-scroll>
+        <!--</ion-scroll>-->
     </ion-content>
 </ion-view>

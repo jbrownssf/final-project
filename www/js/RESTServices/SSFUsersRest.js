@@ -32,6 +32,15 @@ angular.module("RESTServices", [])
             }
         });
     };
+    SSFUsersREST.getBadgeCount = function(token) {
+        return $http({
+            url: getUrl()+ 'getBadges',
+            method: "GET",
+            headers: {
+                'Authorization': token
+            }
+        });
+    };
     SSFUsersREST.logout = function(token) {
         return $http({
             url: getUrl()+"logout",

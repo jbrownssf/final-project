@@ -1,5 +1,16 @@
 <ion-view view-title="Scheduling App" hide-nav-bar="false">
-  <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
+  
+  <ion-header-bar class="bar bar-subheader">
+    <div class="tabs">
+      <a class="tab-item" ui-sref="list">
+        <p>Overall</p>
+      </a>
+      <a class="tab-item" ui-sref="secondlist">
+        <p>Mine</p>
+      </a>
+    </div>
+  </ion-header-bar>
+  
   <ion-nav-buttons></ion-nav-buttons> 
   <ion-content scroll="false">
     <div class="padding text-center subheader">
@@ -7,7 +18,7 @@
     </div>
     <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground3" ng-style="customBackground('customBackground3')">
       <form class="padding" name="loginForm" novalidate ng-submit="doLogin(loginForm)">
-        <div class="list animate-ripple">
+        <div class="list">
           <label class="item item-input item-floating-label" ng-class="{ 'has-errors' : loginForm.email.$invalid && loginForm.$submitted}">
             <span class="input-label">Email</span>
             <input type="email" name="email" ng-model="loginData.email" placeholder="Email" required>

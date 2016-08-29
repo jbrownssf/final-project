@@ -3,9 +3,9 @@
     <h1 class="title" style="color: white">Update Password</h1>
     <div class="button button-icon" ng-click="closeModal()"><button style="color: white" class="button-icon icon ion-close-round button-stable"></button></div>
   </ion-header-bar>
-  <ion-content scroll="false">
+  <ion-content>
     <!--<div style="height: 15px"></div>-->
-    <ion-scroll class="card custom-background" scroll="true" direction="y" style="height: 10000px" ng-style="customBackground('modal')">
+    <!--<ion-scroll class="card custom-background" scroll="true" direction="y" style="height: 10000px" ng-style="customBackground('modal')">-->
       <form name="updatePassword" ng-submit="submitPassword(updatePassword)" novalidate>
         <div class="list">
           <label class="item item-input">
@@ -27,6 +27,6 @@
           </button>
         </div>
       </form>
-    </ion-scroll>
+    <!--</ion-scroll>-->
   </ion-content>
 </ion-modal-view>

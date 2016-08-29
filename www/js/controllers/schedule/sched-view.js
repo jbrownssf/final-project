@@ -181,11 +181,19 @@ angular.module('starter.controllers')
             $scope.showWings = true;
             $scope.setSubHeaderGrid = function() {
                 if(!$scope.showWings && $window.innerWidth >= 320) $scope.showWings = true;
-                if($window.innerWidth > 745) return 'col-33';
-                if($window.innerWidth > 505) return 'col-50';
-                if($window.innerWidth > 381) return 'col-67';
-                if($window.innerWidth >= 320) return 'col-80';
+                if($window.innerWidth > 572) return 'col-50';
+                if($window.innerWidth > 440) return 'col-67';
+                if($window.innerWidth > 374) return 'col-80';
+                if($window.innerWidth > 330) return 'col-90';
                 $scope.showWings = false;
+            };
+            
+            $scope.publish = function(schedule) {
+                schedule.state = 'published';
+                SchedulesREST.upsert($window.localStorage.token, schedule)
+                .then(function(res) {
+                    $scope.doRefresh();
+                });
             };
         }
     ]);

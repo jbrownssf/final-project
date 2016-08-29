@@ -32,15 +32,25 @@ html {
 }
 
 .bar.bar-calm {
-  background-color: #39864c;
-  border-color: #39864c;
+  background-color: #39864c !important;
+  border-color: #39864c !important;
+  border-bottom: none !important;
 }
-.bar-header {
-    border: 0px !important;
-    border-bottom-color: transparent !important;
-    background-image: none !important;
-    border-bottom: none !important;
+ion-header-bar.bar {
+  border: 0px !important;
+  background-image: none !important;
+  border-bottom: none !important;
+  /*background: none !importa;*/
+  background-color: #39864c !important;
 }
+/*ion-header-bar.bar.bar-subheader.bar-calm {*/
+/*  border: 0px;*/
+/*  border-bottom-color: transparent !important;*/
+/*  background-image: none !important;*/
+/*  border-bottom: none !important;*/
+/*  top: 42px;*/
+/*  z-index: 10;*/
+/*}*/
 .has-header {
   background-color: #39864c
 }
@@ -88,3 +98,114 @@ button.button.button-calm.activated {
 .action-sheet .button:hover {
   color: #39864c;
 }
+
+
+
+/*CSS for the examples modal*/
+.transparent {
+  background: transparent !important;
+}
+.slider {
+  width: 100%;
+  height: 90vh;
+  max-width: 900px;
+  bottom: 0px;
+}
+
+p.info {
+  position: absolute;
+  bottom: 55px;
+  margin: 0 auto;
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 28px;
+  color: #ffffff;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Fix modal backdrop for smaller devices */
+@media (max-width: 679px) {
+  .active .modal-backdrop-bg {
+    opacity: .5;
+  }
+  .modal-backdrop-bg {
+    -webkit-transition: opacity 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
+    background-color: #000;
+    opacity: 0;
+  }
+}
+
+
+
+/*Subheader tabs styling*/
+div.tabs {
+  background-color: #39864c;
+  height: 34px;
+  top: 0px;
+  border: 0px;
+  left: 0px;
+  border: none;
+  background-image: none;
+}
+
+div.tabs button.tab-item {
+  align-self: center;
+  font-size: 12px !important;
+}
+
+div.tabs button.tab-item.tab-on {
+  color: black;
+  background-color: white;
+  opacity: 1;
+}
+div.tabs button.tab-item.tab-on.activated {
+  color: black;
+  background-color: white;
+  opacity: 0.7;
+}
+
+div.tabs button.tab-item.tab-off {
+  color: white;
+  border-top: 0.5px solid white;
+  border-bottom: 0.5px solid white;
+  opacity: 1;
+} 
+div.tabs button.tab-item.tab-off.activated {
+  color: white;
+  border-top: 0.5px solid white;
+  border-bottom: 0.5px solid white;
+  opacity: 0.7;
+} 
+
+ion-content {
+  border-left: 5px solid #39864c;
+  border-right: 5px solid #39864c;
+}
+ion-content.scroll-content.ionic-scroll.has-header {
+  border-left: 5px solid #39864c;
+  border-right: 5px solid #39864c;
+  background-color: white;
+}
+
+.popup-buttons .button:last-child {
+  background-color: #184924;
+}
+.popup-buttons .button:last-child.activated {
+  background-color: #39864c;
+}
+
+button span.badge.badge-assertive {
+  position: relative;
+  top: -37px;
+  right: -15px;
+}
+
+/*.slider-slide {*/
+/*  max-width: 900px;*/
+/*}*/

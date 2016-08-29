@@ -52,11 +52,11 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     templateUrl: 'templates/landing.html',
     controller: 'LandingCtrl'
   })
-  // .state('app.login', {
-  //   url: '/login',
-  //   templateUrl: 'templates/forms/login.html',
-  //   controller: 'LoginCtrl'
-  // })
+  .state('app.login', {
+    url: '/login',
+    templateUrl: 'templates/forms/login.html',
+    controller: 'LoginCtrl'
+  })
   // .state('app.register', {
   //   url: '/register',
   //   templateUrl: 'templates/forms/register.html',
@@ -130,4 +130,8 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
   //     $scope.navLinks.sort();
   //   }
   // });
+}])
+
+.run([ function() {
+  //set number of notifications here, update whenever the list is called.
 }]);

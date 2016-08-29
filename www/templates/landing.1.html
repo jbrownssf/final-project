@@ -1,24 +1,14 @@
 <ion-view view-title="Simply Scheduling" hide-nav-bar="false">
-    
-    <ion-header-bar class="bar bar-subheader bar-calm" style="height: 48px;" >
-      <div class="tabs">
-        <div style="width: 16%"></div>
-        <button class="button button-clear button-full tab-item" ng-class="whichOption == '0' ? 'tab-on' : 'tab-off'" ng-click="setView('0')" style="min-width: 80px">
-          Login
-        </button>
-        <button class="button button-clear button-full tab-item" ng-class="whichOption == '1' ? 'tab-on' : 'tab-off'" ng-click="setView('1')" style="min-width: 80px">
-          Home
-        </button>
-        <button class="button button-clear button-full tab-item" ng-class="whichOption == '2' ? 'tab-on' : 'tab-off'" ng-click="setView('2')" style="min-width: 80px">
-          Register
-        </button>
-        <div style="width: 16%"></div>
-      </div>
-    </ion-header-bar>
-    
+    <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
     <ion-nav-buttons></ion-nav-buttons> 
-    <ion-content>
-        <!--<ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground" ng-style="customBackground('customBackground')">-->
+    <ion-content scroll="false">
+        <div class="row" style="width: 70%; margin-left: auto; margin-right: auto;">
+            <button class="col button button-full button-small button-light" ng-class="whichOption == '0' ? '' : 'button-outline'" ng-click="setView('0')">Login</button>
+            <button class="col button button-full button-small button-light" ng-class="whichOption == '1' ? '' : 'button-outline'" ng-click="setView('1')">Home</button>
+            <button class="col button button-full button-small button-light" ng-class="whichOption == '2' ? '' : 'button-outline'" ng-click="setView('2')">Sign Up</button>
+        </div>
+        <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground" ng-style="customBackground('customBackground')">
+            
             <span ng-if="whichOption === '0'" ng-controller="LoginCtrl">
               <form class="padding" name="loginForm" novalidate ng-submit="doLogin(loginForm)">
                 <div class="list animate-ripple">
@@ -122,6 +112,6 @@
                 </div>
               </form>
             </span>
-        <!--</ion-scroll>-->
+        </ion-scroll>
     </ion-content>
 </ion-view>

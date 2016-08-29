@@ -1,6 +1,21 @@
-<ion-view view-title="Seasonally Scheduling">
-    <!-- Include ion-nav-buttons in every index to avoid breaking the app (ionic material bug) -->
-    <!--<ion-nav-buttons></ion-nav-buttons>-->
+<ion-view view-title="Simply Scheduling">
+    
+    <ion-header-bar class="bar bar-subheader bar-calm" style="height: 48px;">
+      <div class="tabs">
+        <div style="width: 16%"></div>
+        <button class="button button-clear button-full tab-item tab-off" style="max-width: 200px;">
+          
+        </button>
+        <button class="button button-clear button-full tab-item tab-on" style="min-width: 200px; max-width: 200px;">
+          {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
+        </button>
+        <button class="button button-clear button-full tab-item tab-off" style="max-width: 200px;">
+          
+        </button>
+        <div style="width: 16%"></div>
+      </div>
+    </ion-header-bar>
+    
     <ion-nav-buttons side="right">
         <button class="button button-icon icon ion-edit button-clear" ng-click="edit()" ng-if="canEdit">
             
@@ -11,21 +26,21 @@
 
     </button>
   </ion-nav-buttons>
-    <ion-content scroll="false">
+    <ion-content>
         <!--<div style="color: gray; position: absolute; z-index: 10; bottom: 0; background-color: white;">DRAFT</div>-->
-        <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
-            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
-            <button class="col button button-full button-small button-light" ng-class="setSubHeaderGrid()">{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</button>
-            <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>
-        </div>
-        <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground6" ng-style="customBackground('customBackground6')">
+        <!--<div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">-->
+        <!--    <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>-->
+        <!--    <button class="col button button-full button-small button-light" ng-class="setSubHeaderGrid()">{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</button>-->
+        <!--    <button class="col button button-full button-small button-light button-outline" ng-if="showWings"></button>-->
+        <!--</div>-->
+        <!--<ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground6" ng-style="customBackground('customBackground6')">-->
             <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
                 
             </ion-refresher>
             <div class="text-center assertive padding" ng-if="!secondWindowWidth()">
                 (rotate device to see {{firstWindowWidth() ? "end" : "start/end"}} times)
             </div>
-            <div class="item">
+            <div class="item item-text-wrap">
                 {{schedule.note}}
             </div>
             <div class="card">
@@ -121,7 +136,11 @@
                     </div>
                 </span>
             </div>
-                
+            <div class="padding" ng-if="canEdit && schedule.state === 'saved'">
+                <button class="button button-bar button-dark" ng-click="publish(schedule)">
+                    Publish
+                </button>
+            </div>
                 <div class="card" ng-if="canEdit">
                     <div class="item item-divider">
                         Changes History
@@ -134,6 +153,6 @@
                     </div>
                 </div>
             <!--</div>-->
-        </ion-scroll>
+        <!--</ion-scroll>-->
     </ion-content>
 </ion-view>

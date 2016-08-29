@@ -76,7 +76,15 @@ angular.module('starter.controllers')
         return $scope.isRequests = a == 'is';
       };
       $scope.filterFunc = function(a) {
-        return $scope.isRequests ? (a.status === 'pending') : (a.status !== 'pending' && a.status !== 'declined');
+        if($scope.whichOption == 0 && a.status === 'suspended') {
+          return true;
+        } else if($scope.whichOption == 1 && (a.status === 'member' || a.status === 'admin' ||  a.status === 'owner')) {
+          return true;
+        } else if($scope.whichOption == 2 && a.status === 'pending') {
+          return true;
+        }
+        return false;
+        // return $scope.isRequests ? (a.status === 'pending') : (a.status !== 'pending' && a.status !== 'declined');
       };
 
       $scope.openMember = function() {
@@ -312,6 +320,11 @@ angular.module('starter.controllers')
 
       $scope.customBackground = function(a) {
         return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
+      };
+      
+      $scope.whichOption = 1;
+      $scope.setView = function(a) {
+        $scope.whichOption = a;
       };
     }
   ]);

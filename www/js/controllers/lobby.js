@@ -1,19 +1,22 @@
 angular.module('starter.controllers')
     .controller('LobbyCtrl', ['$scope', '$rootScope', 'MembersRest',
         '$window', 'SSFAlertsService', '$state', 'OrganizationsRest',
-        '$ionicHistory', '$timeout', 'SSFConfigConstants',
+        '$ionicHistory', '$timeout', 'SSFConfigConstants', 'BadgeServ',
         function($scope, $rootScope, MembersRest, $window,
             SSFAlertsService, $state, OrganizationsRest, $ionicHistory,
-            $timeout, SSFConfigConstants) {
+            $timeout, SSFConfigConstants, BadgeServ) {
 
             $scope.openOrganizations = [];
             var errArr = [];
+            // $scope.badgeCounts = {};
             
             $scope.$on('$ionicView.enter', function() {
                 $scope.doRefresh();
             });
             $scope.doRefresh = function(a) {
                 errArr = [];
+                // $rootScope.stopSpinner = true;
+                // $scope.badgeCounts = BadgeServ.getAll();
                 $rootScope.stopSpinner = true;
                 MembersRest.getCurrentOrgs($window.localStorage.token, $window.localStorage.userId)
                     .then(function(res) {
@@ -92,8 +95,7 @@ angular.module('starter.controllers')
                     '</ion-item>' +
                     '<ion-item ng-if="openOrganizations.length !== 0" class="item" ng-click="closeEmployerPopover(org)" ng-repeat="org in openOrganizations">' +
                     '{{org.name}}' +
-                    '</ion-item>' +
-                    '<ion-item></ion-item>';
+                    '</ion-item>';
                     // '</div>';
                 SSFAlertsService.showModal({
                     body: template,
@@ -135,5 +137,6 @@ angular.module('starter.controllers')
                 if(a == 'modal') return {height: ($window.innerHeight - 44) + 'px'};
                 return {height: ($window.innerHeight - document.getElementById(a || 0).getBoundingClientRect().top) + 'px'};
             };
+            
         }
     ]);

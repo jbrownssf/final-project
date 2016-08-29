@@ -1,17 +1,34 @@
 <ion-view view-title="{{user.firstName + ' ' + user.lastName}}">
+    
+    <ion-header-bar class="bar bar-subheader bar-calm" style="height: 48px;">
+      <div class="tabs">
+        <div style="width: 16%"></div>
+        <!--<button class="button button-clear button-full tab-item" ng-class="currentView == '0' ? 'tab-on' : 'tab-off'" ng-click="currentView = 0">-->
+        <!--  History-->
+        <!--</button>-->
+        <button class="button button-clear button-full tab-item" ng-class="currentView == '1' ? 'tab-on' : 'tab-off'" ng-click="currentView = 1">
+          Profile
+        </button>
+        <button class="button button-clear button-full tab-item" ng-class="currentView == '2' ? 'tab-on' : 'tab-off'" ng-click="currentView = 2">
+          Groups
+        </button>
+        <div style="width: 16%"></div>
+      </div>
+    </ion-header-bar>
+    
   <ion-nav-buttons side="left">
     <button class="button button-icon icon button-clear ion-ios-home" ng-if="showHome" ng-click="goHome()">
 
     </button>
   </ion-nav-buttons>
-  <ion-content scroll="false">
-    <div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">
+  <ion-content>
+    <!--<div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">-->
       <!--<button class="col button button-full button-small" ng-class="currentView === 0 ? 'button-dark' : 'button-stable button-outline'" ng-click="currentView = 0">History</button>-->
-      <button class="col button button-full button-small button-light" ng-class="currentView === 1 ? '' : 'button-outline'" ng-click="currentView = 1">Profile</button>
-      <button class="col button button-full button-small button-light" ng-class="currentView === 2 ? '' : 'button-outline'" ng-click="currentView = 2">Groups</button>
-    </div>
+    <!--  <button class="col button button-full button-small button-light" ng-class="currentView === 1 ? '' : 'button-outline'" ng-click="currentView = 1">Profile</button>-->
+    <!--  <button class="col button button-full button-small button-light" ng-class="currentView === 2 ? '' : 'button-outline'" ng-click="currentView = 2">Groups</button>-->
+    <!--</div>-->
   
-    <ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground9" ng-style="customBackground('customBackground9')">
+    <!--<ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground9" ng-style="customBackground('customBackground9')">-->
       <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
           
       </ion-refresher>
@@ -52,12 +69,9 @@
               <ion-item class="item" ng-click="selectOrgModal()">
                   Join a Group
               </ion-item>
-              <ion-item>
-                
-              </ion-item>
           </div>
       </span>
-    </ion-scroll>
+    <!--</ion-scroll>-->
 
   </ion-content>
 </ion-view>
