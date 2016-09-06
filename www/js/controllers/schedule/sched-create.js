@@ -67,7 +67,7 @@ angular.module('starter.controllers')
                 ]);
             };
             $scope.addSpot = function($event, array) {
-                $scope.schedule.schedule[array[0]][1].push(['New Position']);
+                $scope.schedule.schedule[array[0]][1].push([]);
                 // console.log($scope.schedule[array[0]][1].length);
                 array.push($scope.schedule.schedule[array[0]][1].length - 1);
                 FillSpotService.set($event, $scope, 'schedule', array);
@@ -88,7 +88,7 @@ angular.module('starter.controllers')
 
             $scope.handleForm = function(form) {
                 if (form.$invalid)
-                    return SSFAlertsService.showAlert('Error', 'Please make sure all fields are filled in.');
+                    return SSFAlertsService.showAlert('Error', 'Please make sure all "Area" field names are filled in.');
                 var hadId = $scope.schedule.id !== undefined;
                 if (action === 'saved') {
                     $scope.schedule.state = $scope.schedule.state === 'published' ? 'published' : 'saved';

@@ -18,7 +18,7 @@ angular.module('starter.services', [])
                     '<ion-scroll class="card custom-background" scroll="true" direction="y" style="height: 10000px" ng-style="customBackground(\'modal\')">' +
                         '<label class="item item-input">' +
                             '<span class="input-label">Spot</span>' +
-                            '<input ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" type="text" name="spot" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][0]' + '" placeholder="Spot" required>' +
+                            '<input placeholder="Dishwasher" ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" type="text" name="spot" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][0]' + '" placeholder="Spot" required>' +
                         '</label>' +
                         '<label class="item item-input">' +
                             '<span class="input-label">Start Time</span>' +
@@ -30,9 +30,10 @@ angular.module('starter.services', [])
                         '</label>' +
                         '<label class="item item-input item-select">' +
                             '<div class="input-label">' +
-                                'Members' +
+                                'Member' +
                             '</div>' +
                             '<select ng-change="spotChangedResetView(' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + ']' + ')" ng-model="' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '">' +
+                                '<option></option>' +
                                 '<option ng-repeat="user in nonSuspended" value="{{user.memberId}}" ng-selected="{{user.memberId == ' + modelObject + '.schedule[' + indexArray[0] + '][1][' + indexArray[1] + '][3]' + '}}">' +
                                     '{{users[user.memberId].firstName}} ' +
                                     '{{users[user.memberId].lastName}} ' +

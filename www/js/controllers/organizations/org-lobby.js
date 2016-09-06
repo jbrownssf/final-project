@@ -12,7 +12,7 @@ angular.module('starter.controllers')
       $scope.listCanSwipe = false;
       $scope.currentView = 1;
       $scope.orgId = $stateParams.orgId;
-      $scope.badges = {};
+      // $scope.badges = {};
       var errArr = [];
 
       $scope.$on('$ionicView.enter', function() {
@@ -21,11 +21,11 @@ angular.module('starter.controllers')
       $scope.doRefresh = function(a) {
         $scope.orgId = $stateParams.orgId;
         errArr = [];
-        BadgeServ.getAll()
-        .then(function(res) {
-          console.log(res)
-          $scope.badges = res;
-        });
+        // BadgeServ.getAll()
+        // .then(function(res) {
+        //   console.log(res)
+          // $scope.badges = BadgeServ.getAll;
+        // });
         $rootScope.stopSpinner = true;
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
           .then(function(res) {

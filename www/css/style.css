@@ -205,7 +205,20 @@ button span.badge.badge-assertive {
   top: -37px;
   right: -15px;
 }
-
-/*.slider-slide {*/
-/*  max-width: 900px;*/
-/*}*/
+.bar-stable .button.button-icon {
+  color: white;
+}
+.bar.bar-stable .title {
+  color: white;
+}
+.sidemenu-badge {
+  background-color: #ef473a; 
+  color: #fff; 
+  border-radius: 10px; 
+  padding: 3px 8px; 
+  font-weight: bold; 
+  font-size: 14px;
+  position: relative;
+  top: -13px;
+  left: -10px;
+}

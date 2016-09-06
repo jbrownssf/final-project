@@ -16,11 +16,11 @@
       </div>
     </ion-header-bar>
     
-    <ion-nav-buttons side="left">
-        <button class="button button-icon icon button-clear ion-navicon" ng-click="goHome()">
+    <!--<ion-nav-buttons side="left">-->
+    <!--    <button class="button button-icon icon button-clear ion-navicon" ng-click="goHome()">-->
 
-        </button>
-    </ion-nav-buttons>
+    <!--    </button>-->
+    <!--</ion-nav-buttons>-->
     <ion-nav-buttons side="right">
         <button class="button button-icon icon button-clear" ng-class="canEdit ? 'ion-ios-people' : 'ion-person'" ng-click="canEdit ? openMembers() : openMember()">
             <span class="badge badge-assertive" ng-if="canEdit && badges[orgId].pendingCount > 0">{{badges[orgId].pendingCount}}</span>
@@ -39,13 +39,12 @@
             <ion-list can-swipe="listCanSwipe">
                 <ion-item style="padding: 0px"></ion-item>
                 <ion-item ng-if="currentView === 1" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state === (currentView === 1 ?  'published' : 'draft')">
-                    <span ng-if="!badges[orgId][schedule.id]">
+                    <span ng-if="!badges[orgId][schedule.id] && badges[orgId][schedule.id] !== undefined">
                         <b>{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</b>
                     </span>
-                    <span ng-if="badges[orgId][schedule.id]">
+                    <span ng-if="badges[orgId][schedule.id] || badges[orgId][schedule.id] === undefined">
                         {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
                     </span>
-                    
                     <!--<span class="assertive item-note" ng-if="badges[orgId]">{{badges[orgId][schedule.id] ? '' : 'Unread'}}</span>-->
                     
                     <ion-option-button class="button-assertive" ng-click="delete(schedule, $index)">

@@ -62,6 +62,25 @@ angular.module('SSFDirectives', [])
     };
 }])
 
+.directive('ssfSideMenu', ['SSFConfigConstants', '$window', '$ionicPlatform',
+    function(SSFConfigConstants, $window, $ionicPlatform) {
+  return function(scope, element) {
+    scope.ssfSideMenu = function() {
+      //anything saying 'first' is related to the main content
+      //anything saying 'last' is related to the side menu content
+      //examples: 'firstElementChild', 'firstWidth'
+      var firstWidth;
+      
+      if($window.innerWidth < SSFConfigConstants.SSFDirectives.contentWidth) {
+        element[0].parentNode.offsetParent.lastElementChild.style.setProperty('width', '');
+      }
+      else if(!ionic.Platform.isWebView()){
+        firstWidth = SSFConfigConstants.SSFDirectives.contentWidth - element[0].parentNode.offsetParent.lastElementChild.offsetWidth;
+      }
+      element[0].parentNode.offsetParent.firstElementChild.style.setProperty('width', firstWidth + 'px');
+    };
+  };
+}])
 // .directive('ionSideMenuContent', [
 //   '$timeout',
 //   '$ionicGesture',

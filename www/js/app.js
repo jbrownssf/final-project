@@ -43,20 +43,35 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
   
   
   $stateProvider
+  
   .state('app', {
     url: '/app',
-    template: '<ion-nav-view></ion-nav-view>'
+    abstract: true,
+    templateUrl: 'templates/menu.html',
+    controller: 'SideMenuCtrl'
   })
+  
+  
+  
+  
+  // .state('app', {
+  //   url: '/app',
+  //   template: '<ion-nav-view></ion-nav-view>'
+  // })
   .state('app.landing', {
     url: '/',
-    templateUrl: 'templates/landing.html',
-    controller: 'LandingCtrl'
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/landing.html',
+        controller: 'LandingCtrl'
+      }
+    }
   })
-  .state('app.login', {
-    url: '/login',
-    templateUrl: 'templates/forms/login.html',
-    controller: 'LoginCtrl'
-  })
+  // .state('app.login', {
+  //   url: '/login',
+  //   templateUrl: 'templates/forms/login.html',
+  //   controller: 'LoginCtrl'
+  // })
   // .state('app.register', {
   //   url: '/register',
   //   templateUrl: 'templates/forms/register.html',
@@ -64,14 +79,32 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
   // })
   .state('app.lobby', {
     url: '/lobby',
-    templateUrl: 'templates/lobby.html',
-    controller: 'LobbyCtrl'
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/lobby.html',
+        controller: 'LobbyCtrl'
+      }
+    }
+  })
+  
+  .state('app.user', {
+    url: '/user',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/organizations/org-member.html',
+        controller: 'OrgMemberCtrl',
+      }
+    }
   })
   
   //organization
   .state('app.org', {
     url: '/orgId',
-    template: '<ion-nav-view></ion-nav-view>'
+    views: {
+      'menuContent': {
+        template: '<ion-nav-view></ion-nav-view>'
+      }
+    }
   })
   .state('app.org.detail', {
     url: '/:orgId',
@@ -104,11 +137,6 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     url: '/members',
     templateUrl: 'templates/organizations/org-members.html',
     controller: 'OrgMembersCtrl',
-  })
-  .state('app.user', {
-    url: '/user',
-    templateUrl: 'templates/organizations/org-member.html',
-    controller: 'OrgMemberCtrl',
   });
   // .state('navigation', {
   //   url: '/navigation',
