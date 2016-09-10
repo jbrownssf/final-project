@@ -38,7 +38,7 @@ angular.module('starter.controllers')
       if($scope.signedIn) {
         MembersRest.getCurrentOrgs($window.localStorage.token, $window.localStorage.userId)
           .then(function(res) {
-            if (res.status !== 200) 
+            if (res.status !== 200)
               return; //errArr[0] = res;
             // errArr[0] = 200;
             $scope.myOrgs = res.data;

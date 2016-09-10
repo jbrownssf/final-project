@@ -144,7 +144,7 @@ angular.module('starter.controllers')
                 SSFAlertsService.showConfirm('Warning', 'Are you sure you want to delete this spot? It cannot be undone.')
                     .then(function(res) {
                         if (res) {
-                            $scope.schedule.schedule[a] = ['NaN', ['something']];
+                            $scope.schedule.schedule[a] = ['NaN', []];
                         }
                     });
             };

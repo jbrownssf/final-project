@@ -11,6 +11,7 @@ angular.module('starter.controllers')
       $scope.members = [];
       $scope.search = {};
       var errArr = [];
+      var userType;
       
       $scope.$on('$ionicView.enter', function() {
         $scope.doRefresh();
@@ -26,6 +27,7 @@ angular.module('starter.controllers')
             }
             errArr[0] = 200;
             $scope.canEdit = res.data[0].status === 'admin' || res.data[0].status === 'owner';
+            userType = res.data[0].status;
             // if (!$scope.canEdit) {
             //   SSFAlertsService.showAlert('Warning', 'You do not have permission to view this page. You will be redirected to the main lobby.');
             //   $ionicHistory.nextViewOptions({
@@ -94,198 +96,174 @@ angular.module('starter.controllers')
       //action sheet that lets the manager change roles of members
       var options = {
         owner: {
-          buttons: [{
-            text: 'Email Owner'
-          }, {
-            text: 'Text Owner'
-          }, {
-            text: 'Call Owner'
-          }],
-          funcs: [
-            function(a) {
-              SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('sms:' + a.cellphone);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('tel:' + a.cellphone);
-            }
-          ]
+          owner: {
+            buttons: [],
+            funcs: []
+          },
+          admin: {
+            buttons: [{
+              text: 'Set Member'
+            }, {
+              text: 'Set Suspended'
+            // }, {
+            //   text: 'Set Declined'
+            }],
+            funcs: [
+              function(a) {
+                if ($window.localStorage.userId === a.memberId)
+                  return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
+                makeRequest(a, a.id, 'member');
+              },
+              function(a) {
+                if ($window.localStorage.userId === a.memberId)
+                  return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
+                makeRequest(a, a.id, 'suspended');
+              },
+              function(a) {
+                if ($window.localStorage.userId === a.memberId)
+                  return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
+                makeRequest(a, a.id, 'declined');
+              }
+            ]
+          },
+          member: {
+            buttons: [{
+              text: 'Set Admin'
+            }, {
+              text: 'Set Suspended'
+            }],
+            funcs: [
+              function(a) {
+                makeRequest(a, a.id, 'admin');
+              },
+              function(a) {
+                makeRequest(a, a.id, 'suspended');
+              }
+            ]
+          },
+          pending: {
+            buttons: [{
+              text: 'Set Admin'
+            }, {
+              text: 'Set Member'
+            // }, {
+            //   text: 'Set Declined'
+            }],
+            funcs: [
+              function(a) {
+                makeRequest(a, a.id, 'admin');
+              },
+              function(a) {
+                makeRequest(a, a.id, 'member');
+              },
+              function(a) {
+                makeRequest(a, a.id, 'declined');
+              }
+            ]
+          },
+          suspended: {
+            buttons: [{
+              text: 'Set Admin'
+            }, {
+              text: 'Set Member'
+            // }, {
+            //   text: 'Set Declined'
+            }],
+            funcs: [
+              function(a) {
+                makeRequest(a, a.id, 'admin');
+              },
+              function(a) {
+                makeRequest(a, a.id, 'member');
+              },
+              function(a) {
+                makeRequest(a, a.id, 'declined');
+              }
+            ]
+          }
         },
         admin: {
-          buttons: [{
-            text: 'Set Member'
-          }, {
-            text: 'Set Suspended'
-          }, {
-            text: 'Set Declined'
-          }, {
-            text: 'Email Admin'
-          }, {
-            text: 'Text Admin'
-          }, {
-            text: 'Call Admin'
-          }],
-          funcs: [
-            function(a) {
-              if ($window.localStorage.userId === a.memberId)
-                return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
-              makeRequest(a, a.id, 'member');
-            },
-            function(a) {
-              if ($window.localStorage.userId === a.memberId)
-                return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
-              makeRequest(a, a.id, 'suspended');
-            },
-            function(a) {
-              if ($window.localStorage.userId === a.memberId)
-                return SSFAlertsService.showAlert('Error', 'You cannot demote yourself within a company.');
-              makeRequest(a, a.id, 'declined');
-            },
-            function(a) {
-              SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('sms:' + a.cellphone);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('tel:' + a.cellphone);
-            }
-          ]
-        },
-        member: {
-          buttons: [{
-            text: 'Set Admin'
-          }, {
-            text: 'Set Pending'
-          }, {
-            text: 'Set Suspended'
-          }, {
-            text: 'Email Member'
-          }, {
-            text: 'Text Member'
-          }, {
-            text: 'Call Member'
-          }],
-          funcs: [
-            function(a) {
-              makeRequest(a, a.id, 'admin');
-            },
-            function(a) {
-              makeRequest(a, a.id, 'pending');
-            },
-            function(a) {
-              makeRequest(a, a.id, 'suspended');
-            },
-            function(a) {
-              SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('sms:' + a.cellphone);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('tel:' + a.cellphone);
-            }
-          ]
-        },
-        pending: {
-          buttons: [{
-            text: 'Set Admin'
-          }, {
-            text: 'Set Member'
-          }, {
-            text: 'Set Declined'
-          }, {
-            text: 'Email Applicant'
-          }, {
-            text: 'Text Applicant'
-          }, {
-            text: 'Call Applicant'
-          }],
-          funcs: [
-            function(a) {
-              makeRequest(a, a.id, 'admin');
-            },
-            function(a) {
-              makeRequest(a, a.id, 'member');
-            },
-            function(a) {
-              makeRequest(a, a.id, 'declined');
-            },
-            function(a) {
-              SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('sms:' + a.cellphone);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('tel:' + a.cellphone);
-            }
-          ]
-        },
-        suspended: {
-          buttons: [{
-            text: 'Set Admin'
-          }, {
-            text: 'Set Member'
-          }, {
-            text: 'Set Pending'
-          }, {
-            text: 'Set Declined'
-          }, {
-            text: 'Email Suspended User'
-          }, {
-            text: 'Text Suspended User'
-          }, {
-            text: 'Call Suspended User'
-          }],
-          funcs: [
-            function(a) {
-              makeRequest(a, a.id, 'admin');
-            },
-            function(a) {
-              makeRequest(a, a.id, 'member');
-            },
-            function(a) {
-              makeRequest(a, a.id, 'pending');
-            },
-            function(a) {
-              makeRequest(a, a.id, 'declined');
-            },
-            function(a) {
-              SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('sms:' + a.cellphone);
-            },
-            function(a) {
-              if (!a.cellphone)
-                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('tel:' + a.cellphone);
-            }
-          ]
+          owner: {
+            buttons: [],
+            funcs: []
+          },
+          admin: {
+            buttons: [],
+            funcs: []
+          },
+          member: {
+            buttons: [{
+              text: 'Set Suspended'
+            }],
+            funcs: [
+              function(a) {
+                makeRequest(a, a.id, 'suspended');
+              }
+            ]
+          },
+          pending: {
+            buttons: [{
+              text: 'Set Member'
+            // }, {
+            //   text: 'Set Declined'
+            }],
+            funcs: [
+              function(a) {
+                makeRequest(a, a.id, 'member');
+              },
+              function(a) {
+                makeRequest(a, a.id, 'declined');
+              }
+            ]
+          },
+          suspended: {
+            buttons: [{
+              text: 'Set Member'
+            // }, {
+            //   text: 'Set Declined'
+            }],
+            funcs: [
+              function(a) {
+                makeRequest(a, a.id, 'member');
+              },
+              function(a) {
+                makeRequest(a, a.id, 'declined');
+              }
+            ]
+          }
         }
       };
-
+      
+      for(var j in options) {
+        for(var i in options[j]) {
+          options[j][i].buttons.push({
+            text: 'Email User'
+          });
+          options[j][i].funcs.push(function(a) {
+            SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+          });
+          if(window.plugins && window.plugins.emailComposer) {
+            options[j][i].buttons.push({
+              text: 'Text User'
+            });
+            options[j][i].funcs.push(function(a) {
+              if (!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('sms:' + a.cellphone);
+            });
+            options[j][i].buttons.push({
+              text: 'Call User'
+            });
+            options[j][i].funcs.push(function(a) {
+              if (!a.cellphone)
+                return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
+              $window.open('tel:' + a.cellphone);
+            });
+          }
+        }
+      }
+      
+      
       function makeRequest(a, id, status) {
         OrganizationsRest.handleRequest($window.localStorage.token, id, status)
           .then(function(res) {
@@ -299,7 +277,7 @@ angular.module('starter.controllers')
 
       $scope.selectMember = function(a) {
         var hideSheet = $ionicActionSheet.show({
-          buttons: options[a.status].buttons,
+          buttons: options[userType][a.status].buttons,
           // destructiveText: 'Delete',
           titleText: 'Modify/Contact: ' + a.firstName + " " + a.lastName + (a.nickName ? ' (' + a.nickName + ')' : '') + '<br>' + $filter('tel')(a.cellphone) + '<br>' + a.email,
           cancelText: 'Cancel',
@@ -307,7 +285,7 @@ angular.module('starter.controllers')
             // add cancel code..
           },
           buttonClicked: function(index) {
-            options[a.status].funcs[index](a);
+            options[userType][a.status].funcs[index](a);
             return true;
           }
         });
