@@ -132,30 +132,47 @@ angular.module('starter.controllers')
                 return $window.innerWidth >= 500;
             };
 
-            var options = [
-                function(a) {
+            var options = {
+                text: [{
+                    text: "Email"
+                }],
+                funcs: [
+                    function(a) {
+                        SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
+                    }
+                ]
+            };
+            if(ionic.Platform.isWebView() || ionic.Platform.isIPad() || ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+                options.text.push({
+                    text: "Call"
+                });
+                options.funcs.push(function(a) {
                     if (!a.cellphone)
                         return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-                    $window.open('sms:' + a.cellphone);
-                },
-                function(a) {
+                    if(ionic.Platform.isWebView()) {
+                        cordova.InAppBrowser.open('tel:' + a.cellphone, '_blank', 'location=no,hardwareback=no');
+                    } else {
+                        $window.open('tel:' + a.cellphone);
+                    }   
+                });
+                options.text.push({
+                    text: "Text"
+                });
+                options.funcs.push(function(a) {
                     if (!a.cellphone)
                         return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-                    $window.open('tel:' + a.cellphone);
-                },
-                function(a) {
-                    SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
-                }
-            ];
+                    if(ionic.Platform.isWebView()) {
+                        cordova.InAppBrowser.open('sms:' + a.cellphone, '_blank', 'location=no,hardwareback=no');
+                    } else {
+                        $window.open('sms:' + a.cellphone);
+                    }
+                });
+            }
+            
+            
             $scope.selectMember = function(a) {
                 var hideSheet = $ionicActionSheet.show({
-                    buttons: [{
-                        text: "Text"
-                    }, {
-                        text: "Call"
-                    }, {
-                        text: "Email"
-                    }],
+                    buttons: options.text,
                     // destructiveText: 'Delete',
                     titleText: 'Contact: ' + a.firstName + " " + a.lastName + (a.nickName ? ' (' + a.nickName + ')' : '') + '<br>' + $filter('tel')(a.cellphone) + '<br>' + a.email,
                     cancelText: 'Cancel',
@@ -163,7 +180,7 @@ angular.module('starter.controllers')
                         // add cancel code..
                     },
                     buttonClicked: function(index) {
-                        options[index](a);
+                        options.funcs[index](a);
                         return true;
                     }
                 });

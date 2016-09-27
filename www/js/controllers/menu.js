@@ -6,10 +6,11 @@ angular.module('starter.controllers')
 .controller('SideMenuCtrl', ['$scope', '$rootScope', 'SSFConfigConstants', '$ionicPlatform',
   '$window', '$ionicSideMenuDelegate', '$ionicHistory', '$state', 'SSFAlertsService',
   'SSFMailService', 'MembersRest', 'BadgeServ', '$ionicSlideBoxDelegate', 'ExamplesServ',
-  'OrganizationsRest',
+  'OrganizationsRest', '$timeout',
   function($scope, $rootScope, SSFConfigConstants, $ionicPlatform, $window,
     $ionicSideMenuDelegate, $ionicHistory, $state, SSFAlertsService, SSFMailService,
-    MembersRest, BadgeServ, $ionicSlideBoxDelegate, ExamplesServ, OrganizationsRest) {
+    MembersRest, BadgeServ, $ionicSlideBoxDelegate, ExamplesServ, OrganizationsRest,
+    $timeout) {
 
     $scope.minWidth = "(min-width:" + SSFConfigConstants.SSFDirectives.contentWidth + "px)";
 
@@ -17,6 +18,14 @@ angular.module('starter.controllers')
     $rootScope.$on('$ionicExposeAside', function(evt, isAsideExposed) {
       $scope.isAsideExposed = isAsideExposed;
     });
+    
+    $scope.doRefresh = function() {
+      $rootScope.stopSpinner = true;
+      runCheck();
+      $timeout(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+      }, '1500');
+    };
 
     $rootScope.$on('$stateChangeStart',
       function(event, toState, toParams, fromState, fromParams) {
@@ -55,18 +64,6 @@ angular.module('starter.controllers')
     $scope.logOut = function() {
       $rootScope.$broadcast('request:auth');
     };
-
-    // $scope.privacyPolicy = function() {
-    //   if (!$rootScope.online) {
-    //     return SSFAlertsService.showAlert('ERROR.TITLE', 'ERROR.OFFLINE_POLICY');
-    //   }
-    //   else if ($window.cordova && cordova.InAppBrowser) {
-    //     // cordova.InAppBrowser.open('https://www.zebit.com/privacy-policy', '_blank', 'location=no,hardwareback=no');
-    //   }
-    //   else {
-    //     // $window.open('https://www.zebit.com/privacy-policy');
-    //   }
-    // };
 
     $scope.userLiscense = function() {
       $ionicHistory.nextViewOptions({
@@ -168,7 +165,7 @@ angular.module('starter.controllers')
       }
     };
     
-    $scope.createGroup = function() {
+    $scope.requestGroup = function() {
       SSFAlertsService.showConfirm('Application Request', 'If you would like to create a group, please send an email with your group name, the email of your account, and how to contact you for further questions.', 'Apply', 'Cancel')
       .then(function(res) {
         if(!res) return;

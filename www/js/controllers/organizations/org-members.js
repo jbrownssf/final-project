@@ -233,7 +233,6 @@ angular.module('starter.controllers')
           }
         }
       };
-      
       for(var j in options) {
         for(var i in options[j]) {
           options[j][i].buttons.push({
@@ -242,14 +241,18 @@ angular.module('starter.controllers')
           options[j][i].funcs.push(function(a) {
             SSFMailService.sendMail('Sent From the Scheduling App', '', a.email);
           });
-          if(window.plugins && window.plugins.emailComposer) {
+          if(ionic.Platform.isWebView() || ionic.Platform.isIPad() || ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
             options[j][i].buttons.push({
               text: 'Text User'
             });
             options[j][i].funcs.push(function(a) {
               if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('sms:' + a.cellphone);
+              if(ionic.Platform.isWebView()) {
+                cordova.InAppBrowser.open('sms:' + a.cellphone, '_blank', 'location=no,hardwareback=no');
+              } else {
+                $window.open('sms:' + a.cellphone);
+              }
             });
             options[j][i].buttons.push({
               text: 'Call User'
@@ -257,7 +260,11 @@ angular.module('starter.controllers')
             options[j][i].funcs.push(function(a) {
               if (!a.cellphone)
                 return SSFAlertsService.showAlert('Missing Information', 'The user has not registered a Cell Phone.');
-              $window.open('tel:' + a.cellphone);
+              if(ionic.Platform.isWebView()) {
+                cordova.InAppBrowser.open('tel:' + a.cellphone, '_blank', 'location=no,hardwareback=no');
+              } else {
+                $window.open('tel:' + a.cellphone);
+              }
             });
           }
         }

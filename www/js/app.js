@@ -137,29 +137,45 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers',
     url: '/members',
     templateUrl: 'templates/organizations/org-members.html',
     controller: 'OrgMembersCtrl',
+  })
+  .state('app.credits', {
+    url: '/credits',
+    views: {
+      'menuContent': {
+        template: 
+          '<ion-view view-title="Simply Scheduling">' +
+            '<ion-header-bar class="bar bar-subheader bar-calm" style="height: 48px;">' +
+              '<div class="tabs">' +
+                '<div style="width: 16%"></div>' +
+                '<button class="button button-clear button-full tab-item tab-off">' +
+                '</button>' +
+                '<button class="button button-clear button-full tab-item tab-on">' +
+                  'Credits' +
+                '</button>' +
+                '<button class="button button-clear button-full tab-item tab-off">' +
+                '</button>' +
+                '<div style="width: 16%"></div>' +
+              '</div>' +
+            '</ion-header-bar>' +
+            '<ion-content>' +
+              // '<div class="item-text-center">' +
+              //   'Designed and Developed By' +
+              //   '<br>' +
+              //   '<br>' +
+              //   'John P. Brown' +
+              //   '<br>' +
+              //   '<br>' +
+              //   '<br>' +
+              //   'Assisted by SoftStack Factory' +
+              //   '<br>' +
+              //   '<br>' +
+              //   'Harold Gottschalk, CEO' +
+              // '</div>' +
+            '</ion-content>' +
+          '</ion-view>',
+        controller: ['$scope', function($scope) {
+        }]
+      }
+    }
   });
-  // .state('navigation', {
-  //   url: '/navigation',
-  //   template:
-  //     '<ion-view hide-nav-bar="false" title="Navigation">' +
-  //       '<ion-nav-buttons></ion-nav-buttons>' +
-  //       '<ion-content class="padding">' +
-  //         '<button class="button button-block button-calm ssf-button" ng-repeat="nav in navLinks" ui-sref="{{nav}}">{{nav}}</button>' +
-  //       '</ion-content>' +
-  //     '</ion-view>',
-  //   controller: function($state, $scope) {
-  //     var stateArray = $state.get();
-  //     $scope.navLinks = [];
-  //     for(var i in stateArray) {
-  //       if(stateArray[i].name !== '' && stateArray[i].name !== 'navigation' && stateArray[i].name !== 'update') {
-  //         $scope.navLinks.push(stateArray[i].name);
-  //       }
-  //     }
-  //     $scope.navLinks.sort();
-  //   }
-  // });
-}])
-
-.run([ function() {
-  //set number of notifications here, update whenever the list is called.
 }]);

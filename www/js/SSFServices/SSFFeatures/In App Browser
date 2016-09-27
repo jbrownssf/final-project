@@ -3,6 +3,7 @@ Instructions:
 1.  Make sure you are in the root of the project in the terminal
 2.  ionic plugin add cordova-plugin-inappbrowser
 3.  the following if else statement is all that's needed. Just change the URL.
+4.  Make sure "cordova-plugin-inappbrowser" is included in your package.json under cordovaPlugins
 if($window.cordova && cordova.InAppBrowser){
   // cordova.InAppBrowser.open('http://www.softstackfactory.com/eula-content/', '_blank', 'location=no,hardwareback=no');
 }

@@ -19,7 +19,6 @@ angular.module('starter.services')
         });
       clock();
     }, 5000 + (hadIssues * 10000));
-    // }, 30000);
   }
   clock();
   

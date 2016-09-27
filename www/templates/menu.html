@@ -20,6 +20,9 @@
       </h1>
     </ion-header-bar>
     <ion-content>
+      <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+        
+      </ion-refresher>
       <ion-list>
         <ion-item ng-click="goLobby()" ng-if="signedIn">
           Home
@@ -40,34 +43,32 @@
             {{org.status}}
           </span>
         </ion-item>
-
+        <ion-item ng-click="requestGroup()">
+          Request to Create Group
+        </ion-item>
+        <ion-item ng-click="createGroup()" ng-show="userId === '57b23602f64c0f9d579e054c'">
+          Create Group
+        </ion-item>
 
 
         <div class="item item-divider">
-          Other
+          Settings
         </div>
-        <ion-item ng-click="createGroup()" ng-if="userId === '57b23602f64c0f9d579e054c'">
-          Create Group
-        </ion-item>
         <ion-item ng-click="userProfile()">
           Profile
-        </ion-item>
-        <ion-item ng-click="createGroup()">
-          Create Group
-        </ion-item>
-        <!--<ion-item ng-click="modal.show()">-->
-        <!--  {{"SIDE_MENU.DIVIDER_2.FAQS" | translate}}-->
-        <!--</ion-item>-->
-        <ion-item ng-click="createEmail()">
-          Feedback
-        </ion-item>
-        <ion-item ng-click="openEula()">
-          EULA
         </ion-item>
         <ion-item ng-click="openExamples()">
           Tutorial
         </ion-item>
-        <!--<ion-item ui-sref="navigation">Debugging Navigation</ion-item>-->
+        <ion-item ng-click="createEmail()">
+          Feedback
+        </ion-item>
+        <!--<ion-item ui-sref="app.credits">-->
+        <!--  Credits-->
+        <!--</ion-item>-->
+        <ion-item ng-click="openEula()">
+          EULA
+        </ion-item>
         <ion-item ng-click="logOut()" ng-if="signedIn">
           Sign Out
         </ion-item>
