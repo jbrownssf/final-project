@@ -43,10 +43,10 @@
             {{org.status}}
           </span>
         </ion-item>
-        <ion-item ng-click="requestGroup()">
+        <ion-item ng-click="requestGroup()" ng-if="signedIn">
           Request to Create Group
         </ion-item>
-        <ion-item ng-click="createGroup()" ng-show="userId === '57b23602f64c0f9d579e054c'">
+        <ion-item ng-click="createGroup()" ng-show="userId === '57b23602f64c0f9d579e054c'" ng-if="signedIn">
           Create Group
         </ion-item>
 
