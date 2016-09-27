@@ -21,11 +21,6 @@ angular.module('starter.controllers')
       $scope.doRefresh = function(a) {
         $scope.orgId = $stateParams.orgId;
         errArr = [];
-        // BadgeServ.getAll()
-        // .then(function(res) {
-        //   console.log(res)
-          // $scope.badges = BadgeServ.getAll;
-        // });
         $rootScope.stopSpinner = true;
         MembersRest.getByCompany($window.localStorage.token, $stateParams.orgId, '', $window.localStorage.userId)
           .then(function(res) {
@@ -159,7 +154,6 @@ angular.module('starter.controllers')
         $ionicListDelegate.closeOptionButtons();
         for (var i in $scope.schedules) {
           if ($scope.schedules[i].id === schedule.id) {
-            console.log(i + " " + index);
             $scope.schedules.splice(i, 1);
             break;
           }
@@ -219,6 +213,5 @@ angular.module('starter.controllers')
         }
         return false;
       };
-      console.log($scope.checkContents($scope.schedules, 'state', 'draft'));
     }
   ]);

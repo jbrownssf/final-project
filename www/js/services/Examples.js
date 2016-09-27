@@ -58,17 +58,6 @@ angular.module('starter.services')
     params.scope.$on('$destroy', function() {
       params.scope.modal.remove();
     });
-    // Execute action on hide modal
-    params.scope.$on('modal.hide', function() {
-      // Execute action
-    });
-    // Execute action on remove modal
-    params.scope.$on('modal.removed', function() {
-      // Execute action
-    });
-    params.scope.$on('modal.shown', function() {
-      console.log('Modal is shown!');
-    });
 
     // Call this functions if you need to manually control the slides
     params.scope.next = function() {

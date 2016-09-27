@@ -167,7 +167,7 @@ angular.module('starter.controllers')
     };
     
     $scope.createGroup = function() {
-      SSFAlertsService.showAlert('Notice', 'If you would like to create a group, please send an email with your group name and how to contact you for further questions.')
+      SSFAlertsService.showConfirm('Application Request', 'If you would like to create a group, please send an email with your group name, the email of your account, and how to contact you for further questions.', 'Apply', 'Cancel')
       .then(function(res) {
         if(!res) return;
           SSFMailService.sendMail("Simply Scheduling Group Request", "", "john.p.brown@outlook.com");

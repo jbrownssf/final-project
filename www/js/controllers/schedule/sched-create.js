@@ -68,7 +68,6 @@ angular.module('starter.controllers')
             };
             $scope.addSpot = function($event, array) {
                 $scope.schedule.schedule[array[0]][1].push([]);
-                // console.log($scope.schedule[array[0]][1].length);
                 array.push($scope.schedule.schedule[array[0]][1].length - 1);
                 FillSpotService.set($event, $scope, 'schedule', array);
             };
