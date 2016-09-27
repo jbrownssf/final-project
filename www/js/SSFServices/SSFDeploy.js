@@ -25,9 +25,9 @@ angular.module('SSFDeploy', [])
     url: '/update',
     template: 
       '<ion-view hide-nav-bar="true">' +
-        '<ion-content class="padding calm-bg" style="text-align:center;">' +
-            '<h3 class="white" style="margin-top: 30px;">{{' + "'UPDATE_CTRL.SSF_DEPLOY.UPDATING'" + ' | translate}}</h3>' +
-            '<h3 class="white">{{progress.value}}</h3>' +
+        '<ion-content class="padding" style="text-align:center; background-color: #39864c;">' +
+            '<h3 style="margin-top: 30px; color: white;">Updating...</h3>' +
+            '<h3 style="color: white;">{{progress.value}}</h3>' +
             // '<!-- Customize background -->' +
         '</ion-content>' +
       '</ion-view>',
@@ -71,7 +71,7 @@ angular.module('SSFDeploy', [])
   });
 }])
 .config(['SSFConfigConstants', function(SSFConfigConstants) {
-  SSFConfigConstants['SSFAlertsService'] = {
+  SSFConfigConstants['SSFDeployService'] = {
 	//SSFTranslate should create a 'textTranslated' object whenever it translates
     'languageFileReference': [
       'SSF_CONFIG_CONSTANTS.SSF_DEPLOY.TITLE',
@@ -87,9 +87,9 @@ angular.module('SSFDeploy', [])
     ]
   };
 }])
-.service('SSFDeployService', ['$window', '$ionicPlatform', '$translate', 'SSFAlertsService',
+.service('SSFDeployService', ['$window', '$ionicPlatform', 'SSFAlertsService',
     '$ionicHistory', '$state', '$rootScope', 'SSFConfigConstants',
-    function($window, $ionicPlatform, $translate, SSFAlertsService,
+    function($window, $ionicPlatform, SSFAlertsService,
     $ionicHistory, $state, $rootScope, SSFConfigConstants) {
   
   var serviceText,

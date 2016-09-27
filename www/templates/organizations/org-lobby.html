@@ -16,62 +16,59 @@
       </div>
     </ion-header-bar>
     
-    <!--<ion-nav-buttons side="left">-->
-    <!--    <button class="button button-icon icon button-clear ion-navicon" ng-click="goHome()">-->
-
-    <!--    </button>-->
-    <!--</ion-nav-buttons>-->
     <ion-nav-buttons side="right">
         <button class="button button-icon icon button-clear" ng-class="canEdit ? 'ion-ios-people' : 'ion-person'" ng-click="canEdit ? openMembers() : openMember()">
             <span class="badge badge-assertive" ng-if="canEdit && badges[orgId].pendingCount > 0">{{badges[orgId].pendingCount}}</span>
         </button>
     </ion-nav-buttons>
+    
     <ion-content>
-        <!--<div class="row" style="width: 67%; margin-left: auto; margin-right: auto;">-->
-        <!--    <button class="col button button-full button-small button-light" ng-class="currentView === 0 ? '' : 'button-outline'" ng-click="canEdit ? setView(0) : ''">{{canEdit ? 'Drafts' : ''}}</button>-->
-        <!--    <button class="col button button-full button-small button-light" ng-class="currentView === 1 ? '' : 'button-outline'" ng-click="setView(1)">Posts</button>-->
-        <!--    <button class="col button button-full button-small button-light" ng-class="currentView === 2 ? '' : 'button-outline'" ng-click="canEdit ? newSchedule() : ''">{{canEdit ? 'Create' : ''}}</button>-->
-        <!--</div>-->
-        <!--<ion-scroll class="card custom-background" scroll="true" direction="y" id="customBackground5" ng-style="customBackground('customBackground5')">-->
-            <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
-                
-            </ion-refresher>
-            <ion-list can-swipe="listCanSwipe">
-                <ion-item style="padding: 0px"></ion-item>
-                <ion-item ng-if="currentView === 1" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state === (currentView === 1 ?  'published' : 'draft')">
-                    <span ng-if="!badges[orgId][schedule.id] && badges[orgId][schedule.id] !== undefined">
-                        <b>{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</b>
-                    </span>
-                    <span ng-if="badges[orgId][schedule.id] || badges[orgId][schedule.id] === undefined">
-                        {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
-                    </span>
-                    <!--<span class="assertive item-note" ng-if="badges[orgId]">{{badges[orgId][schedule.id] ? '' : 'Unread'}}</span>-->
-                    
-                    <ion-option-button class="button-assertive" ng-click="delete(schedule, $index)">
-                        Delete
-                    </ion-option-button>
-                    <ion-option-button class="button-dark ssf-button-inverted" ng-click="clone(schedule)">
-                        Clone
-                    </ion-option-button>
-                    <!--<ion-option-button class="button-positive ssf-button" ng-click="publish(schedule)">-->
-                    <!--    {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}-->
-                    <!--</ion-option-button>-->
-                </ion-item>
-                <ion-item ng-if="canEdit && currentView === 0" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'" ng-if="canEdit">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh('hello')">
+            
+        </ion-refresher>
+        <ion-list can-swipe="listCanSwipe">
+            <ion-item ng-if="currentView === 1" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state === (currentView === 1 ?  'published' : 'draft')">
+                <span ng-if="!badges[orgId][schedule.id] && badges[orgId][schedule.id] !== undefined">
+                    <b>{{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}</b>
+                </span>
+                <span ng-if="badges[orgId][schedule.id] || badges[orgId][schedule.id] === undefined">
                     {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
-                    <!--<span>{{badges[orgId][schedule.id]}}</span>-->
-                    <ion-option-button class="button-assertive" ng-click="delete(schedule)">
-                        Delete
-                    </ion-option-button>
-                    <ion-option-button class="button button-calm" style="background-color: #39864c;" ng-click="clone(schedule)">
-                        Clone
-                    </ion-option-button>
-                    <ion-option-button class="button-dark" ng-click="publish(schedule)">
-                        {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}
-                    </ion-option-button>
-                </ion-item>
-                <ion-item style="padding: 0px"></ion-item>
-            </ion-list>
-        <!--</ion-scroll>-->
+                </span>
+                <ion-option-button class="button-assertive" ng-click="delete(schedule, $index)">
+                    Delete
+                </ion-option-button>
+                <ion-option-button class="button-dark ssf-button-inverted" ng-click="clone(schedule)">
+                    Clone
+                </ion-option-button>
+            </ion-item>
+            
+            <ion-item ng-if="canEdit && currentView === 0" ng-repeat="schedule in schedules | orderBy: 'assignedDate'" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'" ng-if="canEdit">
+                {{schedule.assignedDate | date: 'EEEE, MMMM d, y'}}
+                <ion-option-button class="button-assertive" ng-click="delete(schedule)">
+                    Delete
+                </ion-option-button>
+                <ion-option-button class="button button-calm" style="background-color: #39864c;" ng-click="clone(schedule)">
+                    Clone
+                </ion-option-button>
+                <ion-option-button class="button-dark" ng-click="publish(schedule)">
+                    {{schedule.state == 'published' ? 'Unpublish' : 'Publish'}}
+                </ion-option-button>
+            </ion-item>
+            
+            
+            <!--<ion-item ng-if="canEdit && currentView === 0" ng-click="gotoSched(schedule)" ng-show="schedule.state !== 'published'" ng-if="canEdit">-->
+                
+            <!--</ion-item>-->
+        </ion-list>
+        <ion-item ng-click="canEdit ? newSchedule() : ''" ng-show="canEdit && !checkContents(schedules, 'state', (currentView === 1 ?  'published' : 'saved'))">
+            {{currentView === 0 ? 
+                'Create a Schedule' : 
+                checkContents(schedules, 'state', 'saved') ? 
+                    'Swipe Drafts to Publish' :
+                    'Create a Schedule'}}
+        </ion-item>
+        <ion-item ng-show="!canEdit && !checkContents(schedules, 'state', 'published')">
+            No Schedules Currently Available
+        </ion-item>
     </ion-content>
 </ion-view>

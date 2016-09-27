@@ -23,7 +23,7 @@ angular.module('starter.services')
       	'msg' : 'Easy to accept or remove members.'
     }];
     var template = 
-      '<ion-modal-view scroll="false" class="modal" ng-style="ssfInputModal()" style="background: white" ng-click="closeModal()">' +
+      '<ion-modal-view scroll="false" class="modal" ng-style="ssfInputModal()" style="background: white">' +
         '<ion-header-bar style="background-color: #39864c;">'+
           '<h1 class="title" style="color: white;">Simply Scheduling</h1>'+
           '<div class="button button-icon button-clear" ng-click="closeModal()"><button class="button-icon icon ion-close-round light"></button></div>' +

@@ -212,5 +212,13 @@ angular.module('starter.controllers')
       $scope.customBackground = function(a) {
         return {height: ($window.innerHeight - document.getElementById(a).getBoundingClientRect().top) + 'px'};
       };
+      $scope.checkContents = function(array, key, value) {
+        for(var i = 0; i < array.length; i++) {
+          if(array[i][key] === value)
+            return true;
+        }
+        return false;
+      };
+      console.log($scope.checkContents($scope.schedules, 'state', 'draft'));
     }
   ]);

@@ -62,13 +62,21 @@
       
       
       <span ng-if="currentView === 2">
-          <div class="list">
-              <ion-item ng-click="changeNickName(item)" class="item" ng-repeat="item in lobbySelect.data">
-                  {{item.orgName}}<span class="item-note">{{item.status}}</span>
-              </ion-item>
-              <ion-item class="item" ng-click="selectOrgModal()">
-                  Join a Group
-              </ion-item>
+          <!--<div class="list">-->
+          <!--    <ion-item ng-click="changeNickName(item)" class="item" ng-repeat="item in lobbySelect.data">-->
+          <!--        {{item.orgName}}<span class="item-note">{{item.status}}</span>-->
+          <!--    </ion-item>-->
+          <!--    <ion-item class="item" ng-click="selectOrgModal()">-->
+          <!--        Join a Group-->
+          <!--    </ion-item>-->
+          <!--</div>-->
+          <div class="card" ng-repeat="item in lobbySelect.data">
+            <div class="item item-divider">
+              {{item.orgName}}<span class="item-note">{{item.status}}</span>
+            </div>
+            <div class="item item-text-wrap" ng-click="changeNickName(item)">
+              {{(item.nickName ? "You go by " + item.nickName + " in this group." : "You do not currently have a nick name.") + " Click to change."}}
+            </div>
           </div>
       </span>
     <!--</ion-scroll>-->

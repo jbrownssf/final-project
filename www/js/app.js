@@ -5,7 +5,7 @@
 angular.module('starter', ['ionic', 'ionic.service.core', 'starter.controllers', 'starter.services',
     'pascalprecht.translate', 'SSFConfig', 'SSFAlerts', 'SSFCache',
     'SSFConnectivity', 'SSFDirectives', 'SSFFavorites', 'SSFLogout',
-    'SSFMailComposer', 'SSFSpinner', 'RESTServices'])
+    'SSFMailComposer', 'SSFSpinner', 'RESTServices', 'SSFDeploy'])
 
 .run(["$ionicPlatform", '$window', '$ionicHistory', '$state', '$rootScope',
     function($ionicPlatform, $window, $ionicHistory, $state, $rootScope) {

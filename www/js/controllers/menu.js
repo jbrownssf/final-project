@@ -165,6 +165,13 @@ angular.module('starter.controllers')
         };
       }
     };
-
+    
+    $scope.createGroup = function() {
+      SSFAlertsService.showAlert('Notice', 'If you would like to create a group, please send an email with your group name and how to contact you for further questions.')
+      .then(function(res) {
+        if(!res) return;
+          SSFMailService.sendMail("Simply Scheduling Group Request", "", "john.p.brown@outlook.com");
+      });
+    };
   }
 ]);
