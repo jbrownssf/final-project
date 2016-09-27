@@ -187,6 +187,9 @@ angular.module('starter.controllers')
             if(res.status === 200) {
               SSFAlertsService.showAlert('Success!', 'Group has successfully been created.');
             }
+            else {
+              SSFAlertsService.showAlert('Error', res.data.error.message);
+            }
           });
         });
       });
