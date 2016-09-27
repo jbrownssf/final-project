@@ -43,4 +43,18 @@ angular.module('RESTServices')
             }
         });
     };
+    
+    OrganizationsRest.makeOrg = function(token, email, name) {
+        return $http({
+            url: getUrl() + "/makeOrg",
+            method: 'POST',
+            data: {
+                email: email,
+                name: name
+            },
+            headers: {
+                Authorization: token
+            }
+        });
+    };
 }]);

@@ -6,9 +6,10 @@ angular.module('starter.controllers')
 .controller('SideMenuCtrl', ['$scope', '$rootScope', 'SSFConfigConstants', '$ionicPlatform',
   '$window', '$ionicSideMenuDelegate', '$ionicHistory', '$state', 'SSFAlertsService',
   'SSFMailService', 'MembersRest', 'BadgeServ', '$ionicSlideBoxDelegate', 'ExamplesServ',
+  'OrganizationsRest',
   function($scope, $rootScope, SSFConfigConstants, $ionicPlatform, $window,
     $ionicSideMenuDelegate, $ionicHistory, $state, SSFAlertsService, SSFMailService,
-    MembersRest, BadgeServ, $ionicSlideBoxDelegate, ExamplesServ) {
+    MembersRest, BadgeServ, $ionicSlideBoxDelegate, ExamplesServ, OrganizationsRest) {
 
     $scope.minWidth = "(min-width:" + SSFConfigConstants.SSFDirectives.contentWidth + "px)";
 
@@ -27,11 +28,12 @@ angular.module('starter.controllers')
         if(!$scope.signedIn && $window.localStorage.token) {
           BadgeServ.updateCount();
         }
-        
+        $scope.userId = $window.localStorage.userId;
         $scope.signedIn = $window.localStorage.token ? true : false;
         runCheck();
       });
     
+    $scope.userId = $window.localStorage.userId;
     $scope.signedIn = $window.localStorage.token ? true : false;
     runCheck();
     function runCheck() {
@@ -171,6 +173,22 @@ angular.module('starter.controllers')
       .then(function(res) {
         if(!res) return;
           SSFMailService.sendMail("Simply Scheduling Group Request", "", "john.p.brown@outlook.com");
+      });
+    };
+    $scope.createGroup = function() {
+      SSFAlertsService.showPrompt('Create Group', 'Owner\'s Email', 'Next', undefined, 'email', 'Email')
+      .then(function(email) {
+        if(!email) return SSFAlertsService.showAlert('Error', 'Invalid Email');
+        SSFAlertsService.showPrompt('Create Group', 'Group Name', 'Next', undefined, 'text', 'Name')
+        .then(function(name) {
+          if(!name) return SSFAlertsService.showAlert('Error', 'Invalid Name');
+          OrganizationsRest.makeOrg($window.localStorage.token, email, name)
+          .then(function(res) {
+            if(res.status === 200) {
+              SSFAlertsService.showAlert('Success!', 'Group has successfully been created.');
+            }
+          });
+        });
       });
     };
   }
